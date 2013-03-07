@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-// Upgraded to current format
+// Upgraded to current format.
 
 /**
  * TODO
@@ -23,11 +22,11 @@
  * @package   MOD_THREESIXTY
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
- 
+
 defined('MOODLE_INTERNAL') || die();
- 
+
 $module->version   = 2012102301;
-$module->requires  = 2012061700;; // See http://docs.moodle.org/dev/Moodle_Versions
+$module->requires  = 2012061700;; // See http://docs.moodle.org/dev/Moodle_Versions.
 $module->component = 'mod_threesixty';
-$module->maturity = 'MATURITY_RC'; // one of MATURITY_ALPHA, MATURITY_BETA, MATURITY_RC, MATURITY_STABLE
+$module->maturity = 'MATURITY_RC'; // ...one of MATURITY_ALPHA, MATURITY_BETA, MATURITY_RC, MATURITY_STABLE.
 $module->cron      = 0;

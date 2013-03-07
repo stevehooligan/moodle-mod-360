@@ -1,11 +1,25 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once '../../config.php';
-require_once 'editcompetency_form.php';
-require_once 'locallib.php';
+require_once('../../config.php');
+require_once('editcompetency_form.php');
+require_once('locallib.php');
 
-$a = required_param('a', PARAM_INT); // threesixty instance id
-$c = optional_param('c', 0, PARAM_INT); // competency id
+$a = required_param('a', PARAM_INT); // ...threesixty instance id.
+$c = optional_param('c', 0, PARAM_INT); // ...competency id.
 
 if (!$activity = $DB->get_record('threesixty', array('id' => $a) )) {
     print_error('Activity instance is incorrect: '. $a);
@@ -39,11 +53,11 @@ $returnurl = "edit.php?a=$activity->id&amp;section=competencies";
 
 $mform =& new mod_threesixty_editcompetency_form(null, compact('a', 'c', 'skills'));
 
-if ($mform->is_cancelled()){
+if ($mform->is_cancelled()) {
     redirect($returnurl);
 }
 
-if ($fromform = $mform->get_data()) { // Form submitted
+if ($fromform = $mform->get_data()) { // Form submitted.
 
     if (empty($fromform->submitbutton)) {
         print_error('error:unknownbuttonclicked', 'threesixty', $returnurl);
@@ -63,7 +77,7 @@ if ($fromform = $mform->get_data()) { // Form submitted
 
     $transaction = $DB->start_delegated_transaction();
 
-    // General
+    // General.
     if ($competency != null) {
 
         $competencyid = $competency->id;
@@ -73,27 +87,24 @@ if ($fromform = $mform->get_data()) { // Form submitted
         if ($DB->update_record('threesixty_competency', $todb)) {
             add_to_log($course->id, 'threesixty', 'update competency',
                        $originurl, $activity->id, $cm->id);
-        }
-        else {
+        } else {
             $transaction->rollback();
             print_error('error:cannotupdatecompetency', 'threesixty', $returnurl);
         }
-    }
-    else {
+    } else {
         $originurl = "editcompetency.php?a=" . $activity->id . "&amp;c=0";
-        //Set the sortorder to the end of the line.
+        // Set the sortorder to the end of the line.
         $todb->sortorder = $DB->count_records('threesixty_competency', array('activityid' => $activity->id));
         if ($competencyid = $DB->insert_record('threesixty_competency', $todb, true)) {
             add_to_log($course->id, 'threesixty', 'add competency',
                        $originurl, $activity->id, $cm->id);
-        }
-        else {
+        } else {
             $transaction->rollback();
             print_error('error:cannotaddcompetency', 'threesixty', $returnurl);
         }
     }
 
-    // Skills
+    // Skills.
     for ($i = 0; $i < $fromform->skill_repeats; $i++) {
 
         $skillid = $fromform->skillid[$i];
@@ -110,19 +121,17 @@ if ($fromform = $mform->get_data()) { // Form submitted
             $skilldelete = (1 == $fromform->skilldelete[$i]);
         }
 
-        if ($skillid > 0) { // Existing skill
+        if ($skillid > 0) { // Existing skill.
 
-            if (!empty($fromform->skilldelete[$i])) { // Delete
+            if (!empty($fromform->skilldelete[$i])) { // Delete.
                 if (threesixty_delete_skill($skillid, true)) {
                     add_to_log($course->id, 'threesixty', 'delete skill',
                                $originurl, $activity->id, $cm->id);
-                }
-                else {
+                } else {
                     $transaction->rollback();
                     print_error('error:cannotdeleteskill', 'threesixty', $returnurl);
                 }
-            }
-            elseif (!empty($skillname)) { // Update
+            } else if (!empty($skillname)) { // Update.
                 $todb = new object;
                 $todb->id = $skillid;
                 $todb->name = $skillname;
@@ -131,17 +140,12 @@ if ($fromform = $mform->get_data()) { // Form submitted
                 if ($DB->update_record('threesixty_skill', $todb)) {
                     add_to_log($course->id, 'threesixty', 'update skill',
                                $originurl, $activity->id, $cm->id);
-                }
-                else {
+                } else {
                     $transaction->rollback();
                     print_error('error:cannotupdateskill', 'threesixty', $returnurl);
                 }
             }
-            else {
-                // Skip skills without a name
-            }
-        }
-        elseif (!$skilldelete and !empty($skillname)) { // Insert
+        } else if (!$skilldelete and !empty($skillname)) { // Insert.
             $todb = new object;
             $todb->competencyid = $competencyid;
             $todb->name = $skillname;
@@ -151,23 +155,18 @@ if ($fromform = $mform->get_data()) { // Form submitted
             if ($todb->id = $DB->insert_record('threesixty_skill', $todb)) {
                 add_to_log($course->id, 'threesixty', 'insert skill',
                            $originurl, $activity->id, $cm->id);
-            }
-            else {
+            } else {
                 moodle_rollback_sql();
                 print_error('error:cannotaddskill', 'threesixty', $returnurl);
             }
-        }
-        else {
-            // Skip new skills marked as deleted or with an empty name
         }
     }
 
     $transaction->allow_commit();
     redirect($returnurl);
-}
-elseif ($competency != null) { // Edit mode
+} else if ($competency != null) { // Edit mode.
 
-    // Set values for the form
+    // Set values for the form.
     $toform = new object();
     $toform->name = $competency->name;
     $toform->description = $competency->description;
@@ -190,7 +189,7 @@ elseif ($competency != null) { // Edit mode
     $mform->set_data($toform);
 }
 
-// Header
+// Header.
 $strthreesixtys = get_string('modulenameplural', 'threesixty');
 $strthreesixty  = get_string('modulename', 'threesixty');
 
@@ -211,8 +210,8 @@ print_header_simple(format_string($activity->name . " - $title"), '', $navigatio
                     update_module_button($cm->id, $course->id, $strthreesixty), navmenu($course, $cm));
 
 
-include 'tabs.php';
+require_once('tabs.php');
 $mform->display();
 
-//print_footer($course);
+// ...print_footer($course);.
 echo $OUTPUT->footer();

@@ -1,15 +1,30 @@
 <?php
-/* 
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/*
  * Shows the students' responses to the different profile types required.
  *
  * @author Eleanor Martin <eleanor.martin@kineo.com>
  * @package mod/threesixty
  */
 
-require_once '../../config.php';
-require_once 'locallib.php';
+require_once('../../config.php');
+require_once('locallib.php');
 
-$a       = required_param('a', PARAM_INT);  // threesixty instance ID
+$a       = required_param('a', PARAM_INT);  // Threesixty instance ID.
 $userid  = optional_param('userid', 0, PARAM_INT);
 
 if (!$activity = $DB->get_record('threesixty', array('id' => $a))) {
@@ -49,112 +64,109 @@ $navigation = build_navigation($navlinks);
 print_header_simple(format_string($activity->name), '', $navigation, '', '', true,
                       update_module_button($cm->id, $course->id, $strthreesixty), navmenu($course, $cm));
 
-// Main content
+// Main content.
 $currenttab = 'activity';
 $section = null;
-include 'tabs.php';
+require_once('tabs.php');
 
 threesixty_self_profile_options($course->id, $baseurl, $activity, $context);
 
-//print_footer($course);
+// ...print_footer($course);.
 echo $OUTPUT->footer();
 
-function threesixty_self_profile_options($courseid, $baseurl, $activity, $context)
-{
+function threesixty_self_profile_options($courseid, $baseurl, $activity, $context) {
     global $CFG, $USER, $OUTPUT;
 
     $view_all_users = has_capability('mod/threesixty:viewreports', $context);
     $canedit = has_capability('mod/threesixty:edit', $context);
-    if ($view_all_users){
-      //$users = threesixty_users($activity);
-      $users = threesixty_get_possible_participants($context);
-    }
-    else {
-      $users = array($USER);
+    if ($view_all_users) {
+        // ...$users = threesixty_users($activity);.
+        $users = threesixty_get_possible_participants($context);
+    } else {
+        $users = array($USER);
     }
     $selfresponses = explode("\n", get_config(null, 'threesixty_selftypes'));
-    if (!empty($selfresponses)){
+    if (!empty($selfresponses)) {
 
-      $table = new html_table();
-      $table->head = array();
-      if ($view_all_users){
-        $table->head[] = 'User';
-      }
-      $table->head[] = get_string('self:responsetype', 'threesixty');
-      $table->head[] = get_string('self:responsecompleted', 'threesixty');
-      $table->head[] = get_string('self:responseoptions', 'threesixty');
-      foreach($users as $user){
-        $data = array();
-        if ($view_all_users){
-          $data[] = "<a href=".$CFG->wwwroot."/user/view.php?id={$user->id}&course={$activity->course}>".format_string($user->firstname." ".$user->lastname)."</a>";
+        $table = new html_table();
+        $table->head = array();
+        if ($view_all_users) {
+            $table->head[] = 'User';
         }
-        $responsenumber = 0; //This provides the type id of the response. 
-        foreach ($selfresponses as $responsetype){
-          if($responsenumber>0){
+        $table->head[] = get_string('self:responsetype', 'threesixty');
+        $table->head[] = get_string('self:responsecompleted', 'threesixty');
+        $table->head[] = get_string('self:responseoptions', 'threesixty');
+        foreach ($users as $user) {
             $data = array();
-            if ($view_all_users){
-              $data[] = "&nbsp;";
+            if ($view_all_users) {
+                $data[] = "<a href=".$CFG->wwwroot.
+                        "/user/view.php?id={$user->id}&course={$activity->course}>".
+                                format_string($user->firstname." ".$user->lastname)."</a>";
             }
-          }
-          $data[] = $responsetype;
-          $timecompleted = get_completion_time($activity->id, $user->id, $responsenumber, true);
-          if ($timecompleted>0){
-            $canreallyedit = $canedit;
-            $timeoutput = userdate($timecompleted);
-          }else{
-            $canreallyedit = false;
-            $timeoutput = "<span class=\"incomplete\">".get_string('self:incomplete', 'threesixty')."</span>";
-          }
-          $data[] = $timeoutput;
+            $responsenumber = 0; // This provides the type id of the response.
+            foreach ($selfresponses as $responsetype) {
+                if ($responsenumber>0) {
+                    $data = array();
+                    if ($view_all_users) {
+                        $data[] = "&nbsp;";
+                    }
+                }
+                $data[] = $responsetype;
+                $timecompleted = get_completion_time($activity->id, $user->id, $responsenumber, true);
+                if ($timecompleted>0) {
+                    $canreallyedit = $canedit;
+                    $timeoutput = userdate($timecompleted);
+                } else {
+                    $canreallyedit = false;
+                    $timeoutput = "<span class=\"incomplete\">".get_string('self:incomplete', 'threesixty')."</span>";
+                }
+                $data[] = $timeoutput;
 
-          $data[] = get_options($activity->id, $user->id, $responsenumber, $view_all_users, $canreallyedit);
-          $responsenumber += 1;
-          $table->data[] = $data;
+                $data[] = get_options($activity->id, $user->id, $responsenumber, $view_all_users, $canreallyedit);
+                $responsenumber += 1;
+                $table->data[] = $data;
+            }
         }
-      }
-      //print_table($table);
-      echo html_writer::table($table);
+        // ...print_table($table);.
+        echo html_writer::table($table);
     }
-  }
-  function get_completion_time($activityid, $userid, $responsetype, $self=false)
-  {
+}
+function get_completion_time($activityid, $userid, $responsetype, $self=false) {
     global $CFG, $DB;
 
     $sql = "SELECT r.timecompleted FROM {threesixty_analysis} a ";
     $sql .= "JOIN {threesixty_respondent} rp ON a.id = rp.analysisid ";
     $sql .= "JOIN {threesixty_response} r ON rp.id = r.respondentid ";
     $sql .= "WHERE a.userid = ".$userid." AND a.activityid = ".$activityid." AND rp.type = ".$responsetype;
-    if($self){
-      $sql .= " AND rp.uniquehash IS NULL";
+    if ($self) {
+        $sql .= " AND rp.uniquehash IS NULL";
     } else {
-      $sql .= " AND rp.uniquehash IS NOT NULL";
+        $sql .= " AND rp.uniquehash IS NOT NULL";
     }
 
     $times = $DB->get_records_sql($sql);
-    if($times){
-      if(count($times)>1){
-        echo "There has been a problem retrieving the time completed. Please contact your administrator.";
-      }else{
-        $time = array_pop($times);
-        return $time->timecompleted;
-      }
+    if ($times) {
+        if (count($times)>1) {
+            echo "There has been a problem retrieving the time completed. Please contact your administrator.";
+        } else {
+            $time = array_pop($times);
+            return $time->timecompleted;
+        }
     }
-  }
-  function get_options($activityid, $userid, $typeid, $view_all_users, $canedit)
-  {
+}
+function get_options($activityid, $userid, $typeid, $view_all_users, $canedit) {
     global $CFG;
 
     $scoreurl = $CFG->wwwroot."/mod/threesixty/score.php?a=".$activityid;
-    if($view_all_users){
-      $scoreurl.="&userid=".$userid;
+    if ($view_all_users) {
+        $scoreurl.="&userid=".$userid;
     }
     $scoreurl.="&typeid=".$typeid;
     $output = "<a href='".$scoreurl."'>View</a>";
 
-    if ($canedit){
-      $amendurl =$CFG->wwwroot."/mod/threesixty/amend.php?a=".$activityid."&typeid=".$typeid."&userid=".$userid;
-      $output.=" | <a href='".$amendurl."'>Amend</a>";
+    if ($canedit) {
+        $amendurl =$CFG->wwwroot."/mod/threesixty/amend.php?a=".$activityid."&typeid=".$typeid."&userid=".$userid;
+        $output.=" | <a href='".$amendurl."'>Amend</a>";
     }
     return $output;
-  }
-?>
+}

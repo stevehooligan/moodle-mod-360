@@ -1,4 +1,18 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 function xmldb_threesixty_upgrade($oldversion = 0) {
 
@@ -6,7 +20,7 @@ function xmldb_threesixty_upgrade($oldversion = 0) {
 
     $result = true;
     if ($result && $oldversion < 2012102301) {
-        //Add a display order column for the competency table.
+        // Add a display order column for the competency table.
         $comptable = new xmldb_table('threesixty_competency');
         $field = new xmldb_field('sortorder');
         $field->setattributes(XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, null, null, '999', 'showfeedback');
@@ -19,7 +33,7 @@ function xmldb_threesixty_upgrade($oldversion = 0) {
         if (!add_field($skilltable, $field)) {
             $result = false;
         }
-        //Update the existing competency data.
+        // Update the existing competency data.
         reorder_skills();
     }
 
@@ -28,7 +42,7 @@ function xmldb_threesixty_upgrade($oldversion = 0) {
 
 function reorder_competencies() {
     global $CFG, $DB;
-    //$sql = "SELECT * FROM ".$CFG->prefix."threesixty_competency ORDER BY activityid, id";
+    // ...$sql = "SELECT * FROM ".$CFG->prefix."threesixty_competency ORDER BY activityid, id";.
     if ($competencies = $DB->get_records("threesixty_competency", '', "activityid")) {
         $activityid = 0;
         $nextposition = 0;
@@ -46,7 +60,7 @@ function reorder_competencies() {
 
 function reorder_skills() {
     global $CFG, $DB;
-    //$sql = "SELECT * FROM ".$CFG->prefix."threesixty_skill ORDER BY competencyid, id";
+    // ...$sql = "SELECT * FROM ".$CFG->prefix."threesixty_skill ORDER BY competencyid, id";.
     if ($skills = $DB->get_records('threesixty_skill', '', 'competencyid')) {
         $competencyid = 0;
         $nextposition = 0;

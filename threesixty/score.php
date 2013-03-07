@@ -1,4 +1,18 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * Allows a student (or an external person using a code) to assess
@@ -8,14 +22,14 @@
  * @package mod/threesixty
  */
 
-require_once '../../config.php';
-require_once 'locallib.php';
-require_once 'score_form.php';
+require_once('../../config.php');
+require_once('locallib.php');
+require_once('score_form.php');
 
-$a    = optional_param('a', 0, PARAM_INT);  // threesixty instance ID
-$code = optional_param('code', '', PARAM_ALPHANUM); // unique hash
-$page = optional_param('page', 0, PARAM_INT); // page number
-$typeid = optional_param('typeid', 0, PARAM_INT); //type of response
+$a    = optional_param('a', 0, PARAM_INT);  // Threesixty instance ID.
+$code = optional_param('code', '', PARAM_ALPHANUM); // Unique hash.
+$page = optional_param('page', 0, PARAM_INT); // Page number.
+$typeid = optional_param('typeid', 0, PARAM_INT); // Type of response.
 
 $respondent = null;
 $analysis = null;
@@ -26,9 +40,9 @@ $userid = 0;
 $externalrespondent = !empty($code);
 
 if ($externalrespondent) {
-    // External respondent
+    // External respondent.
     if (!$respondent = $DB->get_record('threesixty_respondent', array('uniquehash' => $code))) {
-        error_log("threesixty: Invalid response hash from {$_SERVER['REMOTE_ADDR']}");
+        // ...error_log("threesixty: Invalid response hash from {$_SERVER['REMOTE_ADDR']}");.
         print_error('error:invalidcode', 'threesixty');
     }
     if (!$analysis = $DB->get_record('threesixty_analysis', array('id' => $respondent->analysisid))) {
@@ -41,9 +55,8 @@ if ($externalrespondent) {
         error('Invalid User ID');
     }
 
-}
-elseif ($a > 0) {
-    // Logged-in respondent
+} else if ($a > 0) {
+    // Logged-in respondent.
     if (!$activity = $DB->get_record('threesixty', array('id' => $a))) {
         error('Course module is incorrect');
     }
@@ -55,11 +68,11 @@ elseif ($a > 0) {
     }
 
     if ($analysis = $DB->get_record('threesixty_analysis', array('userid' => $userid, 'activityid' => $a))) {
-      $respondent = $DB->get_record('threesixty_respondent', array('analysisid' => $analysis->id, 'type' => $typeid, 'uniquehash' => null));
+        $respondent = $DB->get_record('threesixty_respondent',
+                array('analysisid' => $analysis->id, 'type' => $typeid, 'uniquehash' => null));
     }
-}
-else{
-    // We need either $a or $code to be defined
+} else {
+    // We need either $a or $code to be defined.
     error('Missing activity ID');
 }
 
@@ -71,18 +84,17 @@ if (!$cm = get_coursemodule_from_instance('threesixty', $activity->id, $course->
 }
 
 if (!$externalrespondent) {
-    // Capability checks only relevant to logged-in users
+    // Capability checks only relevant to logged-in users.
     $context = get_context_instance(CONTEXT_MODULE, $cm->id);
 
     require_login($course, true, $cm);
     require_capability('mod/threesixty:view', $context);
 
-    //echo "<pre>"; var_dump($user); echo "</pre>";
+    // ...echo "<pre>"; var_dump($user); echo "</pre>";.
 
     if ($USER->id == $user->id) {
         require_capability('mod/threesixty:participate', $context);
-    }
-    else {
+    } else {
         require_capability('mod/threesixty:viewreports', $context);
     }
 }
@@ -90,14 +102,13 @@ if (!$externalrespondent) {
 $PAGE->set_url('/mod/threesixty/score.php', array('a' => $a));
 $PAGE->set_pagelayout('incourse');
 
-// Set URLs based on logged-in v. loginless mode
+// Set URLs based on logged-in v. loginless mode.
 $cancelurl = '';
 $baseurl = "score.php";
 if (!$externalrespondent) {
     $baseurl .= "?a=$activity->id&amp;userid=$user->id&amp;typeid=$typeid";
     $cancelurl = "$CFG->wwwroot/course/view.php?id=$COURSE->id";
-}
-else {
+} else {
     $baseurl .= "?code=$code";
 }
 $currenturl = "$baseurl&amp;page=$page";
@@ -115,18 +126,17 @@ if ($competency = get_competency_details($page, $activity->id, $user->id, $respo
     $nbpages = $DB->count_records('threesixty_competency', array('activityid' => $activity->id));
     $mform =& new mod_threesixty_score_form(null, compact('a', 'code', 'competency', 'page', 'nbpages', 'userid', 'typeid'));
 
-    if ($mform->is_cancelled()){
+    if ($mform->is_cancelled()) {
         redirect($cancelurl);
     }
 
     $fromform = $mform->get_data();
-}
-elseif ($page > 1) {
+} else if ($page > 1) {
     print_error('error:invalidpagenumber', 'threesixty');
 }
 
 if ($fromform) {
-    if (!empty($fromform->buttonarray['previous'])) { // Previous button
+    if (!empty($fromform->buttonarray['previous'])) { // Previous button.
         $errormsg = save_changes($fromform, $activity->id, $user->id, $competency, false, $respondent);
         if (!empty($errormsg)) {
             print_error('error:cannotsavescores', 'threesixty', $currenturl, '', $errormsg);
@@ -134,8 +144,7 @@ if ($fromform) {
 
         $newpage = max(1, $page - 1);
         redirect("$baseurl&amp;page=$newpage");
-    }
-    elseif (!empty($fromform->buttonarray['next'])) { // Next button
+    } else if (!empty($fromform->buttonarray['next'])) { // Next button.
         $errormsg = save_changes($fromform, $activity->id, $user->id, $competency, false, $respondent);
         if (!empty($errormsg)) {
             print_error('error:cannotsavescores', 'threesixty', $currenturl, '', $errormsg);
@@ -143,8 +152,7 @@ if ($fromform) {
 
         $newpage = min($nbpages, $page + 1);
         redirect("$baseurl&amp;page=$newpage");
-    }
-    elseif (!empty($fromform->buttonarray['finish'])) {
+    } else if (!empty($fromform->buttonarray['finish'])) {
         $errormsg = save_changes($fromform, $activity->id, $user->id, $competency, true, $respondent);
         if (!empty($errormsg)) {
             print_error('error:cannotsavescores', 'threesixty', $currenturl, '', $errormsg);
@@ -152,19 +160,17 @@ if ($fromform) {
 
         if (!$externalrespondent) {
             redirect("view.php?a=$activity->id");
-        }
-        else {
+        } else {
             redirect("thankyou.php?a=$activity->id");
         }
-    }
-    else {
+    } else {
         print_error('error:unknownbuttonclicked', 'threesixty', $cancelurl);
     }
 }
 
 add_to_log($course->id, 'threesixty', 'score', $currenturl, $activity->id);
 
-// Header
+// Header.
 $strthreesixtys = get_string('modulenameplural', 'threesixty');
 $strthreesixty  = get_string('modulename', 'threesixty');
 
@@ -177,18 +183,16 @@ $navigation = build_navigation($navlinks);
 print_header_simple(format_string($activity->name), '', $navigation, '', '', true,
                     update_module_button($cm->id, $course->id, $strthreesixty), navmenu($course, $cm));
 
-// Main content
+// Main content.
 if (!$externalrespondent) {
     $currenttab = 'activity';
     $section = null;
-    include 'tabs.php';
-}
-else {
+    require_once('tabs.php');
+} else {
     $message = get_string('respondentwelcome', 'threesixty', format_string($respondent->email));
     if ($competency->locked) {
         $message .= get_string('thankyoumessage', 'threesixty');
-    }
-    else {
+    } else {
         $message .= get_string('respondentwarning', 'threesixty', "wrongemail.php?code=$code");
         $message .= get_string('respondentinstructions', 'threesixty');
         $message .= "<p>".get_string('respondentindividual', 'threesixty', $user->firstname." ".$user->lastname)."</p>";
@@ -198,22 +202,21 @@ else {
 if ($mform) {
     set_form_data($mform, $competency);
     $mform->display();
-}
-else {
+} else {
     print_string('nocompetencies', 'threesixty');
 }
 
-//print_footer($course);
+// ...print_footer($course);.
 echo $OUTPUT->footer();
 
-function get_competency_details($page, $activityid, $userid, $respondent)
-{
+function get_competency_details($page, $activityid, $userid, $respondent) {
     global $CFG, $DB;
 
-//    if ($record = $DB->get_record('threesixty_competency', array('activityid' => $activityid), $fields='*', IGNORE_MULTIPLE)) {
+    // ...if ($record = $DB->get_record('threesixty_competency',
+    // array('activityid' => $activityid), $fields='*', IGNORE_MULTIPLE)) {.
     if ($record = $DB->get_records('threesixty_competency', array('activityid' => $activityid), '', '*', $page - 1, 1)) {
 
-        // get first (and last) array element for we only want one and one should be returned by get_records
+        // ...get first (and last) array element for we only want one and one should be returned by get_records.
         $current_record = current($record);
 
         $respondentclause = 'r.respondentid IS NULL';
@@ -244,14 +247,12 @@ function get_competency_details($page, $activityid, $userid, $respondent)
             $current_record->locked = true;
         }
 
-        // Get skill descriptions
+        // Get skill descriptions.
         $current_record->skills = $DB->get_records('threesixty_skill', array('competencyid' => $current_record->id), '',
                                                                     'id, name, description, sortorder, 0 AS score');
 
-
-
         if ($current_record->skills and $response and $response->responseid != null) {
-            // Get scores
+            // Get scores.
             $sql = "SELECT s.id, r.score
                       FROM {threesixty_skill} s
                       JOIN {threesixty_response_skill} r ON s.id = r.skillid
@@ -269,8 +270,7 @@ function get_competency_details($page, $activityid, $userid, $respondent)
     return false;
 }
 
-function set_form_data($mform, $competency)
-{
+function set_form_data($mform, $competency) {
     $toform = array();
 
     if (!empty($competency->feedback)) {
@@ -286,12 +286,11 @@ function set_form_data($mform, $competency)
     $mform->set_data($toform);
 }
 
-function save_changes($formfields, $activityid, $userid, $competency, $finished, $respondent)
-{
+function save_changes($formfields, $activityid, $userid, $competency, $finished, $respondent) {
     global $CFG, $DB;
 
     if ($competency->locked) {
-        // No changes are saved for responses which have been submitted already
+        // No changes are saved for responses which have been submitted already.
         return '';
     }
 
@@ -301,29 +300,30 @@ function save_changes($formfields, $activityid, $userid, $competency, $finished,
         $analysis->userid = $userid;
 
         if (!$analysis->id = $DB->insert_record('threesixty_analysis', $analysis)) {
-            error_log('threesixty: could not insert new analysis record');
+            // ...error_log('threesixty: could not insert new analysis record');.
             return get_string('error:databaseerror', 'threesixty');
         }
     }
 
     $respondentid = null;
     if ($respondent == null) {
-      $respondent = new object();
-      $respondent->analysisid = $analysis->id;
-      $respondent->type = $formfields->typeid;
-      if(!$respondent->id = $DB->insert_record('threesixty_respondent', $respondent)){
-        error_log('threesixty: could not insert new respondent record');
-        return get_string('error:databaseerror', 'threesixty');
-      }
+        $respondent = new object();
+        $respondent->analysisid = $analysis->id;
+        $respondent->type = $formfields->typeid;
+        if (!$respondent->id = $DB->insert_record('threesixty_respondent', $respondent)) {
+            // ...error_log('threesixty: could not insert new respondent record');.
+            return get_string('error:databaseerror', 'threesixty');
+        }
     }
     $respondentid = $respondent->id;
-    if (!$response = $DB->get_record('threesixty_response', array('analysisid' => $analysis->id, 'respondentid' => $respondentid))) {
+    if (!$response = $DB->get_record('threesixty_response',
+            array('analysisid' => $analysis->id, 'respondentid' => $respondentid))) {
         $response = new object();
         $response->analysisid = $analysis->id;
         $response->respondentid = $respondentid;
 
         if (!$response->id = $DB->insert_record('threesixty_response', $response)) {
-            error_log('threesixty: could not insert new response record');
+            // ...error_log('threesixty: could not insert new response record');.
             return get_string('error:databaseerror', 'threesixty');
         }
     }
@@ -332,7 +332,7 @@ function save_changes($formfields, $activityid, $userid, $competency, $finished,
         foreach ($competency->skills as $skill) {
             $arrayname = "radioarray_$skill->id";
             if (empty($formfields->$arrayname)) {
-                error_log("threesixty: $arrayname is missing from the submitted form fields");
+                // ...error_log("threesixty: $arrayname is missing from the submitted form fields");.
                 return get_string('error:formsubmissionerror', 'threesixty');
             }
             $a = $formfields->$arrayname;
@@ -340,31 +340,31 @@ function save_changes($formfields, $activityid, $userid, $competency, $finished,
             $scorename = "score_$skill->id";
             $scorevalue = 0;
             if (empty($a[$scorename])) {
-                // Choosing "Not set" will clear the existing value
-            }
-            else {
+                $scorevalue = 0;
+                // Choosing "Not set" will clear the existing value.
+            } else {
                 $scorevalue = $a[$scorename];
             }
 
-            // Save this skill score in the database
-            if ($score = $DB->get_record('threesixty_response_skill', array('responseid' => $response->id, 'skillid' => $skill->id))) {
+            // Save this skill score in the database.
+            if ($score = $DB->get_record('threesixty_response_skill',
+                    array('responseid' => $response->id, 'skillid' => $skill->id))) {
                 $newscore = new object();
                 $newscore->id = $score->id;
                 $newscore->score = $scorevalue;
 
                 if (!$DB->update_record('threesixty_response_skill', $newscore)) {
-                    error_log("threesixty: could not update score for skill $skill->id");
+                    // ...error_log("threesixty: could not update score for skill $skill->id");.
                     return get_string('error:databaseerror', 'threesixty');
                 }
-            }
-            else {
+            } else {
                 $score = new object();
                 $score->responseid = $response->id;
                 $score->skillid = $skill->id;
                 $score->score = $scorevalue;
 
                 if (!$score->id = $DB->insert_record('threesixty_response_skill', $score)) {
-                    error_log("threesixty: could not insert score for skill $skill->id");
+                    // ...error_log("threesixty: could not insert score for skill $skill->id");.
                     return get_string('error:databaseerror', 'threesixty');
                 }
             }
@@ -372,25 +372,25 @@ function save_changes($formfields, $activityid, $userid, $competency, $finished,
     }
 
     if (isset($formfields->feedback)) {
-        // Save this competency score in the database
-        if ($comp = $DB->get_record('threesixty_response_comp', array('responseid' => $response->id, 'competencyid' => $competency->id))) {
+        // Save this competency score in the database.
+        if ($comp = $DB->get_record('threesixty_response_comp',
+                array('responseid' => $response->id, 'competencyid' => $competency->id))) {
             $newcomp = new object();
             $newcomp->id = $comp->id;
             $newcomp->feedback = $formfields->feedback;
 
             if (!$DB->update_record('threesixty_response_comp', $newcomp)) {
-                error_log("threesixty: could not update score for competency $competency->id");
+                // ...error_log("threesixty: could not update score for competency $competency->id");.
                 return get_string('error:databaseerror', 'threesixty');
             }
-        }
-        else {
+        } else {
             $comp = new object();
             $comp->responseid = $response->id;
             $comp->competencyid = $competency->id;
             $comp->feedback = $formfields->feedback;
 
             if (!$comp->id = $DB->insert_record('threesixty_response_comp', $comp)) {
-                error_log("threesixty: could not insert score for competency $competency->id");
+                // ...error_log("threesixty: could not insert score for competency $competency->id");.
                 return get_string('error:databaseerror', 'threesixty');
             }
         }
@@ -405,10 +405,10 @@ function save_changes($formfields, $activityid, $userid, $competency, $finished,
         $scores = $DB->get_records_sql("SELECT skillid,score FROM {threesixty_response_skill}
                                     WHERE responseid = '$response->id';");
 
-        // Check that all of the scores have been set
+        // Check that all of the scores have been set.
         foreach ($skills as $skillid => $skill) {
             if (!isset($scores[$skillid])) {
-                // Score is not set 
+                // Score is not set.
                 return get_string('error:allskillneedascore', 'threesixty');
             }
         }
@@ -417,7 +417,7 @@ function save_changes($formfields, $activityid, $userid, $competency, $finished,
         $newresponse->id = $response->id;
         $newresponse->timecompleted = time();
         if (!$DB->update_record('threesixty_response', $newresponse)) {
-            error_log('threesixty: could not update the timecompleted field of the response');
+            // ...error_log('threesixty: could not update the timecompleted field of the response');.
             return get_string('error:databaseerror', 'threesixty');
         }
     }

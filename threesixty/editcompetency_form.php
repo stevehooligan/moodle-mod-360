@@ -1,7 +1,21 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 if (!defined('MOODLE_INTERNAL')) {
-    die('Direct access to this script is forbidden.'); // It must be included from a Moodle page
+    die('Direct access to this script is forbidden.'); // It must be included from a Moodle page.
 }
 
 define('DEFAULT_NUMBER_SKILLS', 5);
@@ -11,7 +25,7 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 
 class mod_threesixty_editcompetency_form extends moodleform {
 
-    function definition() {
+    public function definition() {
 
         $mform =& $this->_form;
 
@@ -39,11 +53,12 @@ class mod_threesixty_editcompetency_form extends moodleform {
         $repeatarray = array();
         $repeatarray[] = &$mform->createElement('hidden', 'skillid', 0);
         $repeatarray[] = &$mform->createElement('text', 'skillname', get_string('name'), array('size'=>'56'));
-        $repeatarray[] = &$mform->createElement('textarea', 'skilldescription', get_string('description'), array('cols'=>'56', 'rows'=>'6'));
+        $repeatarray[] = &$mform->createElement('textarea', 'skilldescription',
+                get_string('description'), array('cols'=>'56', 'rows'=>'6'));
         $checkboxelement = &$mform->createElement('checkbox', 'skilldelete', '', get_string('deleteskill', 'threesixty'));
-        //unset($checkboxelement->_attributes['id']); // necessary until MDL-20441 is fixed
+        // ...unset($checkboxelement->_attributes['id']); // necessary until MDL-20441 is fixed.
         $repeatarray[] = $checkboxelement;
-        $repeatarray[] = &$mform->createElement('html', '<br/><br/>'); // spacer
+        $repeatarray[] = &$mform->createElement('html', '<br/><br/>'); // ...spacer.
 
         $repeatcount = DEFAULT_NUMBER_SKILLS;
         if ($this->_customdata['skills']) {
@@ -59,7 +74,6 @@ class mod_threesixty_editcompetency_form extends moodleform {
 
         $this->repeat_elements($repeatarray, $repeatcount, $repeatoptions, 'skill_repeats', 'skill_add_fields',
                                EXTRA_SKILLS, get_string('addnewskills', 'threesixty'), true);
-
 
         $this->add_action_buttons();
     }

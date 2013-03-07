@@ -39,14 +39,14 @@ class restore_threesixty_activity_task extends restore_activity_task {
      * Define (add) particular settings this activity can have
      */
     protected function define_my_settings() {
-        // No particular settings for this activity
+        // No particular settings for this activity.
     }
 
     /**
      * Define (add) particular steps this activity can have
      */
     protected function define_my_steps() {
-        // threesixty only has one structure step
+        // ...threesixty only has one structure step.
         $this->add_step(new restore_threesixty_activity_structure_step('threesixty_structure', 'threesixty.xml'));
     }
 
@@ -59,7 +59,7 @@ class restore_threesixty_activity_task extends restore_activity_task {
     static public function define_decode_contents() {
         $contents = array();
 
-        //$contents[] = new restore_decode_content('', array('intro'), 'threesixty');
+        // ...$contents[] = new restore_decode_content('', array('intro'), 'threesixty');.
 
         return $contents;
     }
@@ -73,8 +73,8 @@ class restore_threesixty_activity_task extends restore_activity_task {
     static public function define_decode_rules() {
         $rules = array();
 
-        //$rules[] = new restore_decode_rule('threesixtyVIEWBYID', '/mod/threesixty/view.php?id=$1', 'course_module');
-        //$rules[] = new restore_decode_rule('threesixtyINDEX', '/mod/threesixty/index.php?id=$1', 'course_module');
+        // ...$rules[] = new restore_decode_rule('threesixtyVIEWBYID', '/mod/threesixty/view.php?id=$1', 'course_module');.
+        // ...$rules[] = new restore_decode_rule('threesixtyINDEX', '/mod/threesixty/index.php?id=$1', 'course_module');.
 
         return $rules;
 
@@ -91,10 +91,10 @@ class restore_threesixty_activity_task extends restore_activity_task {
     static public function define_restore_log_rules() {
         $rules = array();
 
-        //$rules[] = new restore_log_rule('threesixty', 'add', 'view.php?id={course_module}', '{threesixty}');
-        //$rules[] = new restore_log_rule('threesixty', 'update', 'view.php?id={course_module}', '{threesixty}');
-        //$rules[] = new restore_log_rule('threesixty', 'view', 'view.php?id={course_module}', '{threesixty}');
-        // more...
+        // ...$rules[] = new restore_log_rule('threesixty', 'add', 'view.php?id={course_module}', '{threesixty}');.
+        // ...$rules[] = new restore_log_rule('threesixty', 'update', 'view.php?id={course_module}', '{threesixty}');.
+        // ...$rules[] = new restore_log_rule('threesixty', 'view', 'view.php?id={course_module}', '{threesixty}');.
+        // ...more...
 
         return $rules;
     }

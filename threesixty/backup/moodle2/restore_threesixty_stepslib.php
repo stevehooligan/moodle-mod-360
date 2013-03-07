@@ -40,16 +40,18 @@ class restore_threesixty_activity_structure_step extends restore_activity_struct
     protected function define_structure() {
 
         $paths = array();
-        // To know if we are including userinfo
+        // To know if we are including userinfo.
         $userinfo = $this->get_setting_value('userinfo');
 
-        // Define each element separated
+        // Define each element separated.
         $paths[] = new restore_path_element('threesixty', '/activity/threesixty');
         $paths[] = new restore_path_element('threesixty_competency', '/activity/threesixty/competency');
         $paths[] = new restore_path_element('threesixty_analysis', '/activity/threesixty/analysis');
         $paths[] = new restore_path_element('threesixty_skill', '/activity/threesixty/competency/skill');
-        $paths[] = new restore_path_element('threesixty_response_skill','/activity/threesixty/analysis/respondent/response/response_skill');
-        $paths[] = new restore_path_element('threesixty_response_comp','/activity/threesixty/analysis/respondent/response/response_comp');
+        $paths[] = new restore_path_element('threesixty_response_skill',
+                '/activity/threesixty/analysis/respondent/response/response_skill');
+        $paths[] = new restore_path_element('threesixty_response_comp',
+                '/activity/threesixty/analysis/respondent/response/response_comp');
         $paths[] = new restore_path_element('threesixty_carried_comp', '/activity/threesixty/analysis/carried_comp');
 
         if ($userinfo) {
@@ -57,7 +59,7 @@ class restore_threesixty_activity_structure_step extends restore_activity_struct
             $paths[] = new restore_path_element('threesixty_response', '/activity/threesixty/analysis/respondent/response');
 
         }
-        //$paths[] = new restore_path_element('threesixty_plugin_config', '/activity/threesixty/plugin_configs/plugin_config');
+        // ...$paths[] = new restore_path_element('threesixty_plugin_config', '/activity/threesixty/plugin_configs/plugin_config');.
 
         return $this->prepare_activity_structure($paths);
     }
@@ -230,6 +232,6 @@ class restore_threesixty_activity_structure_step extends restore_activity_struct
      * @return void
      */
     protected function after_execute() {
-        //$this->add_related_files('mod_threesixty', 'intro', null);
+        // ...$this->add_related_files('mod_threesixty', 'intro', null);.
     }
 }

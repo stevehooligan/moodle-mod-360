@@ -1,4 +1,18 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * Administration settings for selecting which competencies to carry
@@ -8,13 +22,13 @@
  * @package mod/threesixty
  */
 
-require_once '../../config.php';
-require_once 'locallib.php';
-require_once 'carryover_form.php';
+require_once('../../config.php');
+require_once('locallib.php');
+require_once('carryover_form.php');
 
-define('MAX_DESCRIPTION', 255); // max number of characters of the description to show in the table
+define('MAX_DESCRIPTION', 255); // Max number of characters of the description to show in the table.
 
-$a       = required_param('a', PARAM_INT);  // threesixty instance ID
+$a       = required_param('a', PARAM_INT);  // ...threesixty instance ID.
 $userid  = optional_param('userid', 0, PARAM_INT);
 
 if (!$activity = $DB->get_record('threesixty', array('id' => $a))) {
@@ -63,16 +77,16 @@ if (isset($user)) {
 
         if (save_changes($fromform, $analysis->id)) {
             redirect($currenturl);
-        }
-        else {
-            redirect($currenturl, get_string('error:cannotsavechanges', 'threesixty', get_string('error:databaseerror', 'threesixty')));
+        } else {
+            redirect($currenturl, get_string('error:cannotsavechanges',
+                    'threesixty', get_string('error:databaseerror', 'threesixty')));
         }
     }
 
     add_to_log($course->id, 'threesixty', 'carryover', $currenturl, $activity->id);
 }
 
-// Header
+// Header.
 $strthreesixtys = get_string('modulenameplural', 'threesixty');
 $strthreesixty  = get_string('modulename', 'threesixty');
 
@@ -85,27 +99,25 @@ $navigation = build_navigation($navlinks);
 print_header_simple(format_string($activity->name), '', $navigation, '', '', true,
                     update_module_button($cm->id, $course->id, $strthreesixty), navmenu($course, $cm));
 
-// Main content
+// Main content.
 $currenttab = 'edit';
 $section = 'carryover';
-include 'tabs.php';
+require_once('tabs.php');
 
 if (isset($mform)) {
     print threesixty_selected_user_heading($user, $course->id, $baseurl);
 
     set_form_data($mform, $analysis->id);
     $mform->display();
-}
-else {
+} else {
     display_current_user_data($activity, $baseurl);
 }
 
-//print_footer($course);
+// ...print_footer($course);.
 echo $OUTPUT->footer();
 
-function get_full_competency_list($activityid)
-{
-  global $CFG,$DB;
+function get_full_competency_list($activityid) {
+    global $CFG, $DB;
     $ret = array(0 => get_string('none'));
 
     $sql = "SELECT s.*, c.name as competency FROM {threesixty_skill} s
@@ -120,12 +132,11 @@ function get_full_competency_list($activityid)
     return $ret;
 }
 
-function set_form_data($mform, $analysisid)
-{
+function set_form_data($mform, $analysisid) {
     global $DB;
 
     if (!$carriedcomps = $DB->get_records('threesixty_carried_comp', array('analysisid' => $analysisid), 'id, competencyid')) {
-        return; // no existing data
+        return; // ...no existing data.
     }
 
     $toform = array();
@@ -133,18 +144,17 @@ function set_form_data($mform, $analysisid)
     $previousvalues = array();
     $i = 0;
     foreach ($carriedcomps as $carried) {
-        // $mform->_customdata['nbcarried'] - protected property cannot be accessed directly
-        // See public function getnbcarried in carryover_form.php file
-        //if ($i >= $mform->_customdata['nbcarried']) {
+        // ...$mform->_customdata['nbcarried'] - protected property cannot be accessed directly.
+        // See public function getnbcarried in carryover_form.php file.
+        // ...if ($i >= $mform->_customdata['nbcarried']) {.
         if ($i >= $mform->getnbcarried()) {
-            error_log('threesixty: more records in carried_comp than allowed in activity settings');
             break;
         }
 
         $compid = $carried->competencyid;
         if (!empty($previousvalues[$compid])) {
             $i++;
-            continue; // only add competencies once
+            continue; // ...only add competencies once.
         }
         $previousvalues[$compid] = true;
 
@@ -155,31 +165,29 @@ function set_form_data($mform, $analysisid)
     $mform->set_data($toform);
 }
 
-function save_changes($formfields, $analysisid)
-{
+function save_changes($formfields, $analysisid) {
     global $DB;
 
     if (!empty($formfields->nbcarried)) {
         $transaction = $DB->start_delegated_transaction();
 
-        // Remove existing ones
+        // Remove existing ones.
         if (!$DB->delete_records('threesixty_carried_comp', array('analysisid' => $analysisid))) {
-            error_log("threesixty: could not delete records from carried_comp");
             $transaction->rollback();
             return false;
         }
 
-        // Add all new selected competencies
+        // Add all new selected competencies.
         $previousvalues = array();
         for ($i=0; $i < $formfields->nbcarried; $i++) {
             $fieldname = "comp$i";
             if (empty($formfields->$fieldname)) {
-                continue; // missing from the form data (or set to 'None')
+                continue; // ...missing from the form data (or set to 'None').
             }
 
             $compid = (int)$formfields->$fieldname;
             if (!empty($previousvalues[$compid])) {
-                continue; // only add competencies once
+                continue; // ...only add competencies once.
             }
             $previousvalues[$compid] = true;
 
@@ -188,7 +196,6 @@ function save_changes($formfields, $analysisid)
             $record->competencyid = $compid;
 
             if (!$DB->insert_record('threesixty_carried_comp', $record)) {
-                error_log("threesixty: could not insert new record in carried_comp");
                 $transaction->rollback();
                 return false;
             }
@@ -199,47 +206,47 @@ function save_changes($formfields, $analysisid)
 
     return true;
 }
-function display_current_user_data($activity, $url){
-  global $CFG, $DB;
+function display_current_user_data($activity, $url) {
+    global $CFG, $DB;
 
-  $table = new html_table();
-  $table->head = array('User');
-  $nbcarried = $activity->competenciescarried;
-  for ($i=1; $i<=$nbcarried; $i++){
-    $table->head[] = 'Skill '.$i;
-  }
-  $table->head[] = 'Options';
-
-  $users = threesixty_users($activity);
-  if($users){
-    foreach($users as $user){
-      $data = array("<a href=".$CFG->wwwroot."/user/view.php?id={$user->id}&course={$activity->course}>".format_string($user->firstname." ".$user->lastname)."</a>");
-      $sql = "SELECT c.name AS competency
-              FROM {threesixty_analysis} a
-              JOIN {threesixty_carried_comp} cc ON a.id = cc.analysisid
-              JOIN {threesixty_skill} c ON cc.competencyid = c.id
-              WHERE a.userid = {$user->id} and a.activityid = {$activity->id}";
-      $carriedcomps = $DB->get_records_sql($sql);
-      $missingcells = $nbcarried;
-      if($carriedcomps){
-        foreach ($carriedcomps as $comp)
-        {
-          $data[] = $comp->competency;
-          $missingcells--;
-        }
-      }
-      if($missingcells){
-        for($i=0;$i<$missingcells;$i++)
-        {
-          $data[] = "&nbsp;";
-        }
-      }
-      $data[] = "<a href=\"$url&amp;userid=$user->id\">Edit</a>";
-      $table->data[] = $data;
+    $table = new html_table();
+    $table->head = array('User');
+    $nbcarried = $activity->competenciescarried;
+    for ($i=1; $i<=$nbcarried; $i++) {
+        $table->head[] = 'Skill '.$i;
     }
-    //print_table($table);
-    echo html_writer::table($table);
-  }else{
-    print "No users to display";
-  }
+    $table->head[] = 'Options';
+
+    $users = threesixty_users($activity);
+    if ($users) {
+        foreach ($users as $user) {
+            $data = array("<a href=".$CFG->wwwroot.
+                "/user/view.php?id={$user->id}&course={$activity->course}>".
+                format_string($user->firstname." ".$user->lastname)."</a>");
+            $sql = "SELECT c.name AS competency
+                    FROM {threesixty_analysis} a
+                    JOIN {threesixty_carried_comp} cc ON a.id = cc.analysisid
+                    JOIN {threesixty_skill} c ON cc.competencyid = c.id
+                    WHERE a.userid = {$user->id} and a.activityid = {$activity->id}";
+            $carriedcomps = $DB->get_records_sql($sql);
+            $missingcells = $nbcarried;
+            if ($carriedcomps) {
+                foreach ($carriedcomps as $comp) {
+                    $data[] = $comp->competency;
+                    $missingcells--;
+                }
+            }
+            if ($missingcells) {
+                for ($i=0; $i<$missingcells; $i++) {
+                    $data[] = "&nbsp;";
+                }
+            }
+            $data[] = "<a href=\"$url&amp;userid=$user->id\">Edit</a>";
+            $table->data[] = $data;
+        }
+        // ...print_table($table);.
+        echo html_writer::table($table);
+    } else {
+        print "No users to display";
+    }
 }

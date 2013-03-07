@@ -1,6 +1,20 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once 'locallib.php';
+require_once('locallib.php');
 
 /**
  * Library of functions and constants for module threesixty
@@ -31,7 +45,7 @@ function threesixty_add_instance($threesixty) {
     $threesixty->timecreated = time();
     $threesixty->timemodified = $threesixty->timecreated;
 
-    # You may have to add extra stuff in here #
+    // You may have to add extra stuff in here.
 
     return $DB->insert_record('threesixty', $threesixty);
 }
@@ -52,7 +66,7 @@ function threesixty_update_instance($threesixty) {
     $threesixty->timemodified = time();
     $threesixty->id = $threesixty->instance;
 
-    # You may have to add extra stuff in here #
+    // You may have to add extra stuff in here .
 
     return $DB->update_record('threesixty', $threesixty);
 }
@@ -76,7 +90,7 @@ function threesixty_delete_instance($id) {
 
     $transaction = $DB->start_delegated_transaction();
 
-    // Delete all competencies and skills
+    // Delete all competencies and skills.
     if ($competencies = $DB->get_records('threesixty_competency', array('activityid' => $id), $fields='id')) {
         foreach ($competencies as $competency) {
             if (!threesixty_delete_competency($competency->id, true)) {
@@ -86,7 +100,7 @@ function threesixty_delete_instance($id) {
         }
     }
 
-    // Delete all analysis records
+    // Delete all analysis records.
     if ($analyses = $DB->get_records('threesixty_analysis', array('activityid' => $id))) {
         foreach ($analyses as $analysis) {
             if (!threesixty_delete_analysis($analysis->id, true)) {
@@ -155,7 +169,7 @@ function threesixty_user_complete($course, $user, $mod, $threesixty) {
  * @todo Finish documenting this function
  */
 function threesixty_print_recent_activity($course, $isteacher, $timestart) {
-    return false;  //  True if anything was printed, otherwise false
+    return false;  //  True if anything was printed, otherwise false.
 }
 
 
@@ -199,11 +213,11 @@ function threesixty_get_participants($threesixtyid) {
 function threesixty_scale_used($threesixtyid, $scaleid) {
     $return = false;
 
-    //$rec = $DB->get_record("threesixty","id","$threesixtyid","scale","-$scaleid");
+    // ....$rec = $DB->get_record("threesixty","id","$threesixtyid","scale","-$scaleid");.
     //
-    //if (!empty($rec) && !empty($scaleid)) {
-    //    $return = true;
-    //}
+    // ...if (!empty($rec) && !empty($scaleid)) {.
+    // ...$return = true;.
+    // ...}.
 
     return $return;
 }

@@ -1,4 +1,18 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * This page prints a particular instance of threesixty by redirecting
@@ -8,10 +22,10 @@
  * @package mod/threesixty
  */
 
-require_once '../../config.php';
+require_once('../../config.php');
 
-$id     = optional_param('id', 0, PARAM_INT); // course_module ID, or
-$a      = optional_param('a', 0, PARAM_INT);  // threesixty instance ID
+$id     = optional_param('id', 0, PARAM_INT); // ...course_module ID, or.
+$a      = optional_param('a', 0, PARAM_INT);  // ...threesixty instance ID.
 $userid = optional_param('userid', 0, PARAM_INT);
 
 if ($id) {
@@ -24,8 +38,7 @@ if ($id) {
     if (!$activity = $DB->get_record('threesixty', array('id' => $cm->instance) )) {
         error('Course module is incorrect');
     }
-}
-else if ($a) {
+} else if ($a) {
     if (!$activity = $DB->get_record('threesixty', array('id' => $a))) {
         error('Course module is incorrect');
     }
@@ -35,8 +48,7 @@ else if ($a) {
     if (!$cm = get_coursemodule_from_instance('threesixty', $activity->id, $course->id)) {
         error('Course Module ID was incorrect');
     }
-}
-else {
+} else {
     error('You must specify a course_module ID or an instance ID');
 }
 
@@ -49,14 +61,14 @@ if (has_capability('mod/threesixty:viewreports', $context)) {
     redirect("$CFG->wwwroot/mod/threesixty/report.php?a=$activity->id&amp;userid=$userid");
 }
 
-/*if ($analysis = $DB->get_record('threesixty_analysis', 'activityid', $activity->id, 'userid', $USER->id)) {
-    if ($response = $DB->get_record('threesixty_response', 'analysisid', $analysis->id, 'uniquehash', null, 'typeid', 0)) {
-        if ($response->timecompleted > 0) {
-            // Activity is finished/completed
-            redirect("$CFG->wwwroot/mod/threesixty/respondents.php?a=$activity->id");
-        }
-    }
-}*/
+/* ...if ($analysis = $DB->get_record('threesixty_analysis', 'activityid', $activity->id, 'userid', $USER->id)) {
+    ...if ($response = $DB->get_record('threesixty_response', 'analysisid', $analysis->id, 'uniquehash', null, 'typeid', 0)) {
+        ...if ($response->timecompleted > 0) {.
+            // Activity is finished/completed.
+            ...redirect("$CFG->wwwroot/mod/threesixty/respondents.php?a=$activity->id");.
+        ...}.
+    ...}.
+...}. */
 
-//redirect("$CFG->wwwroot/mod/threesixty/score.php?a=".$activity->id."&typeid=0");
+// ...redirect("$CFG->wwwroot/mod/threesixty/score.php?a=".$activity->id."&typeid=0");.
 redirect("$CFG->wwwroot/mod/threesixty/profiles.php?a=$activity->id");

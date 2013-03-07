@@ -1,8 +1,22 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 $string['threesixty:deleterespondents'] = 'Delete external respondents from a user\'s list';
 $string['threesixty:edit'] = 'Change someone\'s personal 360 Degree assessment';
-$string['threesixty:feedbackview'] = 'View 360 feedback'; // Added by Kat for Kineo HCA 12/05/10
+$string['threesixty:feedbackview'] = 'View 360 feedback';
 $string['threesixty:manage'] = 'Manage 360 Degree Tool';
 $string['threesixty:participate'] = 'Assess yourself in the 360 Degree Tool';
 $string['threesixty:remindrespondents'] = 'Send a reminder email to external respondents';
@@ -157,3 +171,5 @@ $string['legend:level1'] = 'Support Staff Level';
 $string['legend:level2'] = 'Junior Management';
 $string['legend:level3'] = 'Middle Management';
 $string['legend:level4'] = 'Senior Management';
+
+$string['error:invalidrespondent'] = 'Invalid respondent type filter: {$a}';

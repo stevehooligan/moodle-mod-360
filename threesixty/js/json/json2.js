@@ -168,7 +168,6 @@ if (!this.JSON) {
                  f(this.getUTCSeconds())   + 'Z';
         };
 
-
         var escapeable = /["\\\x00-\x1f\x7f-\x9f]/g,
             gap,
             indent,
@@ -182,7 +181,6 @@ if (!this.JSON) {
                 '\\': '\\\\'
             },
             rep;
-
 
         function quote(string) {
 
@@ -203,7 +201,6 @@ if (!this.JSON) {
                 }) + '"' :
                 '"' + string + '"';
         }
-
 
         function str(key, holder) {
 
@@ -330,7 +327,6 @@ if (!this.JSON) {
             }
         }
 
-
 // Return the JSON object containing the stringify, parse, and quote methods.
 
         return {
@@ -388,7 +384,6 @@ if (!this.JSON) {
                 return str('', {'': value});
             },
 
-
             parse: function (text, reviver) {
 
 // The parse method takes a text and an optional reviver function, and returns
@@ -416,7 +411,6 @@ if (!this.JSON) {
                     }
                     return reviver.call(holder, key, value);
                 }
-
 
 // Parsing happens in three stages. In the first stage, we run the text against
 // regular expressions that look for non-JSON patterns. We are especially

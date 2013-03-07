@@ -22,7 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-//defined('MOODLE_INTERNAL') || die();
+// ...defined('MOODLE_INTERNAL') || die();.
 
 /**
  * Define the complete choice structure for backup, with file and id annotations
@@ -35,7 +35,7 @@
     // This is the "graphical" structure of the threesixty mod:
     //
     //       threesixty ------------------- threesixty_competency ------------ threesixty_skill
-    //      (CL, pk->id)                     |  (CL, pk->id,   |                (CL, pk->id, 
+    //      (CL, pk->id)                     |  (CL, pk->id,   |                (CL, pk->id,
     //            |                          | fk->activityid) |             fk->competencyid)
     //            |                          |                 |                       |
     //            |                          |                 |                       |
@@ -64,7 +64,7 @@
     //          files->table may have files)
     //
     //
-    //----------------------------------------------------------------------------------
+    // ---------------------------------------------------------------------------------- !!!
 
 
 class backup_threesixty_activity_structure_step extends backup_activity_structure_step {
@@ -75,27 +75,27 @@ class backup_threesixty_activity_structure_step extends backup_activity_structur
      */
     protected function define_structure() {
 
-        // To know if we are including userinfo
+        // To know if we are including userinfo.
         $userinfo = $this->get_setting_value('userinfo');
 
-        // Define each element separated
+        // Define each element separated.
 
         $threesixty = new backup_nested_element('threesixty', array('id'), array(
-                                                'course','name','competenciescarried',
-                                                'requiredrespondents','timecreated','timemodified'));
+                                                'course', 'name', 'competenciescarried',
+                                                'requiredrespondents', 'timecreated', 'timemodified'));
 
         $competencies = new backup_nested_element('competencies');
         $competency = new backup_nested_element('competency', array('id'), array(
-                                                'name','description','showfeedback','sortorder'));
+                                                'name', 'description', 'showfeedback', 'sortorder'));
 
         $analysis_table = new backup_nested_element('analysis_table');
         $analysis = new backup_nested_element('analysis', array('id'), array('userid'));
 
         $skills = new backup_nested_element('skills');
-        $skill = new backup_nested_element('skill', array('id'), array('name','description','sortorder'));
+        $skill = new backup_nested_element('skill', array('id'), array('name', 'description', 'sortorder'));
 
         $respondents = new backup_nested_element('respondents');
-        $respondent = new backup_nested_element('respondent', array('id'), array('email','type','uniquehash'));
+        $respondent = new backup_nested_element('respondent', array('id'), array('email', 'type', 'uniquehash'));
 
         $responses = new backup_nested_element('responses');
         $response = new backup_nested_element('response', array('id'), array('timecompleted'));
@@ -109,7 +109,7 @@ class backup_threesixty_activity_structure_step extends backup_activity_structur
         $response_comp_table = new backup_nested_element('response_comp_table');
         $response_comp = new backup_nested_element('response_comp');
 
-        // Build the tree
+        // Build the tree.
         $threesixty->add_child($competencies);
         $threesixty->add_child($analysis_table);
 
@@ -140,21 +140,25 @@ class backup_threesixty_activity_structure_step extends backup_activity_structur
         $analysis->set_source_table('threesixty_analysis', array('activityid' => backup::VAR_ACTIVITYID));
 
         $skill->set_source_table('threesixty_skill', array('competencyid' => backup::VAR_PARENTID));
-        $response_skill->set_source_table('threesixty_response_skill', array('responseid' => backup::VAR_PARENTID, 'skillid' => backup::VAR_PARENTID));
-        $carried_comp->set_source_table('threesixty_carried_comp', array('analysisid' => backup::VAR_PARENTID, 'competencyid' => backup::VAR_PARENTID));
-        $response_comp->set_source_table('threesixty_response_comp', array('responseid' => backup::VAR_PARENTID, 'competencyid' => backup::VAR_PARENTID));
+        $response_skill->set_source_table('threesixty_response_skill',
+                array('responseid' => backup::VAR_PARENTID, 'skillid' => backup::VAR_PARENTID));
+        $carried_comp->set_source_table('threesixty_carried_comp',
+                array('analysisid' => backup::VAR_PARENTID, 'competencyid' => backup::VAR_PARENTID));
+        $response_comp->set_source_table('threesixty_response_comp',
+                array('responseid' => backup::VAR_PARENTID, 'competencyid' => backup::VAR_PARENTID));
 
         if ($userinfo) {
             $respondent->set_source_table('threesixty_respondent', array('analysisid' => backup::VAR_PARENTID));
-            $response->set_source_table('threesixty_response', array('analysisid' => backup::VAR_PARENTID, 'respondentid' => backup::VAR_PARENTID));
+            $response->set_source_table('threesixty_response',
+                    array('analysisid' => backup::VAR_PARENTID, 'respondentid' => backup::VAR_PARENTID));
         }
 
-        // Define id annotations
+        // Define id annotations.
         $analysis->annotate_ids('user', 'userid');
 
-        // Define file annotations
+        // Define file annotations.
 
-        // Return the root element (threesixty), wrapped into standard activity structure
+        // Return the root element (threesixty), wrapped into standard activity structure.
         return $this->prepare_activity_structure($threesixty);
     }
 }

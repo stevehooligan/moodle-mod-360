@@ -1,4 +1,18 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * Allows a teacher/admin to edit the scores entered by a student
@@ -7,12 +21,12 @@
  * @package mod/threesixty
  */
 
-require_once '../../config.php';
-require_once 'amend_form.php';
-require_once 'locallib.php';
+require_once('../../config.php');
+require_once('amend_form.php');
+require_once('locallib.php');
 
-$a      = required_param('a', PARAM_INT);  // threesixty instance ID
-$typeid = required_param('typeid', PARAM_INT); // the type of the response
+$a      = required_param('a', PARAM_INT);  // ...threesixty instance ID.
+$typeid = required_param('typeid', PARAM_INT); // ...the type of the response.
 $userid = optional_param('userid', 0, PARAM_INT);
 
 if (!$activity = $DB->get_record('threesixty', array('id' => $a))) {
@@ -25,7 +39,8 @@ if (!$cm = get_coursemodule_from_instance('threesixty', $activity->id, $course->
     error('Course Module ID was incorrect');
 }
 $user = null;
-if ($userid > 0 and !$user = $DB->get_record('user', array('id' => $userid), $fields='id, firstname, lastname')) {
+if ($userid > 0 and !$user = $DB->get_record('user',
+    array('id' => $userid), $fields='id, firstname, lastname')) {
     error('Invalid User ID');
 }
 
@@ -50,13 +65,16 @@ if (isset($user)) {
 
     $skillnames = threesixty_get_skill_names($activity->id);
 
-    if (!$analysis = $DB->get_record('threesixty_analysis', array('activityid' => $activity->id, 'userid' => $user->id))) {
+    if (!$analysis = $DB->get_record('threesixty_analysis',
+        array('activityid' => $activity->id, 'userid' => $user->id))) {
         print_error('error:nodataforuserx', 'threesixty', $returnurl, fullname($user));
     }
-    if (!$respondent = $DB->get_record('threesixty_respondent', array('analysisid' => $analysis->id, 'type' => $typeid), 'id, uniquehash')){
+    if (!$respondent = $DB->get_record('threesixty_respondent',
+        array('analysisid' => $analysis->id, 'type' => $typeid), 'id, uniquehash')) {
         print_error('error:nodataforuserx', 'threesixty', $returnurl, fullname($user));
     }
-    if (!$response = $DB->get_record('threesixty_response', array('analysisid' => $analysis->id, 'respondentid' => $respondent->id))) {
+    if (!$response = $DB->get_record('threesixty_response',
+        array('analysisid' => $analysis->id, 'respondentid' => $respondent->id))) {
         print_error('error:nodataforuserx', 'threesixty', $returnurl, fullname($user));
     }
     if (!$response->timecompleted) {
@@ -68,7 +86,7 @@ if (isset($user)) {
 
     $mform =& new mod_threesity_amend_form(null, compact('a', 'skillnames', 'userid', 'typeid'));
 
-    if ($mform->is_cancelled()){
+    if ($mform->is_cancelled()) {
         redirect($baseurl);
     }
 
@@ -83,8 +101,7 @@ if (isset($user)) {
             }
 
             redirect($returnurl);
-        }
-        else {
+        } else {
             print_error('error:unknownbuttonclicked', 'threesixty', $returnurl);
         }
     }
@@ -92,7 +109,7 @@ if (isset($user)) {
     add_to_log($course->id, 'threesixty', 'amend', $currenturl, $activity->id);
 }
 
-// Header
+// ...Header.
 $strthreesixtys = get_string('modulenameplural', 'threesixty');
 $strthreesixty  = get_string('modulename', 'threesixty');
 
@@ -105,25 +122,23 @@ $navigation = build_navigation($navlinks);
 print_header_simple(format_string($activity->name), '', $navigation, '', '', true,
                     update_module_button($cm->id, $course->id, $strthreesixty), navmenu($course, $cm));
 
-// Main content
+// ...Main content.
 $currenttab = 'activity';
 $section = 'scores';
-include 'tabs.php';
+require_once('tabs.php');
 
 if (isset($mform)) {
     print threesixty_selected_user_heading($user, $course->id, 'profiles.php?a='.$activity->id);
 
     set_form_data($mform, $selfscores);
     $mform->display();
-}
-else {
+} else {
     print threesixty_user_listing($activity, $baseurl);
 }
 
 echo $OUTPUT->footer();
 
-function set_form_data($mform, $scores)
-{
+function set_form_data($mform, $scores) {
     $toform = array();
 
     if (!empty($scores->records) and count($scores->records) > 0) {
@@ -135,14 +150,12 @@ function set_form_data($mform, $scores)
     $mform->set_data($toform);
 }
 
-function save_changes($formfields, $responseid, $skills)
-{
+function save_changes($formfields, $responseid, $skills) {
     global $CFG, $DB;
 
     foreach ($skills as $skill) {
         $arrayname = "radioarray_$skill->id";
         if (empty($formfields->$arrayname)) {
-            error_log("threesixty: $arrayname is missing from the submitted form fields");
             return get_string('error:formsubmissionerror', 'threesixty');
         }
         $a = $formfields->$arrayname;
@@ -150,34 +163,28 @@ function save_changes($formfields, $responseid, $skills)
         $scorename = "score_$skill->id";
         $scorevalue = 0;
         if (!isset($a[$scorename])) {
-            error_log("threesixty: $scorename is missing from the submitted form fields");
             return get_string('error:formsubmissionerror', 'threesixty');
-        }
-        else {
+        } else {
             $scorevalue = $a[$scorename];
         }
 
-        // Save this skill score in the database
+        // ...Save this skill score in the database!!!
         if ($score = $DB->get_record('threesixty_response_skill', array('responseid' => $responseid, 'skillid' => $skill->id))) {
             $newscore = new object();
             $newscore->id = $score->id;
             $newscore->score = $scorevalue;
 
             if (!$DB->update_record('threesixty_response_skill', $newscore)) {
-                error_log("threesixty: could not update score for skill $skill->id");
                 return get_string('error:databaseerror', 'threesixty');
             }
-        }
-        else {
-            //error_log("threesixty: could not find the response_skill record for skill $skill->id");
-            //return get_string('error:databaseerror', 'threesixty');
+        } else {
+            // ...return get_string('error:databaseerror', 'threesixty');.
             $newscore = new object();
             $newscore->skillid = $skill->id;
             $newscore->score = $scorevalue;
             $newscore->responseid = $responseid;
-            if(!$DB->insert_record('threesixty_response_skill', $newscore)) {
-              error_log("threesixty: could not create record for skill $skill->id");
-              return get_string('error:databaseerror', 'threesixty');
+            if (!$DB->insert_record('threesixty_response_skill', $newscore)) {
+                return get_string('error:databaseerror', 'threesixty');
             }
         }
     }
