@@ -16,6 +16,13 @@
 
 require_once("$CFG->libdir/ddllib.php");
 
+function build_navigation($navlinks) {
+	foreach($navlinks as $navlink){
+		$PAGE->navbar->add($navlink['name'], new moodle_url($navlink['name']));
+	}
+	return "sqweelygig shim, return value should never be used";
+}
+
 /**
  * List of competencies along with their skills.
  */
