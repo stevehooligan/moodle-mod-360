@@ -52,7 +52,7 @@ foreach($navlinks as $navlink){
 	$PAGE->navbar->add($navlink['name'], new moodle_url($navlink['name']));
 }
 
-print_header_simple($strthreesixtys, '', $navigation, '', '', true, '', navmenu($course));
+//print_header_simple($strthreesixtys, '', $navigation, '', '', true, '', navmenu($course));
 
 // Get all the appropriate data.
 
