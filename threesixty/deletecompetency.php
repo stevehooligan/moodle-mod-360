@@ -58,7 +58,9 @@ if ($competency != null) {
     $title = $competency->name;
 }
 $navlinks[] = array('name' => format_string($title), 'link' => '', 'type' => 'activityinstance');
-$navigation = build_navigation($navlinks);
+foreach($navlinks as $navlink){
+	$PAGE->navbar->add($navlink['name'], new moodle_url($navlink['name']));
+}
 
 if ($confirm) {
 

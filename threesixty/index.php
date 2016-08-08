@@ -48,7 +48,9 @@ $strthreesixty  = get_string('modulename', 'threesixty');
 
 $navlinks = array();
 $navlinks[] = array('name' => $strthreesixtys, 'link' => '', 'type' => 'activity');
-$navigation = build_navigation($navlinks);
+foreach($navlinks as $navlink){
+	$PAGE->navbar->add($navlink['name'], new moodle_url($navlink['name']));
+}
 
 print_header_simple($strthreesixtys, '', $navigation, '', '', true, '', navmenu($course));
 
