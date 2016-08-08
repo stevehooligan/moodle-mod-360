@@ -25,9 +25,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$module->version   = 2012110900;
-$module->requires  = 2012110900;; // See http://docs.moodle.org/dev/Moodle_Versions.
-$module->component = 'mod_threesixty';
-$module->maturity = MATURITY_RC; // ...one of MATURITY_ALPHA, MATURITY_BETA, MATURITY_RC, MATURITY_STABLE.
-$module->cron      = 0;
-$module->release   = "1.0";
+$plugin->version   = 2016080800;
+$plugin->requires  = 2013051400;; // See http://docs.moodle.org/dev/Moodle_Versions.
+$plugin->component = 'mod_threesixty';
+$plugin->maturity = MATURITY_ALPHA; // ...one of MATURITY_ALPHA, MATURITY_BETA, MATURITY_RC, MATURITY_STABLE.
+$plugin->cron      = 0;
+$plugin->release   = "1.1";
