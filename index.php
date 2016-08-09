@@ -53,7 +53,7 @@ $navlinks[] = array('name' => $strthreesixtys, 'link' => '', 'type' => 'activity
 shim::build_navigation($navlinks);
 
 /** @var moodle_page $PAGE */
-$PAGE->set_title($strthreesixtys);
+//$PAGE->set_title($strthreesixtys);
 
 // Get all the appropriate data.
 

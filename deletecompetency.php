@@ -75,7 +75,7 @@ if ($confirm) {
 }
 
 /** @var moodle_page $PAGE */
-$PAGE->set_title(format_string($activity->name." - ".$title));
+//$PAGE->set_title(format_string($activity->name." - ".$title));
 
 $content = '<b>'.format_string($competency->name).'</b><blockquote>'.
            format_string($competency->description).'</blockquote><p>'.
