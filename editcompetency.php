@@ -205,10 +205,7 @@ if ($competency != null) {
 
 $navlinks[] = array('name' => format_string($title), 'link' => '', 'type' => 'activityinstance');
 
-foreach($navlinks as $navlink) {
-	/** @var moodle_page $PAGE */
-	$PAGE->navbar->add($navlink['name'], new moodle_url($navlink['name']));
-}
+shim::build_navigation($navlinks);
 
 //TODO: print_header_simple(format_string($activity->name . " - $title"), '', $navigation, '', '', true,
 //                    update_module_button($cm->id, $course->id, $strthreesixty), navmenu($course, $cm));
