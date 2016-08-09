@@ -181,7 +181,7 @@ $navlinks[] = array('name' => format_string($activity->name), 'link' => '', 'typ
 shim::build_navigation($navlinks);
 
 /** @var moodle_page $PAGE */
-//$PAGE->set_title(format_string($activity->name));
+$PAGE->set_title(format_string($activity->name));
 
 // Main content.
 if (!$externalrespondent) {
