@@ -106,7 +106,9 @@ if (isset($user)) {
     // TODO add_to_log($course->id, 'threesixty', 'report', $currenturl, $activity->id);
 }
 
-// Header.
+/** @var core_renderer $OUTPUT */
+echo $OUTPUT->header();
+
 $strthreesixtys = get_string('modulenameplural', 'threesixty');
 $strthreesixty  = get_string('modulename', 'threesixty');
 
@@ -169,8 +171,7 @@ if (isset($mform)) {
 }
 
 // ...print_footer($course);.
-/** @var core_renderer $OUTPUT */
-//TODO echo $OUTPUT->footer();
+echo $OUTPUT->footer();
 
 function print_score_table($skills, $scores, $feedback, $url, $basetype) {
     $base_score = $scores[$basetype];
