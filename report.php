@@ -129,8 +129,9 @@ if (isset($mform)) {
         print_error('error:nodataforuserx', 'threesixty', $baseurl, fullname($user));
     }
 
-    $currentinvitations = $DB->count_records_sql("SELECT COUNT(1) FROM
-                   {threesixty_respondent} WHERE analysisid = ".$analysis->id." AND uniquehash IS NOT NULL");
+    $table = '{threesixty_respondent}';
+    $currentinvitations = $DB->count_records_sql("SELECT COUNT(1) FROM ".$table.
+                    " WHERE analysisid = ".$analysis->id." AND uniquehash IS NOT NULL");
     $remaininginvitations = $activity->requiredrespondents - $currentinvitations;
 
     if ($remaininginvitations>0) {
