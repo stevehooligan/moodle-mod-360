@@ -125,9 +125,6 @@ $PAGE->set_title(format_string($activity->name));
 $currenttab = 'reports';
 require_once('tabs.php');
 
-/** @var core_renderer $OUTPUT */
-echo $OUTPUT->header();
-
 if (isset($mform)) {
 
     if (!$analysis = $DB->get_record('threesixty_analysis', array('activityid' => $activity->id, 'userid' => $user->id))) {
