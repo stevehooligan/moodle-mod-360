@@ -16,6 +16,7 @@
 
 require_once("$CFG->libdir/ddllib.php");
 
+<<<<<<< HEAD
 class shim {
 	static function build_navigation($navlinks) {
 		if(isset($PAGE)){
@@ -23,6 +24,15 @@ class shim {
 				/** @var moodle_page $PAGE */
 				$PAGE->navbar->add($navlink['name'], new moodle_url($navlink['name']));
 			}
+=======
+class shim
+{
+	static function build_navigation($navlinks)
+	{
+		foreach ($navlinks as $navlink) {
+			/** @var moodle_page $PAGE */
+			$PAGE->navbar->add($navlink['name'], new moodle_url($navlink['name']));
+>>>>>>> fa333fa66ee0435ecb8f9d7dd647fb848d29a7e2
 		}
 	}
 }

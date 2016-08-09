@@ -207,9 +207,8 @@ $navlinks[] = array('name' => format_string($title), 'link' => '', 'type' => 'ac
 
 shim::build_navigation($navlinks);
 
-//TODO: print_header_simple(format_string($activity->name . " - $title"), '', $navigation, '', '', true,
-//                    update_module_button($cm->id, $course->id, $strthreesixty), navmenu($course, $cm));
-
+/** @var moodle_page $PAGE */
+//$PAGE->set_title(format_string($activity->name." - ".$title));
 
 require_once('tabs.php');
 $mform->display();
