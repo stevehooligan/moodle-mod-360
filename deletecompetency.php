@@ -59,10 +59,7 @@ if ($competency != null) {
 }
 $navlinks[] = array('name' => format_string($title), 'link' => '', 'type' => 'activityinstance');
 
-foreach($navlinks as $navlink) {
-	/** @var moodle_page $PAGE */
-	$PAGE->navbar->add($navlink['name'], new moodle_url($navlink['name']));
-}
+shim::build_navigation($navlinks);
 
 if ($confirm) {
 
