@@ -74,6 +74,7 @@ if ($confirm) {
     redirect($returnurl);
 }
 
+/** @var moodle_page $PAGE */
 $PAGE->set_title(format_string($activity->name." - ".$title));
 
 $content = '<b>'.format_string($competency->name).'</b><blockquote>'.

@@ -207,6 +207,7 @@ $navlinks[] = array('name' => format_string($title), 'link' => '', 'type' => 'ac
 
 shim::build_navigation($navlinks);
 
+/** @var moodle_page $PAGE */
 $PAGE->set_title(format_string($activity->name." - ".$title));
 
 require_once('tabs.php');
