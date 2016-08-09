@@ -22,6 +22,7 @@
 
 require_once('../../config.php');
 require_once('lib.php');
+require_once('locallib.php');
 
 $id = required_param('id', PARAM_INT);   // Course.
 
@@ -48,11 +49,10 @@ $strthreesixty  = get_string('modulename', 'threesixty');
 
 $navlinks = array();
 $navlinks[] = array('name' => $strthreesixtys, 'link' => '', 'type' => 'activity');
-foreach($navlinks as $navlink){
-	$PAGE->navbar->add($navlink['name'], new moodle_url($navlink['name']));
-}
 
-//print_header_simple($strthreesixtys, '', $navigation, '', '', true, '', navmenu($course));
+shim_build_navigation($navlinks);
+
+//TODO: print_header_simple($strthreesixtys, '', $navigation, '', '', true, '', navmenu($course));
 
 // Get all the appropriate data.
 

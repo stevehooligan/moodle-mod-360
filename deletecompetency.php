@@ -58,9 +58,8 @@ if ($competency != null) {
     $title = $competency->name;
 }
 $navlinks[] = array('name' => format_string($title), 'link' => '', 'type' => 'activityinstance');
-foreach($navlinks as $navlink){
-	$PAGE->navbar->add($navlink['name'], new moodle_url($navlink['name']));
-}
+
+shim_build_navigation($navlinks);
 
 if ($confirm) {
 
@@ -75,7 +74,7 @@ if ($confirm) {
     redirect($returnurl);
 }
 
-//print_header_simple(format_string($activity->name . " - $title"), '', $navigation, '', '', true,
+//TODO: print_header_simple(format_string($activity->name . " - $title"), '', $navigation, '', '', true,
 //                    update_module_button($cm->id, $course->id, $strthreesixty), navmenu($course, $cm));
 
 $content = '<b>'.format_string($competency->name).'</b><blockquote>'.

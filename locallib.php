@@ -16,6 +16,13 @@
 
 require_once("$CFG->libdir/ddllib.php");
 
+function shim_build_navigation($navlinks) {
+	foreach($navlinks as $navlink) {
+		/** @var moodle_page $PAGE */
+		$PAGE->navbar->add($navlink['name'], new moodle_url($navlink['name']));
+	}
+}
+
 /**
  * List of competencies along with their skills.
  */
