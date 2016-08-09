@@ -123,6 +123,9 @@ $PAGE->set_title(format_string($activity->name));
 $currenttab = 'reports';
 require_once('tabs.php');
 
+/** @var core_renderer $OUTPUT */
+echo $OUTPUT->header();
+
 if (isset($mform)) {
 
     if (!$analysis = $DB->get_record('threesixty_analysis', array('activityid' => $activity->id, 'userid' => $user->id))) {
@@ -169,8 +172,7 @@ if (isset($mform)) {
 }
 
 // ...print_footer($course);.
-/** @var core_renderer $OUTPUT */
-//TODO echo $OUTPUT->footer();
+echo $OUTPUT->footer();
 
 function print_score_table($skills, $scores, $feedback, $url, $basetype) {
     $base_score = $scores[$basetype];
