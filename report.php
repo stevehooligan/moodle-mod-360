@@ -36,16 +36,16 @@ $basetype = optional_param('base', 'self0', PARAM_ALPHANUM); // ...Score to do g
 
 /** @var moodle_database $DB */
 if (!$activity = $DB->get_record('threesixty', array('id' => $a) )) {
-    error('Course module is incorrect');
+    print_error('Course module is incorrect');
 }
 if (!$course = $DB->get_record('course', array('id' => $activity->course))) {
-    error('Course is misconfigured');
+	print_error('Course is misconfigured');
 }
 if (!$cm= get_coursemodule_from_instance('threesixty', $activity->id, $course->id)) {
-    error('Course Module ID was incorrect');
+	print_error('Course Module ID was incorrect');
 }
 
-$context = get_context_instance(CONTEXT_MODULE, $cm->id);
+$context = context_module::instance($cm->id);
 
 require_login($course, true, $cm);
 
@@ -61,7 +61,7 @@ if (!has_capability('mod/threesixty:viewreports', $context)) {
 
 $user = null;
 if ($userid > 0 and !$user = $DB->get_record('user', array('id' => $userid), $fields='id, firstname, lastname')) {
-    error('Invalid User ID');
+	print_error('Invalid User ID');
 }
 
 $baseurl = "report.php?a=$activity->id&amp;type=$type";
@@ -103,7 +103,7 @@ if (isset($user)) {
         }
     }
 
-    add_to_log($course->id, 'threesixty', 'report', $currenturl, $activity->id);
+    // TODO add_to_log($course->id, 'threesixty', 'report', $currenturl, $activity->id);
 }
 
 // Header.
@@ -196,7 +196,7 @@ function print_score_table($skills, $scores, $feedback, $url, $basetype) {
             echo '<div class="competencyname">'.format_string($skill->competencyname).'</div>';
             $table = new html_table();
             $table->head = $header;
-            $table->width = '100%';
+            // TODO $table->width = '100%';
 
             $curcompetency = $skill->competencyid;
         }
@@ -241,7 +241,7 @@ function print_feedback_table($feedback, $curcompetency) {
         $header = array(get_string("feedback", "threesixty"));
         $table = new html_table();
         $table->head = $header;
-        $table->width = '100%';
+        // TODO $table->width = '100%';
         foreach ($feedback as $f) {
             if ($f->competencyid == $curcompetency) {
                 $table->data[] = array("<span class='feedback'>".$f->feedback."</span>");
