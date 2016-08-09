@@ -52,7 +52,7 @@ $navlinks[] = array('name' => $strthreesixtys, 'link' => '', 'type' => 'activity
 
 shim::build_navigation($navlinks);
 
-//TODO: print_header_simple($strthreesixtys, '', $navigation, '', '', true, '', navmenu($course));
+$PAGE->set_title($strthreesixtys);
 
 // Get all the appropriate data.
 

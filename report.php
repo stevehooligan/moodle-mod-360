@@ -113,8 +113,7 @@ $navlinks[] = array('name' => format_string($activity->name), 'link' => '', 'typ
 
 shim::build_navigation($navlinks);
 
-//TODO: print_header_simple(format_string($activity->name), '', $navigation, '', '', true,
-//                    update_module_button($cm->id, $course->id, $strthreesixty), navmenu($course, $cm));
+$PAGE->set_title(format_string($activity->name));
 
 // Main content.
 $currenttab = 'reports';

@@ -74,8 +74,7 @@ if ($confirm) {
     redirect($returnurl);
 }
 
-//TODO: print_header_simple(format_string($activity->name . " - $title"), '', $navigation, '', '', true,
-//                    update_module_button($cm->id, $course->id, $strthreesixty), navmenu($course, $cm));
+$PAGE->set_title(format_string($activity->name." - ".$title));
 
 $content = '<b>'.format_string($competency->name).'</b><blockquote>'.
            format_string($competency->description).'</blockquote><p>'.
