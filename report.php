@@ -170,7 +170,7 @@ if (isset($mform)) {
 
 // ...print_footer($course);.
 /** @var core_renderer $OUTPUT */
-echo $OUTPUT->footer();
+//TODO echo $OUTPUT->footer();
 
 function print_score_table($skills, $scores, $feedback, $url, $basetype) {
     $base_score = $scores[$basetype];
