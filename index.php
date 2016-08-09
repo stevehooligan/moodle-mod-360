@@ -50,7 +50,7 @@ $strthreesixty  = get_string('modulename', 'threesixty');
 $navlinks = array();
 $navlinks[] = array('name' => $strthreesixtys, 'link' => '', 'type' => 'activity');
 
-shim_build_navigation($navlinks);
+shim::build_navigation($navlinks);
 
 //TODO: print_header_simple($strthreesixtys, '', $navigation, '', '', true, '', navmenu($course));
 

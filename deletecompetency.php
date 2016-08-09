@@ -59,7 +59,7 @@ if ($competency != null) {
 }
 $navlinks[] = array('name' => format_string($title), 'link' => '', 'type' => 'activityinstance');
 
-shim_build_navigation($navlinks);
+shim::build_navigation($navlinks);
 
 if ($confirm) {
 
