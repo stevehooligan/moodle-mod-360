@@ -37,7 +37,7 @@ class line
 	 * do not specify a colour will be red. Same for all the
 	 * other attributes such as tooltip, on-click, size etc...
 	 * 
-	 * @param $style as any class that inherits base_dot
+	 * @param $style dot_base as any class that inherits base_dot
 	 */
 	function set_default_dot_style( $style )
 	{
@@ -46,7 +46,7 @@ class line
 	}
 	
 	/**
-	 * @param $v as array, can contain any combination of:
+	 * @param $v array, can contain any combination of:
 	 *  - integer, Y position of the point
 	 *  - any class that inherits from dot_base
 	 *  - <b>null</b>

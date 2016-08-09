@@ -34,6 +34,7 @@ $type   = optional_param('type', 'table', PARAM_ALPHA); // ...report type.
 $userid = optional_param('userid', 0, PARAM_INT); // ...user's data to examine.
 $basetype = optional_param('base', 'self0', PARAM_ALPHANUM); // ...Score to do gap analysis from.
 
+/** @var moodle_database $DB */
 if (!$activity = $DB->get_record('threesixty', array('id' => $a) )) {
     error('Course module is incorrect');
 }
@@ -48,12 +49,14 @@ $context = get_context_instance(CONTEXT_MODULE, $cm->id);
 
 require_login($course, true, $cm);
 
+/** @var moodle_page $PAGE */
 $PAGE->set_url('/mod/threesixty/report.php', array('a' => $a));
 $PAGE->set_pagelayout('incourse');
 
 if (!has_capability('mod/threesixty:viewreports', $context)) {
     require_capability('mod/threesixty:viewownreports', $context);
-    $userid = $USER->id; // ...force same user.
+	/** @var stdClass $USER */
+	$userid = $USER->id; // ...force same user.
 }
 
 $user = null;
@@ -132,7 +135,8 @@ if (isset($mform)) {
 
     if ($remaininginvitations>0) {
         echo "<br />";
-        notice(get_string("respondentsremaining", "threesixty"),
+	    /** @var stdClass $CFG */
+	    notice(get_string("respondentsremaining", "threesixty"),
                 "$CFG->wwwroot/mod/threesixty/respondents.php?a=$activity->id");
     }
 
@@ -164,6 +168,7 @@ if (isset($mform)) {
 }
 
 // ...print_footer($course);.
+/** @var core_renderer $OUTPUT */
 echo $OUTPUT->footer();
 
 function print_score_table($skills, $scores, $feedback, $url, $basetype) {
@@ -335,11 +340,13 @@ function print_spiderweb($competencies, $scores) {
     require_once('spiderwebchart.html');
 }
 
-function print_spiderweb_kineo($analysisid, $activityid, $filters) {
+function print_spiderweb_kineo(/** @noinspection PhpUnusedParameterInspection */
+	$analysisid, $activityid, $filters) {
     global $CFG;
 
     // Determine the PHP script that Flash will invoke to get the data it needs.
-    $scriptURL = $CFG->wwwroot . "/mod/threesixty/flash.php";
+	/** @noinspection PhpUnusedLocalVariableInspection */
+	$scriptURL = $CFG->wwwroot . "/mod/threesixty/flash.php";
     // Was: $scriptURL = $CFG->wwwroot . "/mod/threesixty/flash.php"; .
     // Bring in the HTML page which embeds the SWF.
     include("spiderwebchart_kineo.html");
