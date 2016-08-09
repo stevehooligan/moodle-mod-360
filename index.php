@@ -50,7 +50,10 @@ $strthreesixty  = get_string('modulename', 'threesixty');
 $navlinks = array();
 $navlinks[] = array('name' => $strthreesixtys, 'link' => '', 'type' => 'activity');
 
-shim_build_navigation($navlinks);
+foreach($navlinks as $navlink) {
+	/** @var moodle_page $PAGE */
+	$PAGE->navbar->add($navlink['name'], new moodle_url($navlink['name']));
+}
 
 //TODO: print_header_simple($strthreesixtys, '', $navigation, '', '', true, '', navmenu($course));
 

@@ -117,7 +117,10 @@ $navlinks = array();
 $navlinks[] = array('name' => $strthreesixtys, 'link' => "index.php?id=$course->id", 'type' => 'activity');
 $navlinks[] = array('name' => format_string($activity->name), 'link' => '', 'type' => 'activityinstance');
 
-shim_build_navigation($navlinks);
+foreach($navlinks as $navlink) {
+	/** @var moodle_page $PAGE */
+	$PAGE->navbar->add($navlink['name'], new moodle_url($navlink['name']));
+}
 
 //TODO: print_header_simple(format_string($activity->name), '', $navigation, '', '', true,
 //                    update_module_button($cm->id, $course->id, $strthreesixty), navmenu($course, $cm));
