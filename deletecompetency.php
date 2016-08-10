@@ -45,7 +45,9 @@ $PAGE->set_pagelayout('incourse');
 
 $returnurl = "edit.php?a=$activity->id&amp;section=competencies";
 
-// Header.
+/** @var core_renderer $OUTPUT */
+echo $OUTPUT->header();
+
 $strthreesixtys = get_string('modulenameplural', 'threesixty');
 $strthreesixty  = get_string('modulename', 'threesixty');
 

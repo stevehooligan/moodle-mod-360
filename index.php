@@ -40,8 +40,10 @@ $PAGE->set_pagelayout('incourse');
 add_to_log($course->id, 'threesixty', 'view all', "index.php?id=$course->id", '');
 
 
-// Get all required stringsthreesixty.
+/** @var core_renderer $OUTPUT */
+echo $OUTPUT->header();
 
+// Get all required stringsthreesixty.
 $strthreesixtys = get_string('modulenameplural', 'threesixty');
 $strthreesixty  = get_string('modulename', 'threesixty');
 

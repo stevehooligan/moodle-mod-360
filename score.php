@@ -170,7 +170,9 @@ if ($fromform) {
 
 add_to_log($course->id, 'threesixty', 'score', $currenturl, $activity->id);
 
-// Header.
+/** @var core_renderer $OUTPUT */
+echo $OUTPUT->header();
+
 $strthreesixtys = get_string('modulenameplural', 'threesixty');
 $strthreesixty  = get_string('modulename', 'threesixty');
 

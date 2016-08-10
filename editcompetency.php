@@ -189,7 +189,9 @@ if ($fromform = $mform->get_data()) { // Form submitted.
     $mform->set_data($toform);
 }
 
-// Header.
+/** @var core_renderer $OUTPUT */
+echo $OUTPUT->header();
+
 $strthreesixtys = get_string('modulenameplural', 'threesixty');
 $strthreesixty  = get_string('modulename', 'threesixty');
 
