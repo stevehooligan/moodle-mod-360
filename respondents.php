@@ -105,8 +105,11 @@ if (isset($user)) {
     if (empty($typelist)) {
         $typelist = array(0 => get_string('none'));
     }
-    $currentinvitations = $DB->count_records_sql("SELECT COUNT(1) FROM
-                  {threesixty_respondent} WHERE analysisid = ".$analysis->id." AND uniquehash IS NOT NULL");
+    $table_respondent = '{threesixty_respondent}';
+    $currentinvitations = $DB->count_records_sql(
+        "SELECT COUNT(1) FROM ".$table_respondent.
+        " WHERE analysisid = ".$analysis->id." AND uniquehash IS NOT NULL"
+    );
     $remaininginvitations = $activity->requiredrespondents - $currentinvitations;
 
     $analysisid = $analysis->id;
@@ -310,12 +313,14 @@ function print_respondent_table($activityid, $analysisid, $userid, $canremind=fa
 function threesixty_get_external_respondents($analysisid) {
     global $CFG, $DB;
 
-    $sql = "SELECT rt.id, rt.email, rt.type, re.timecompleted
-              FROM {threesixty_respondent} rt
-              LEFT OUTER JOIN {threesixty_response} re ON re.respondentid = rt.id
-              WHERE rt.analysisid = $analysisid
-              AND rt.uniquehash IS NOT NULL
-              ORDER BY rt.email";
+    $table_respondent = '{threesixty_respondent}';
+    $table_response = '{threesixty_response}';
+    $sql = "SELECT rt.id, rt.email, rt.type, re.timecompleted FROM ".$table_respondent." AS rt".
+           " LEFT OUTER JOIN ".$table_response." AS re ON re.respondentid = rt.id".
+           " WHERE rt.analysisid = ".$analysisid.
+           " AND rt.uniquehash IS NOT NULL".
+           " ORDER BY rt.email"
+    ;
 
     $respondents = $DB->get_records_sql($sql);
 
@@ -323,8 +328,11 @@ function threesixty_get_external_respondents($analysisid) {
 }
 function count_respondents($userid, $activityid) {
     global $CFG, $DB;
-    $sql = "SELECT COUNT(1) FROM {threesixty_respondent} r";
-    $sql .= " JOIN {threesixty_analysis} a ON r.analysisid = a.id";
-    $sql .= " WHERE a.userid = ".$userid." AND a.activityid = ".$activityid." AND r.uniquehash IS NOT NULL";
+	$table_respondent = '{threesixty_respondent}';
+	$table_analysis = '{threesixty_analysis}';
+    $sql = "SELECT COUNT(1) FROM ".$table_respondent." AS r".
+	       " JOIN ".$table_analysis." AS a ON r.analysisid = a.id".
+	       " WHERE a.userid = ".$userid." AND a.activityid = ".$activityid." AND r.uniquehash IS NOT NULL"
+    ;
     return $DB->count_records_sql($sql);
 }

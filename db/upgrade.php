@@ -14,12 +14,19 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+/**
+ * @param int $oldversion
+ * @return bool
+ */
 function xmldb_threesixty_upgrade($oldversion = 0) {
 
     global $CFG, $THEME, $DB;
 
     $result = true;
     if ($result && $oldversion < 2012102301) {
+        // TODO Not sure any of this function will work, there are various problems with it.
+        // These lines are marked with @noinspection comments
+        
         // Add a display order column for the competency table.
         $comptable = new xmldb_table('threesixty_competency');
         $field = new xmldb_field('sortorder');
@@ -29,7 +36,9 @@ function xmldb_threesixty_upgrade($oldversion = 0) {
         }
         reorder_competencies();
         $skilltable = new xmldb_table('threesixty_skill');
-        $field->previous = 'description';
+        /** @noinspection PhpParamsInspection */
+        $field->setPrevious('description');
+        // was: $field->previous = 'description';
         if (!add_field($skilltable, $field)) {
             $result = false;
         }
