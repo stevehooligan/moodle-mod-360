@@ -25,6 +25,7 @@ class Skill {
 		return s;
 	}
 	
+	//noinspection JSUnusedGlobalSymbols
 	static function debugAllSkills():Void {
 		Main.debug("Skill::debugAllSkills:");
 		for (var i:Number = 0; i < allSkills.length; ++i) {

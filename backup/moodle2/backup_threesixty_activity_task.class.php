@@ -57,7 +57,7 @@ class backup_threesixty_activity_task extends backup_activity_task {
      * @return string
      */
     static public function encode_content_links($content) {
-        global $CFG;
+        // ...global $CFG;
 
         // ...$base = preg_quote($CFG->wwwroot,"/");.
 

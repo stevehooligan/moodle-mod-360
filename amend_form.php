@@ -18,6 +18,7 @@ if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.'); // ...It must be included from a Moodle page.
 }
 
+/** @noinspection PhpUndefinedVariableInspection */
 require_once($CFG->dirroot.'/lib/formslib.php');
 
 class mod_threesity_amend_form extends moodleform {

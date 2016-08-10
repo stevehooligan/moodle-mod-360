@@ -31,6 +31,7 @@ class Competency {
 		return retval;
 	}
 	
+	//noinspection JSUnusedGlobalSymbols
 	static function debugAllCompetencies():Void {
 		Main.debug("Competency::debugAllCompetencies:");
 		for (var i:Number = 0; i < allCompetencies.length; ++i) {

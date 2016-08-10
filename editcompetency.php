@@ -88,7 +88,7 @@ if ($fromform = $mform->get_data()) { // Form submitted.
             add_to_log($course->id, 'threesixty', 'update competency',
                        $originurl, $activity->id, $cm->id);
         } else {
-            $transaction->rollback();
+            $transaction->rollback(new Exception());
             print_error('error:cannotupdatecompetency', 'threesixty', $returnurl);
         }
     } else {
@@ -99,7 +99,7 @@ if ($fromform = $mform->get_data()) { // Form submitted.
             add_to_log($course->id, 'threesixty', 'add competency',
                        $originurl, $activity->id, $cm->id);
         } else {
-            $transaction->rollback();
+            $transaction->rollback(new Exception());
             print_error('error:cannotaddcompetency', 'threesixty', $returnurl);
         }
     }
@@ -128,7 +128,7 @@ if ($fromform = $mform->get_data()) { // Form submitted.
                     add_to_log($course->id, 'threesixty', 'delete skill',
                                $originurl, $activity->id, $cm->id);
                 } else {
-                    $transaction->rollback();
+                    $transaction->rollback(new Exception());
                     print_error('error:cannotdeleteskill', 'threesixty', $returnurl);
                 }
             } else if (!empty($skillname)) { // Update.
@@ -141,7 +141,7 @@ if ($fromform = $mform->get_data()) { // Form submitted.
                     add_to_log($course->id, 'threesixty', 'update skill',
                                $originurl, $activity->id, $cm->id);
                 } else {
-                    $transaction->rollback();
+                    $transaction->rollback(new Exception());
                     print_error('error:cannotupdateskill', 'threesixty', $returnurl);
                 }
             }

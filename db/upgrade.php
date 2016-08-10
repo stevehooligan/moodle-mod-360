@@ -20,7 +20,7 @@
  */
 function xmldb_threesixty_upgrade($oldversion = 0) {
 
-    global $CFG, $THEME, $DB;
+    // global $CFG, $THEME, $DB;
 
     $result = true;
     if ($result && $oldversion < 2012102301) {
@@ -50,7 +50,7 @@ function xmldb_threesixty_upgrade($oldversion = 0) {
 }
 
 function reorder_competencies() {
-    global $CFG, $DB;
+    global /*$CFG,*/ $DB;
     // ...$sql = "SELECT * FROM ".$CFG->prefix."threesixty_competency ORDER BY activityid, id";.
     if ($competencies = $DB->get_records("threesixty_competency", '', "activityid")) {
         $activityid = 0;
@@ -68,7 +68,7 @@ function reorder_competencies() {
 }
 
 function reorder_skills() {
-    global $CFG, $DB;
+    global /*$CFG,*/ $DB;
     // ...$sql = "SELECT * FROM ".$CFG->prefix."threesixty_skill ORDER BY competencyid, id";.
     if ($skills = $DB->get_records('threesixty_skill', '', 'competencyid')) {
         $competencyid = 0;

@@ -1,5 +1,7 @@
-﻿class EventDelegate {
+﻿//noinspection JSUnusedLocalSymbols
+class EventDelegate {
 	
+	//noinspection JSUnusedLocalSymbols
 	private function EventDelegate () {
 		// empty
 	}

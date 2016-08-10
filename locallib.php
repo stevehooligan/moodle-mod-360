@@ -341,8 +341,13 @@ function threesixty_get_feedback($analysisid) {
 
 /**
  * List of scores set by the user as well as the name of the score.
+ *
+ * @param $analysisid        int id of analysis to filter to
+ * @param $competencyaverage boolean whether to include aggregate statistics
+ * @param null $typeid       int id, if any, of respondent type to filter to
+ * @return object describing the search performed and it's results
  */
-function threesixty_get_self_scores($analysisid, $competencyaverage, $typeid) {
+function threesixty_get_self_scores($analysisid, $competencyaverage, $typeid=null) {
     global $CFG, $selfresponsetypes, $DB;
 
     $ret = new object();
@@ -361,17 +366,18 @@ function threesixty_get_self_scores($analysisid, $competencyaverage, $typeid) {
         $orderbyclause = '';
     }
 
-    $sql = "SELECT $idcolumn, $scorecolumn
-              FROM {threesixty_respondent} rp
-  RIGHT OUTER JOIN {threesixty_response} r ON r.respondentid = rp.id
-              JOIN {threesixty_response_skill} rs ON r.id = rs.responseid
-  RIGHT OUTER JOIN {threesixty_skill} s ON s.id = rs.skillid
-   $competencyjoin
-             WHERE (r.analysisid IS NULL OR r.analysisid = $analysisid) AND
-                   (r.timecompleted IS NULL or r.timecompleted > 0) AND
-                   rp.uniquehash IS NULL AND
-                   rp.type = $typeid
-    $groupbyclause $orderbyclause";
+    $sql = "SELECT $idcolumn, $scorecolumn FROM {threesixty_respondent} rp".
+           " RIGHT OUTER JOIN {threesixty_response} r ON r.respondentid = rp.id".
+           " JOIN {threesixty_response_skill} rs ON r.id = rs.responseid".
+	       " RIGHT OUTER JOIN {threesixty_skill} s ON s.id = rs.skillid".
+	       $competencyjoin.
+	       " WHERE (r.analysisid IS NULL OR r.analysisid = $analysisid)".
+	       " AND (r.timecompleted IS NULL or r.timecompleted > 0)".
+	       " AND rp.uniquehash IS NULL".
+	       ($typeid === null ? '' : ' AND rp.type = '.$typeid.' ').
+	       " ".$groupbyclause.
+	       " ".$orderbyclause
+    ;
 
     if (!$ret->records = $DB->get_records_sql($sql)) {
         $ret->records = array();
@@ -418,7 +424,7 @@ function threesixty_users($activity) {
  * 360 activity.
  * @author eleanor.martin
  * @param <type> $context
- * @return an array of user records with id, firstname, lastname.
+ * @return array of user records with id, firstname, lastname.
  */
 function threesixty_get_possible_participants($context, $sort="u.lastname") {
     $fields = 'u.id, u.firstname, u.lastname';

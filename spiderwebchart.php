@@ -6,16 +6,19 @@ swfobject.embedSWF("open-flash-chart.swf", "my_chart", "550", "400", "9.0.0");
 
 <script type="text/javascript">
 
+//noinspection JSUnusedLocalSymbols
 function ofc_ready()
 {
 //    alert('ofc_ready');
 }
 
+//noinspection JSUnusedLocalSymbols
 function open_flash_chart_data()
 {
     return JSON.stringify(data);
 }
 
+//noinspection JSUnusedLocalSymbols
 function findSWF(movieName) {
   if (navigator.appName.indexOf("Microsoft")!= -1) {
     return window[movieName];
@@ -28,6 +31,6 @@ var data = <?php echo $chart->toPrettyString(); ?>;
 
 </script>
 
-<center>
+<div style="text-align: center;">
 <div id="my_chart"></div>
-</center>
+</div>
