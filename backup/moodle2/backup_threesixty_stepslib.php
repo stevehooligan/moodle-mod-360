@@ -71,8 +71,8 @@ class backup_threesixty_activity_structure_step extends backup_activity_structur
 
     /**
      * Define the structure for the threesixty activity
-     * @return void
      */
+    // TODO Document return type
     protected function define_structure() {
 
         // To know if we are including userinfo.

@@ -82,7 +82,6 @@ function threesixty_delete_competency($competencyid, $intransaction=false) {
         foreach ($skills as $skill) {
             if (!threesixty_delete_skill($skill->id, true)) {
                 throw new Exception('Couldn\'t delete the skill');
-                return false;
             }
         }
     }
