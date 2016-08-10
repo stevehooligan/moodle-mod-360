@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-$string['threesixty:deleterespondents'] = 'Delete external respondents from a user\'s list';
+$string['threesixty:deleterespondents'] = '\Delete external respondents from a user\'s list';
 $string['threesixty:edit'] = 'Change someone\'s personal 360 Degree assessment';
 $string['threesixty:feedbackview'] = 'View 360 feedback';
 $string['threesixty:manage'] = 'Manage 360 Degree Tool';

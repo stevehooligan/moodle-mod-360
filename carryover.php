@@ -122,9 +122,12 @@ function get_full_competency_list($activityid) {
     global $CFG, $DB;
     $ret = array(0 => get_string('none'));
 
-    $sql = "SELECT s.*, c.name as competency FROM {threesixty_skill} s
-            JOIN {threesixty_competency} c ON s.competencyid = c.id
-            WHERE c.activityid = ".$activityid;
+    $table_skill = '{threesixty_skill}';
+    $table_competency = '{threesixty_competency}';
+    $sql = "SELECT s.*, c.name as competency FROM ".$table_skill." AS s". 
+           " JOIN ".$table_competency." AS c ON s.competencyid = c.id". 
+           " WHERE c.activityid = ".$activityid
+    ;
     if ($records = $DB->get_records_sql($sql)) {
         foreach ($records as $record) {
             $ret[$record->id] = $record->competency.": ".$record->name;

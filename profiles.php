@@ -137,10 +137,14 @@ function threesixty_self_profile_options($courseid, $baseurl, $activity, $contex
 function get_completion_time($activityid, $userid, $responsetype, $self=false) {
     global $CFG, $DB;
 
-    $sql = "SELECT r.timecompleted FROM {threesixty_analysis} a ";
-    $sql .= "JOIN {threesixty_respondent} rp ON a.id = rp.analysisid ";
-    $sql .= "JOIN {threesixty_response} r ON rp.id = r.respondentid ";
-    $sql .= "WHERE a.userid = ".$userid." AND a.activityid = ".$activityid." AND rp.type = ".$responsetype;
+    $table_analysis = '{threesixty_analysis}';
+    $table_respondent = '{threesixty_respondent}';
+    $table_response = '{threesixty_response}';
+    $sql = "SELECT r.timecompleted FROM ".$table_analysis." AS a".
+           " JOIN ".$table_respondent." AS rp ON a.id = rp.analysisid".
+           " JOIN ".$table_response." AS r ON rp.id = r.respondentid".
+           " WHERE a.userid = ".$userid." AND a.activityid = ".$activityid." AND rp.type = ".$responsetype
+    ;
     if ($self) {
         $sql .= " AND rp.uniquehash IS NULL";
     } else {
