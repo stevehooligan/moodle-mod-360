@@ -1,4 +1,5 @@
-﻿class ScoresRenderer {
+﻿//noinspection JSUnusedLocalSymbols
+class ScoresRenderer {
 	
 	static var COLOURS_BY_FILTER = [];
 	
@@ -108,10 +109,12 @@
 		Mouse.addListener(this);
 	}
 	
+	//noinspection JSUnusedGlobalSymbols
 	function disableRollover():Void {
 		Mouse.removeListener(this);
 	}
 	
+	//noinspection JSUnusedGlobalSymbols
 	function onMouseMove():Void {
 		mouseP.x = timeline.canvas_mc._xmouse;
 		mouseP.y = timeline.canvas_mc._ymouse;

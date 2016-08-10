@@ -30,6 +30,6 @@ foreach ($filters as $code => $name) {
     swfobject.embedSWF("spiderweb.swf", "my_chart", "600", "600", "7.0.0", false, flashvars);
 </script>
 
-<center>
+<div style="text-align: center;">
     <div id="my_chart"></div>
-</center>
+</div>

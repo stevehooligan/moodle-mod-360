@@ -178,7 +178,7 @@ function save_changes($formfields, $analysisid) {
 
         // Remove existing ones.
         if (!$DB->delete_records('threesixty_carried_comp', array('analysisid' => $analysisid))) {
-            $transaction->rollback();
+            $transaction->rollback(new Exception());
             return false;
         }
 
@@ -201,7 +201,7 @@ function save_changes($formfields, $analysisid) {
             $record->competencyid = $compid;
 
             if (!$DB->insert_record('threesixty_carried_comp', $record)) {
-                $transaction->rollback();
+                $transaction->rollback(new Exception());
                 return false;
             }
         }

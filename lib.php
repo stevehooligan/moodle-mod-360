@@ -94,7 +94,7 @@ function threesixty_delete_instance($id) {
     if ($competencies = $DB->get_records('threesixty_competency', array('activityid' => $id), $fields='id')) {
         foreach ($competencies as $competency) {
             if (!threesixty_delete_competency($competency->id, true)) {
-                $transaction->rollback();
+                $transaction->rollback(new Exception());
                 return false;
             }
         }
@@ -104,14 +104,14 @@ function threesixty_delete_instance($id) {
     if ($analyses = $DB->get_records('threesixty_analysis', array('activityid' => $id))) {
         foreach ($analyses as $analysis) {
             if (!threesixty_delete_analysis($analysis->id, true)) {
-                $transaction->rollback();
+                $transaction->rollback(new Exception());
                 return false;
             }
         }
     }
 
     if (!$DB->delete_records('threesixty', array('id' => $threesixty->id))) {
-        $transaction->rollback();
+        $transaction->rollback(new Exception());
         return false;
     }
 

@@ -55,7 +55,7 @@ class mod_threesixty_mod_form extends moodleform_mod {
         $features->outcomes = false;
         $features->gradecat = false;
         $features->idnumber = false;
-        $this->standard_coursemodule_elements($features);
+        $this->standard_coursemodule_elements(/*was: $features*/);
         $this->add_action_buttons();
 
     }

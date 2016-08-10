@@ -145,7 +145,7 @@
     test, toJSON, toString
 */
 
-if (!this.JSON) {
+if (typeof(JSON) === "undefined") {
 
 // Create a JSON object only if one does not already exist. We create the
 // object in a closure to avoid global variables.

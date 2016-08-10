@@ -152,7 +152,7 @@ $string['requiredrespondents'] = 'Required respondents:';
 $string['requiredrespondents_help'] = 'Number of respondents required';
 $string['respondentsremaining'] = 'Not all respondents have replied yet.';
 $string['respondenttype'] = 'Respondent type';
-$string['respondentwelcome'] = '<p><b>Welcome <tt>{$a}</tt></b></p>';
+$string['respondentwelcome'] = '<p><b>Welcome <p style="font-family:monospace">{$a}</p></b></p>';
 $string['respondentwarning'] = '<p>If this is not your email address, please <a href="{$a}">click here</a> to notify the site administrator. Thank you!</p>';
 $string['respondentinstructions'] = '<p>Thank you for taking part in this profiling exercise.</p><p>Your input should be based on your own impressions of the performance of the person named. Please follow the steps and consider each of the statements, selecting the most appropriate descriptor for the person whose profile you are completing. If you feel unable to answer any particular questions, simply select "N/A" as your answer. On conclusion, you will have the chance to review your answers before saving the profile. Please note that your input will remain confidential.</p>';
 $string['respondentindividual'] = 'This profile is for <b>{$a}</b>';
