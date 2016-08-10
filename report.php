@@ -92,7 +92,7 @@ if (isset($user)) {
     }
     $filters['average'] = get_string('filter:average', 'threesixty');
 
-    $mform =& new mod_threesity_report_form(null, compact('a', 'type', 'userid', 'filters'));
+    $mform = new mod_threesity_report_form(null, compact('a', 'type', 'userid', 'filters'));
 
     // Apply the filters.
     if ($fromform = $mform->get_data()) {
