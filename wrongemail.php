@@ -46,7 +46,9 @@ if (!$cm = get_coursemodule_from_instance('threesixty', $activity->id, $course->
 
 add_to_log($course->id, 'threesixty', 'wrongemail', "wrongemail.php?code=$code", $activity->id);
 
-// Header.
+/** @var core_renderer $OUTPUT */
+echo $OUTPUT->header();
+
 $strthreesixtys = get_string('modulenameplural', 'threesixty');
 $strthreesixty  = get_string('modulename', 'threesixty');
 

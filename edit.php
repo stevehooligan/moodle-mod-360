@@ -57,7 +57,10 @@ if ($move) {
     }
     move_competency($competency, $move);
 }
-// Header.
+
+/** @var core_renderer $OUTPUT */
+echo $OUTPUT->header();
+
 $strthreesixtys = get_string('modulenameplural', 'threesixty');
 $strthreesixty  = get_string('modulename', 'threesixty');
 

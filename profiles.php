@@ -51,6 +51,9 @@ if ($userid > 0 and !$user = $DB->get_record('user', array('id' => $userid), nul
     error('Invalid User ID');
 }
 
+/** @var core_renderer $OUTPUT */
+echo $OUTPUT->header();
+
 $baseurl = "profiles.php?a=$activity->id";
 $strthreesixtys = get_string('modulenameplural', 'threesixty');
 $strthreesixty  = get_string('modulename', 'threesixty');

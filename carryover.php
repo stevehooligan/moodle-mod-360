@@ -86,7 +86,9 @@ if (isset($user)) {
     add_to_log($course->id, 'threesixty', 'carryover', $currenturl, $activity->id);
 }
 
-// Header.
+/** @var core_renderer $OUTPUT */
+echo $OUTPUT->header();
+
 $strthreesixtys = get_string('modulenameplural', 'threesixty');
 $strthreesixty  = get_string('modulename', 'threesixty');
 

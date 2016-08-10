@@ -36,7 +36,9 @@ if (!$cm = get_coursemodule_from_instance('threesixty', $activity->id, $course->
     error('Course Module ID was incorrect');
 }
 
-// Header.
+/** @var core_renderer $OUTPUT */
+echo $OUTPUT->header();
+
 $strthreesixtys = get_string('modulenameplural', 'threesixty');
 $strthreesixty  = get_string('modulename', 'threesixty');
 
