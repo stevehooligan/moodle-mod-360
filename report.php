@@ -339,7 +339,7 @@ function print_spiderweb($competencies, $scores) {
     $white = '#FFFFFF';
     $chart->set_bg_colour($white);
 
-    require_once('spiderwebchart.html');
+    require_once('spiderwebchart.php');
 }
 
 function print_spiderweb_kineo(/** @noinspection PhpUnusedParameterInspection */
@@ -351,5 +351,5 @@ function print_spiderweb_kineo(/** @noinspection PhpUnusedParameterInspection */
 	$scriptURL = $CFG->wwwroot . "/mod/threesixty/flash.php";
     // Was: $scriptURL = $CFG->wwwroot . "/mod/threesixty/flash.php"; .
     // Bring in the HTML page which embeds the SWF.
-    include("spiderwebchart_kineo.html");
+    include("spiderwebchart_kineo.php");
 }
