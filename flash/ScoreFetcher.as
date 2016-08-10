@@ -39,12 +39,15 @@ class ScoreFetcher {
 		Main.debug("ScoreFetcher::populateScoresFromLoadVars: for filter name \"" + lv.name + "\"");
 		
 		for (var thing:String in lv) {
+			//noinspection JSUnfilteredForInLoop
 			if (thing.substr(0, 6) == "skill_") {
 				// strip string
+				//noinspection JSUnfilteredForInLoop
 				var bits:Array = thing.split('_');
 				var competencyName:String = bits[1];
 				var skillName:String = bits[2];
 				var skillOrdinal:Number = parseInt(bits[3]);
+				//noinspection JSUnfilteredForInLoop
 				var skillScore:Number = parseInt(lv[thing]);
 				
 				// get the competency

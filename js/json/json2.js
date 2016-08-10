@@ -308,8 +308,10 @@ if (!this.JSON) {
 // Otherwise, iterate through all of the keys in the object.
 
                     for (k in value) {
+                        //noinspection JSUnfilteredForInLoop
                         v = str(k, value, rep);
                         if (v) {
+                            //noinspection JSUnfilteredForInLoop
                             partial.push(quote(k) + (gap ? ': ' : ':') + v);
                         }
                     }
@@ -399,11 +401,15 @@ if (!this.JSON) {
                     var k, v, value = holder[key];
                     if (value && typeof value === 'object') {
                         for (k in value) {
+                            //noinspection JSUnfilteredForInLoop
                             if (Object.hasOwnProperty.call(value, k)) {
+                                //noinspection JSUnfilteredForInLoop
                                 v = walk(value, k);
                                 if (v !== undefined) {
+                                    //noinspection JSUnfilteredForInLoop
                                     value[k] = v;
                                 } else {
+                                    //noinspection JSUnfilteredForInLoop
                                     delete value[k];
                                 }
                             }

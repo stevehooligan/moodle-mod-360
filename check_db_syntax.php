@@ -125,7 +125,7 @@ if (file_exists($dir . '/lang/en') && file_exists($dir . '/lib/db') && file_exis
 if ($is_moodle_root) {
     define('MOODLE_INTERNAL', true); // ...cheat, so sql_generator think we are one standard moodle script.
     global $CFG;                     // ...cheat, again, to define some stuff needed by generators.
-    $CFG = new stdclass();
+    $CFG = new stdClass();
     $CFG->libdir = dirname(__FILE__) . '/lib';
     require_once($CFG->libdir . '/ddl/sql_generator.php');
     $reservedlist = array_keys(sql_generator::getAllReservedWords());

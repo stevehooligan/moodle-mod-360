@@ -160,6 +160,7 @@ function get_completion_time($activityid, $userid, $responsetype, $self=false) {
             return $time->timecompleted;
         }
     }
+    return "ERROR";
 }
 function get_options($activityid, $userid, $typeid, $view_all_users, $canedit) {
     global $CFG;
