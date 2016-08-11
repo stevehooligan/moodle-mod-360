@@ -33,7 +33,7 @@ class shim
  * List of competencies along with their skills.
  */
 function threesixty_get_competency_listing($activityid) {
-    global $CFG, $DB;
+    global $DB;
     $ret = array();
 
     $sql = "SELECT s.id AS skillid, c.id AS competencyid, c.name, c.description, s.name AS skillname, c.showfeedback
@@ -89,7 +89,7 @@ function threesixty_delete_competency($competencyid, $intransaction=false) {
     // Delete all dependent response competencies.
     if (!$DB->delete_records('threesixty_response_comp', array('competencyid' => $competencyid))) {
         if (!$intransaction) {
-            moodle_rollback_sql();
+            // TODO moodle_rollback_sql();
         }
         return false;
     }
@@ -308,7 +308,7 @@ function threesixty_delete_respondent($respondentid, $intransaction=false) {
  * List of skills and their competency.
  */
 function threesixty_get_skill_names($activityid) {
-    global $CFG, $DB;
+    global $DB;
 
     $sql = "SELECT s.id, c.id AS competencyid, c.name AS competencyname, s.name AS skillname
               FROM {threesixty_competency} c
@@ -323,7 +323,7 @@ function threesixty_get_skill_names($activityid) {
  * List of competencyid and feedback.
  */
 function threesixty_get_feedback($analysisid) {
-    global $CFG, $DB;
+    global $DB;
 
     $sql = "SELECT trc.id, trc.competencyid, trc.feedback
             FROM {threesixty_response} tr
@@ -348,7 +348,7 @@ function threesixty_get_feedback($analysisid) {
  * @return object describing the search performed and it's results
  */
 function threesixty_get_self_scores($analysisid, $competencyaverage, $typeid=null) {
-    global $CFG, $selfresponsetypes, $DB;
+    global $selfresponsetypes, $DB;
 
     $ret = new object();
     $ret->name = $selfresponsetypes[$typeid];
@@ -390,8 +390,8 @@ function threesixty_get_self_scores($analysisid, $competencyaverage, $typeid=nul
  * Returns true if the given activity has been completed by the given user.
  */
 function threesixty_is_completed($activityid, $userid) {
-    global $CFG, $DB;
     /*
+    global $CFG, $DB;
       ... $sql = "SELECT r.id
                   FROM {threesixty_analysis} a
                   JOIN {threesixty_response} r ON r.analysisid = a.id
@@ -405,7 +405,7 @@ function threesixty_is_completed($activityid, $userid) {
  * Return a list of users having submitted a response in this activity.
  *
  * @param object $activity Record from the threesixty table
- * @returns an array of user records.
+ * @returns array of user records.
  */
 function threesixty_users($activity) {
     global $DB;
@@ -441,7 +441,6 @@ function threesixty_get_possible_participants($context, $sort="u.lastname") {
   * @returns string The HTML to print out on the page (either a table or error message)
   */
 function threesixty_user_listing($activity, $url) {
-    global $CFG;
 
     if ($records = threesixty_users($activity)) {
         $table = new html_table();
@@ -498,7 +497,7 @@ function threesixty_selected_user_heading($user, $courseid, $url, $selectanother
  * Return the page where the first incomplete competency is or 1 if it's complete.
  */
 function threesixty_get_first_incomplete_competency($activityid, $userid, $respondent) {
-    global $CFG, $DB;
+    global $DB;
 
     $respondentclause = 'r.respondentid IS NULL';
     if ($respondent != null) {
@@ -526,8 +525,6 @@ function threesixty_get_first_incomplete_competency($activityid, $userid, $respo
     if ($rs->valid()) {
         $record = $rs->current();
 
-        $competencyid = $record->id;
-
         // Figure out which page this competency is in.
         return $record->sortorder+1;
     }
@@ -537,7 +534,7 @@ function threesixty_get_first_incomplete_competency($activityid, $userid, $respo
 }
 
 function threesixty_get_average_skill_scores($analysisid, $respondenttype, $competencyaverage) {
-    global $CFG, $respondenttypes, $DB;
+    global $respondenttypes, $DB;
 
     $ret = new object();
 

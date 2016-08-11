@@ -25,6 +25,8 @@ if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.'); // It must be included from a Moodle page.
 }
 
+global $CFG;
+
 if (empty($activity)) {
     error('You cannot call this script in that way');
 }

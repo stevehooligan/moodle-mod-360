@@ -156,7 +156,7 @@ if ($fromform = $mform->get_data()) { // Form submitted.
                 add_to_log($course->id, 'threesixty', 'insert skill',
                            $originurl, $activity->id, $cm->id);
             } else {
-                moodle_rollback_sql();
+                // TODO moodle_rollback_sql();
                 print_error('error:cannotaddskill', 'threesixty', $returnurl);
             }
         }

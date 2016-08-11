@@ -26,6 +26,8 @@ require_once('../../config.php');
 require_once('locallib.php');
 require_once('score_form.php');
 
+global $DB, $USER, $PAGE, $CFG, $COURSE;
+
 $a    = optional_param('a', 0, PARAM_INT);  // Threesixty instance ID.
 $code = optional_param('code', '', PARAM_ALPHANUM); // Unique hash.
 $page = optional_param('page', 0, PARAM_INT); // Page number.
@@ -212,7 +214,7 @@ if ($mform) {
 echo $OUTPUT->footer();
 
 function get_competency_details($page, $activityid, $userid, $respondent) {
-    global $CFG, $DB;
+    global $DB;
 
     // ...if ($record = $DB->get_record('threesixty_competency',
     // array('activityid' => $activityid), $fields='*', IGNORE_MULTIPLE)) {.
@@ -272,6 +274,10 @@ function get_competency_details($page, $activityid, $userid, $respondent) {
     return false;
 }
 
+/**
+ * @param $mform moodleform
+ * @param $competency
+ */
 function set_form_data($mform, $competency) {
     $toform = array();
 
@@ -285,11 +291,12 @@ function set_form_data($mform, $competency) {
         }
     }
 
+    
     $mform->set_data($toform);
 }
 
 function save_changes($formfields, $activityid, $userid, $competency, $finished, $respondent) {
-    global $CFG, $DB;
+    global $DB;
 
     if ($competency->locked) {
         // No changes are saved for responses which have been submitted already.
@@ -340,7 +347,6 @@ function save_changes($formfields, $activityid, $userid, $competency, $finished,
             $a = $formfields->$arrayname;
 
             $scorename = "score_$skill->id";
-            $scorevalue = 0;
             if (empty($a[$scorename])) {
                 $scorevalue = 0;
                 // Choosing "Not set" will clear the existing value.

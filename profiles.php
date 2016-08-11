@@ -78,7 +78,7 @@ threesixty_self_profile_options($course->id, $baseurl, $activity, $context);
 echo $OUTPUT->footer();
 
 function threesixty_self_profile_options($courseid, $baseurl, $activity, $context) {
-    global $CFG, $USER, $OUTPUT;
+    global $CFG, $USER;
 
     $view_all_users = has_capability('mod/threesixty:viewreports', $context);
     $canedit = has_capability('mod/threesixty:edit', $context);
@@ -135,7 +135,7 @@ function threesixty_self_profile_options($courseid, $baseurl, $activity, $contex
     }
 }
 function get_completion_time($activityid, $userid, $responsetype, $self=false) {
-    global $CFG, $DB;
+    global $DB;
 
     $table_analysis = '{threesixty_analysis}';
     $table_respondent = '{threesixty_respondent}';

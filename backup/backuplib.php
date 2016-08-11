@@ -54,6 +54,7 @@
 function threesixty_backup_mods($bf, $preferences) {
 
     // global $CFG;
+	global $DB;
 
     $status = true;
 
@@ -72,6 +73,8 @@ function threesixty_backup_mods($bf, $preferences) {
 function threesixty_backup_one_mod($bf, $preferences, $threesixty) {
 
     // global $CFG;
+	global $DB;
+	
     if (is_numeric($threesixty)) {
         $threesixty = $DB->get_record('threesixty', 'id', $threesixty);
     }
@@ -107,6 +110,7 @@ function threesixty_backup_one_mod($bf, $preferences, $threesixty) {
 // Backup threesixty competencies (executed from threesixty_backup_one_mod).
 function backup_threesixty_competency($bf, $preferences, $threesixty) {
     // global $CFG;
+	global $DB;
 
     $status = true;
 
@@ -137,8 +141,10 @@ function backup_threesixty_competency($bf, $preferences, $threesixty) {
 }
 
 // Backup threesixty skills (executed from backup_threesixty_competency).
-function backup_threesixty_skill($bf, $preferences, $competencyid) {
+function backup_threesixty_skill($bf, /** @noinspection PhpUnusedParameterInspection */
+                                 $preferences, $competencyid) {
     // global $CFG;
+	global $DB;
 
     $status = true;
 
@@ -168,6 +174,7 @@ function backup_threesixty_skill($bf, $preferences, $competencyid) {
 // Backup threesixty analyses (executed from threesixty_backup_one_mod).
 function backup_threesixty_analysis($bf, $preferences, $threesixty) {
     // global $CFG;
+	global $DB;
 
     $status = true;
 
@@ -198,8 +205,10 @@ function backup_threesixty_analysis($bf, $preferences, $threesixty) {
 }
 
 // Backup threesixty carried comps (executed from backup_threesixty_analysis).
-function backup_threesixty_carried_comp($bf, $preferences, $analysisid) {
+function backup_threesixty_carried_comp($bf, /** @noinspection PhpUnusedParameterInspection */
+                                        $preferences, $analysisid) {
 //    global $CFG;
+	global $DB;
 
     $status = true;
 
@@ -229,6 +238,7 @@ function backup_threesixty_carried_comp($bf, $preferences, $analysisid) {
 // Backup threesixty respondents (executed from backup_threesixty_analysis).
 function backup_threesixty_respondent($bf, $preferences, $analysisid) {
     // global $CFG;
+	global $DB;
 
     $status = true;
 
@@ -275,6 +285,7 @@ function backup_threesixty_respondent($bf, $preferences, $analysisid) {
 // Backup threesixty responses (executed from backup_threesixty_respondent).
 function backup_threesixty_response($bf, $preferences, $respondentid, $analysisid=null) {
     // global $CFG;
+	global $DB;
 
     $status = true;
     if ($respondentid !== null) {
@@ -288,80 +299,84 @@ function backup_threesixty_response($bf, $preferences, $respondentid, $analysisi
 
         // Iterate over each response.
         foreach ($responses as $response) {
-            $status = fwrite($bf, start_tag('RESPONSE', 9, true));
+            $status = $status && fwrite($bf, start_tag('RESPONSE', 9, true));
 
             fwrite($bf, full_tag('ID', 10, false, $response->id));
             fwrite($bf, full_tag('ANALYSISID', 10, false, $response->analysisid));
             fwrite($bf, full_tag('RESPONDENTID', 10, false, $response->respondentid));
             fwrite($bf, full_tag('TIMECOMPLETED', 10, false, $response->timecompleted));
 
-            $status = backup_threesixty_response_comp($bf, $preferences, $response->id);
-            $status = backup_threesixty_response_skill($bf, $preferences, $response->id);
+            $status = $status && backup_threesixty_response_comp($bf, $preferences, $response->id);
+            $status = $status && backup_threesixty_response_skill($bf, $preferences, $response->id);
 
-            $status = fwrite($bf, end_tag('RESPONSE', 9, true));
+            $status = $status && fwrite($bf, end_tag('RESPONSE', 9, true));
         }
 
         // Write end tag.
-        $status = fwrite($bf, end_tag('RESPONSES', 8, true));
+        $status = $status && fwrite($bf, end_tag('RESPONSES', 8, true));
 
     }
     return $status;
 }
 
 // Backup threesixty response competency (executed from backup_threesixty_response).
-function backup_threesixty_response_comp($bf, $preferences, $responseid) {
+function backup_threesixty_response_comp($bf, /** @noinspection PhpUnusedParameterInspection */
+                                         $preferences, $responseid) {
     // global $CFG;
+	global $DB;
 
     $status = true;
 
     $response_comps = $DB->get_records('threesixty_response_comp', 'responseid', $responseid, 'id');
     // If there are response_comps.
     if ($response_comps) {
-        $status = fwrite($bf, start_tag('RESPONSE_COMPS', 10, true));
+        $status = $status && fwrite($bf, start_tag('RESPONSE_COMPS', 10, true));
 
         // Iterate over each response_comp.
         foreach ($response_comps as $response_comp) {
-            $status = fwrite($bf, start_tag('RESPONSE_COMP', 11, true));
+            $status = $status && fwrite($bf, start_tag('RESPONSE_COMP', 11, true));
 
             fwrite($bf, full_tag('ID', 12, false, $response_comp->id));
             fwrite($bf, full_tag('RESPONSEID', 12, false, $response_comp->responseid));
             fwrite($bf, full_tag('COMPETENCYID', 12, false, $response_comp->competencyid));
             fwrite($bf, full_tag('FEEDBACK', 12, false, $response_comp->feedback));
 
-            $status = fwrite($bf, end_tag('RESPONSE_COMP', 11, true));
+            $status = $status && fwrite($bf, end_tag('RESPONSE_COMP', 11, true));
         }
         // Write end tag.
-        $status = fwrite($bf, end_tag('RESPONSE_COMPS', 10, true));
+        $status = $status && fwrite($bf, end_tag('RESPONSE_COMPS', 10, true));
 
     }
     return $status;
 }
 
 // Backup threesixty response skill (executed from backup_threesixty_response).
-function backup_threesixty_response_skill($bf, $preferences, $responseid) {
+function backup_threesixty_response_skill($bf, /** @noinspection PhpUnusedParameterInspection */
+                                          $preferences, $responseid) {
     // global $CFG;
+	global $DB;
 
     $status = true;
 
     $response_skills = $DB->get_records('threesixty_response_skill', 'responseid', $responseid, 'id');
     // If there are response_skills.
     if ($response_skills) {
-        $status = fwrite($bf, start_tag('RESPONSE_SKILLS', 10, true));
+        $status = $status && fwrite($bf, start_tag('RESPONSE_SKILLS', 10, true));
 
         // Iterate over each response_skill.
         foreach ($response_skills as $response_skill) {
-            $status = fwrite($bf, start_tag('RESPONSE_SKILL', 11, true));
+            $status = $status && fwrite($bf, start_tag('RESPONSE_SKILL', 11, true));
 
             fwrite($bf, full_tag('ID', 12, false, $response_skill->id));
             fwrite($bf, full_tag('RESPONSEID', 12, false, $response_skill->responseid));
             fwrite($bf, full_tag('SKILLID', 12, false, $response_skill->skillid));
             fwrite($bf, full_tag('SCORE', 12, false, $response_skill->score));
 
-            $status = fwrite($bf, end_tag('RESPONSE_SKILL', 11, true));
+            $status = $status && fwrite($bf, end_tag('RESPONSE_SKILL', 11, true));
         }
 
         // Write end tag.
-        $status = fwrite($bf, end_tag('RESPONSE_SKILLS', 10, true));
+        $status = $status && fwrite($bf, end_tag('RESPONSE_SKILLS', 10, true));
     }
     return $status;
 }
@@ -447,6 +462,7 @@ function threesixty_check_backup_mods_instances($instance, $backup_unique_code) 
 function threesixty_ids ($course) {
 
     // global $CFG;
+	global $DB;
 
     return $DB->get_records_sql ("SELECT a.id, a.course
                                  FROM {threesixty} a
@@ -457,6 +473,7 @@ function threesixty_ids ($course) {
 function threesixty_competency_ids_by_course ($course) {
 
     // global $CFG;
+	global $DB;
 
     return $DB->get_records_sql ("SELECT c.id , c.activityid
                                  FROM {threesixty_competency} c,
@@ -469,6 +486,7 @@ function threesixty_competency_ids_by_course ($course) {
 function threesixty_competency_ids_by_instance ($instanceid) {
 
     // global $CFG;
+	global $DB;
 
     return $DB->get_records_sql ("SELECT c.id , c.activityid
                                 FROM {threesixty_competency} c
@@ -479,6 +497,7 @@ function threesixty_competency_ids_by_instance ($instanceid) {
 function threesixty_skill_ids_by_course ($course) {
 
     // global $CFG;
+	global $DB;
 
     return $DB->get_records_sql ("SELECT s.id , c.activityid
                                  FROM {threesixty_skill} s,
@@ -493,6 +512,7 @@ function threesixty_skill_ids_by_course ($course) {
 function threesixty_skill_ids_by_instance ($instanceid) {
 
     // global $CFG;
+	global $DB;
 
     return $DB->get_records_sql ("SELECT s.id , c.activityid
                                  FROM {threesixty_skill} s,
@@ -505,6 +525,7 @@ function threesixty_skill_ids_by_instance ($instanceid) {
 function threesixty_analysis_ids_by_course ($course) {
 
     // global $CFG;
+	global $DB;
 
     return $DB->get_records_sql ("SELECT a.id , a.activityid
                                  FROM {threesixty_analysis} a,
@@ -517,6 +538,7 @@ function threesixty_analysis_ids_by_course ($course) {
 function threesixty_analysis_ids_by_instance ($instanceid) {
 
     // global $CFG;
+	global $DB;
 
     return $DB->get_records_sql ("SELECT a.id , a.activityid
                                 FROM {threesixty_analysis} a

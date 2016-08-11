@@ -119,7 +119,7 @@ if (isset($mform)) {
 echo $OUTPUT->footer();
 
 function get_full_competency_list($activityid) {
-    global $CFG, $DB;
+    global $DB;
     $ret = array(0 => get_string('none'));
 
     $table_skill = '{threesixty_skill}';

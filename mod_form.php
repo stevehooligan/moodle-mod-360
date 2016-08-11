@@ -23,7 +23,6 @@ require_once($CFG->dirroot.'/course/moodleform_mod.php');
 class mod_threesixty_mod_form extends moodleform_mod {
 
     public function definition() {
-        global $COURSE;
         $mform =& $this->_form;
 
         $mform->addElement('header', 'general', get_string('general', 'form'));

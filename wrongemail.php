@@ -72,7 +72,7 @@ if (threesixty_delete_respondent($respondent->id)) {
     // ...-- could not delete $respondent->email (analysisid=$analysis->id)");.
 // }.
 
-print_box(get_string('adminnotified', 'threesixty'));
+echo $OUTPUT->box(get_string('adminnotified', 'threesixty'));
 
 // ...print_footer($course);.
 echo $OUTPUT->footer();
