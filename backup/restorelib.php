@@ -54,7 +54,7 @@
 // This function executes all the restore procedure about this mod.
 function threesixty_restore_mods($mod, $restore) {
 
-    global $CFG;
+    global $DB;
 
     $status = true;
 
@@ -97,11 +97,11 @@ function threesixty_restore_mods($mod, $restore) {
                              $mod->id, $newid);
 
             // Restore threesixty_competency - threesixty_skill restored from here.
-            $status = threesixty_competency_restore_mods($mod->id, $newid, $info, $restore);
+            $status = $status && threesixty_competency_restore_mods($mod->id, $newid, $info, $restore);
 
             // If userinfo was selected, restore the values.
             if (restore_userdata_selected($restore, 'threesixty', $mod->id)) {
-                $status = threesixty_analysis_restore_mods($mod->id, $newid, $info, $restore);
+                $status = $status && threesixty_analysis_restore_mods($mod->id, $newid, $info, $restore);
             }
         } else {
                 $status = false;
@@ -118,7 +118,7 @@ function threesixty_restore_mods($mod, $restore) {
 // This function restores the threesixty competencies.
 function threesixty_competency_restore_mods($old_threesixty_id, $new_threesixty_id, $info, $restore) {
 
-    global $CFG;
+    global $DB;
 
     $status = true;
 
@@ -164,7 +164,7 @@ function threesixty_competency_restore_mods($old_threesixty_id, $new_threesixty_
             backup_putid($restore->backup_unique_code, "threesixty_competency", $oldid, $newid);
 
                 // Restore skills for this competency.
-            $status = threesixty_skill_restore_mods($oldid, $newid, $competency_info, $restore);
+            $status = $status && threesixty_skill_restore_mods($oldid, $newid, $competency_info, $restore);
 
         } else {
             $status = false;
@@ -178,7 +178,7 @@ function threesixty_competency_restore_mods($old_threesixty_id, $new_threesixty_
 // This function restores the threesixty skills.
 function threesixty_skill_restore_mods($old_competency_id, $new_competency_id, $info, $restore) {
 
-    global $CFG;
+    global $DB;
 
     $status = true;
 
@@ -233,7 +233,7 @@ function threesixty_skill_restore_mods($old_competency_id, $new_competency_id, $
 // This function restores the threesixty analyses.
 function threesixty_analysis_restore_mods($old_threesixty_id, $new_threesixty_id, $info, $restore) {
 
-    global $CFG;
+    global $DB;
 
     $status = true;
 
@@ -283,8 +283,8 @@ function threesixty_analysis_restore_mods($old_threesixty_id, $new_threesixty_id
             backup_putid($restore->backup_unique_code, "threesixty_analysis", $oldid, $newid);
 
             // Restore carried comp and respondent for this analysis.
-            $status = threesixty_carried_comp_restore_mods($oldid, $newid, $analysis_info, $restore);
-            $status = threesixty_respondent_restore_mods($oldid, $newid, $analysis_info, $restore);
+            $status = $status && threesixty_carried_comp_restore_mods($oldid, $newid, $analysis_info, $restore);
+            $status = $status && threesixty_respondent_restore_mods($oldid, $newid, $analysis_info, $restore);
         } else {
             $status = false;
         }
@@ -298,7 +298,7 @@ function threesixty_analysis_restore_mods($old_threesixty_id, $new_threesixty_id
 // This function restores the threesixty carried competencies.
 function threesixty_carried_comp_restore_mods($old_analysis_id, $new_analysis_id, $info, $restore) {
 
-    global $CFG;
+    global $DB;
 
     $status = true;
 
@@ -356,7 +356,7 @@ function threesixty_carried_comp_restore_mods($old_analysis_id, $new_analysis_id
 // This function restores the threesixty respondent.
 function threesixty_respondent_restore_mods($old_analysis_id, $new_analysis_id, $info, $restore) {
 
-    global $CFG;
+    global $DB;
 
     $status = true;
     // Restore any responses for self.
@@ -424,7 +424,7 @@ function threesixty_respondent_restore_mods($old_analysis_id, $new_analysis_id, 
 // This function restores the threesixty response.
 function threesixty_response_restore_mods($old_respondent_id, $new_respondent_id, $info, $restore) {
 
-    global $CFG;
+    global $DB;
     $status = true;
 
         // Get the threesixty_response array.
@@ -473,8 +473,8 @@ function threesixty_response_restore_mods($old_respondent_id, $new_respondent_id
             backup_putid($restore->backup_unique_code, "threesixty_response", $oldid, $newid);
 
             // ...restore resp_comp and resp_skill.
-            $status = threesixty_response_skill_restore_mods($oldid, $newid, $response_info, $restore);
-            $status = threesixty_response_comp_restore_mods($oldid, $newid, $response_info, $restore);
+            $status = $status && threesixty_response_skill_restore_mods($oldid, $newid, $response_info, $restore);
+            $status = $status && threesixty_response_comp_restore_mods($oldid, $newid, $response_info, $restore);
         } else {
             $status = false;
         }
@@ -488,7 +488,7 @@ function threesixty_response_restore_mods($old_respondent_id, $new_respondent_id
 // This function restores the threesixty response skill.
 function threesixty_response_skill_restore_mods($old_response_id, $new_response_id, $info, $restore) {
 
-    global $CFG;
+    global $DB;
     $status = true;
 
     // Get the threesixty_response_skill array.
@@ -548,7 +548,7 @@ function threesixty_response_skill_restore_mods($old_response_id, $new_response_
 // This function restores the threesixty response comp.
 function threesixty_response_comp_restore_mods($old_response_id, $new_response_id, $info, $restore) {
 
-    global $CFG;
+    global $DB;
     $status = true;
 
     // Get the threesixty_response_comp array.

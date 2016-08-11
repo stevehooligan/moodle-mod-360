@@ -25,6 +25,8 @@ require_once('../../config.php');
 require_once('amend_form.php');
 require_once('locallib.php');
 
+global $DB, $PAGE;
+
 $a      = required_param('a', PARAM_INT);  // ...threesixty instance ID.
 $typeid = required_param('typeid', PARAM_INT); // ...the type of the response.
 $userid = optional_param('userid', 0, PARAM_INT);
@@ -140,6 +142,10 @@ if (isset($mform)) {
 
 echo $OUTPUT->footer();
 
+/**
+ * @param $mform moodleform
+ * @param $scores
+ */
 function set_form_data($mform, $scores) {
     $toform = array();
 
@@ -153,7 +159,7 @@ function set_form_data($mform, $scores) {
 }
 
 function save_changes($formfields, $responseid, $skills) {
-    global $CFG, $DB;
+    global $DB;
 
     foreach ($skills as $skill) {
         $arrayname = "radioarray_$skill->id";
@@ -163,7 +169,6 @@ function save_changes($formfields, $responseid, $skills) {
         $a = $formfields->$arrayname;
 
         $scorename = "score_$skill->id";
-        $scorevalue = 0;
         if (!isset($a[$scorename])) {
             return get_string('error:formsubmissionerror', 'threesixty');
         } else {

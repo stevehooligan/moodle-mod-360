@@ -251,7 +251,7 @@ function send_reminder($respondentid, $senderfullname) {
 }
 
 function print_respondent_table($activityid, $analysisid, $userid, $canremind=false, $candelete=false) {
-    global $CFG, $typelist, $USER, $OUTPUT;
+    global $typelist, $USER, $OUTPUT;
 
     $respondents = threesixty_get_external_respondents($analysisid);
     if ($respondents) {
@@ -311,7 +311,7 @@ function print_respondent_table($activityid, $analysisid, $userid, $canremind=fa
 }
 
 function threesixty_get_external_respondents($analysisid) {
-    global $CFG, $DB;
+    global $DB;
 
     $table_respondent = '{threesixty_respondent}';
     $table_response = '{threesixty_response}';
@@ -327,7 +327,7 @@ function threesixty_get_external_respondents($analysisid) {
     return $respondents;
 }
 function count_respondents($userid, $activityid) {
-    global $CFG, $DB;
+    global $DB;
 	$table_respondent = '{threesixty_respondent}';
 	$table_analysis = '{threesixty_analysis}';
     $sql = "SELECT COUNT(1) FROM ".$table_respondent." AS r".

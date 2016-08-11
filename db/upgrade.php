@@ -30,8 +30,9 @@ function xmldb_threesixty_upgrade($oldversion = 0) {
         // Add a display order column for the competency table.
         $comptable = new xmldb_table('threesixty_competency');
         $field = new xmldb_field('sortorder');
-        $field->setattributes(XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, null, null, '999', 'showfeedback');
-        if (!add_field($comptable, $field)) {
+        $field->set_attributes(XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, null, null);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    if (!add_field($comptable, $field)) {
             $result = false;
         }
         reorder_competencies();
@@ -39,7 +40,8 @@ function xmldb_threesixty_upgrade($oldversion = 0) {
         /** @noinspection PhpParamsInspection */
         $field->setPrevious('description');
         // was: $field->previous = 'description';
-        if (!add_field($skilltable, $field)) {
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    if (!add_field($skilltable, $field)) {
             $result = false;
         }
         // Update the existing competency data.

@@ -143,8 +143,10 @@ function threesixty_supports($feature) {
  * @return null
  * @todo Finish documenting this function
  */
+// TODO: implement this function, because I hope it never gets used
 function threesixty_user_outline($course, $user, $mod, $threesixty) {
-    return $return;
+    return true;
+	// was: return $return;
 }
 
 
@@ -232,7 +234,8 @@ function threesixty_scale_used($threesixtyid, $scaleid) {
  * @return boolean True if the scale is used by any threesixty
  */
 function threesixty_scale_used_anywhere($scaleid) {
-    if ($scaleid and $DB->record_exists('threesixty', 'grade', -$scaleid)) {
+	global $DB;
+    if ($scaleid and $DB->record_exists('threesixty', 'grade')) {
         return true;
     } else {
         return false;

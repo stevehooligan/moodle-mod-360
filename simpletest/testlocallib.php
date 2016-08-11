@@ -125,33 +125,33 @@ class locallib_test extends prefix_changing_test_case {
         );
 
     public function setUp() {
-        global $DB, $CFG;
+        global $DB;
         parent::setup();
-        load_test_table('{user}', $this->user_data, $db);
-        load_test_table('{threesixty}', $this->threesixty_data, $db);
-        load_test_table('{threesixty_competency}', $this->threesixty_competency_data, $db);
-        load_test_table('{threesixty_skill}', $this->threesixty_skill_data, $db);
-        load_test_table('{threesixty_analysis}', $this->threesixty_analysis_data, $db);
-        load_test_table('{threesixty_carried_comp}', $this->threesixty_carried_comp_data, $db);
-        load_test_table('{threesixty_respondent}', $this->threesixty_respondent_data, $db);
-        load_test_table('{threesixty_response}', $this->threesixty_response_data, $db);
-        load_test_table('{threesixty_response_skill}', $this->threesixty_response_skill_data, $db);
-        load_test_table('{threesixty_response_comp}', $this->threesixty_response_comp_data, $db);
+        load_test_table('{user}', $this->user_data, $DB);
+        load_test_table('{threesixty}', $this->threesixty_data, $DB);
+        load_test_table('{threesixty_competency}', $this->threesixty_competency_data, $DB);
+        load_test_table('{threesixty_skill}', $this->threesixty_skill_data, $DB);
+        load_test_table('{threesixty_analysis}', $this->threesixty_analysis_data, $DB);
+        load_test_table('{threesixty_carried_comp}', $this->threesixty_carried_comp_data, $DB);
+        load_test_table('{threesixty_respondent}', $this->threesixty_respondent_data, $DB);
+        load_test_table('{threesixty_response}', $this->threesixty_response_data, $DB);
+        load_test_table('{threesixty_response_skill}', $this->threesixty_response_skill_data, $DB);
+        load_test_table('{threesixty_response_comp}', $this->threesixty_response_comp_data, $DB);
     }
 
     public function tearDown() {
-        global $DB, $CFG;
+        global $DB;
 
-        remove_test_table('{unittest_threesixty_response_comp}', $db);
-        remove_test_table('{unittest_threesixty_response_skill}', $db);
-        remove_test_table('{unittest_threesixty_response}', $db);
-        remove_test_table('{unittest_threesixty_respondent}', $db);
-        remove_test_table('{unittest_threesixty_carried_comp}', $db);
-        remove_test_table('{unittest_threesixty_analysis}', $db);
-        remove_test_table('{unittest_threesixty_skill}', $db);
-        remove_test_table('{unittest_threesixty_competency}', $db);
-        remove_test_table('{unittest_threesixty}', $db);
-        remove_test_table('{unittest_user}', $db);
+        remove_test_table('{unittest_threesixty_response_comp}', $DB);
+        remove_test_table('{unittest_threesixty_response_skill}', $DB);
+        remove_test_table('{unittest_threesixty_response}', $DB);
+        remove_test_table('{unittest_threesixty_respondent}', $DB);
+        remove_test_table('{unittest_threesixty_carried_comp}', $DB);
+        remove_test_table('{unittest_threesixty_analysis}', $DB);
+        remove_test_table('{unittest_threesixty_skill}', $DB);
+        remove_test_table('{unittest_threesixty_competency}', $DB);
+        remove_test_table('{unittest_threesixty}', $DB);
+        remove_test_table('{unittest_user}', $DB);
 
         parent::tearDown();
     }
@@ -322,9 +322,9 @@ class locallib_test extends prefix_changing_test_case {
     public function test_mod_threesixty_get_feedback() {
         $analysisid = 1;
         $analysisid_2 = 999;
-        $test = threesixty_get_feedback($analysisid);
+        threesixty_get_feedback($analysisid);
         $this->assertEqual(count(threesixty_get_feedback($analysisid)), 2);
-        $test = threesixty_get_feedback($analysisid_2);
+        threesixty_get_feedback($analysisid_2);
         $this->assertEqual(count(threesixty_get_feedback($analysisid_2)), 0);
 
     }
@@ -388,7 +388,6 @@ class locallib_test extends prefix_changing_test_case {
     public function test_mod_threesixty_get_average_skill_scores() {
         $analysisid = 1;
         $analysisid_2 = 999;
-        $respondenttype = 0;
         $respondenttype_2 = 999;
 
         $obj = new stdClass();
