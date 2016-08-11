@@ -18,6 +18,8 @@ require_once('../../config.php');
 require_once('editcompetency_form.php');
 require_once('locallib.php');
 
+global $DB, $PAGE;
+
 $a = required_param('a', PARAM_INT); // ...threesixty instance id.
 $c = optional_param('c', 0, PARAM_INT); // ...competency id.
 

@@ -21,6 +21,8 @@ if (!defined('MOODLE_INTERNAL')) {
 define('DEFAULT_NUMBER_SKILLS', 5);
 define('EXTRA_SKILLS', 2);
 
+global $CFG;
+
 require_once($CFG->dirroot.'/lib/formslib.php');
 
 class mod_threesixty_editcompetency_form extends moodleform {

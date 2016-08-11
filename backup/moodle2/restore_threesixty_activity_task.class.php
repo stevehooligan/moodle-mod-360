@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+global $CFG;
+
 require_once($CFG->dirroot . '/mod/threesixty/backup/moodle2/restore_threesixty_stepslib.php');
 
 /**

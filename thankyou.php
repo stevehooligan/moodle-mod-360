@@ -24,6 +24,8 @@
 require_once('../../config.php');
 require_once('locallib.php');
 
+global $DB;
+
 $a = required_param('a', PARAM_INT);  // ...threesixty instance ID.
 
 if (!$activity = $DB->get_record('threesixty', array('id' => $a))) {

@@ -133,8 +133,10 @@ require_once('tabs.php');
 
 if (isset($mform)) {
     print threesixty_selected_user_heading($user, $course->id, 'profiles.php?a='.$activity->id);
-
-    set_form_data($mform, $selfscores);
+	
+	if(isset($selfscores)) {
+		set_form_data($mform, $selfscores);
+	}
     $mform->display();
 } else {
     print threesixty_user_listing($activity, $baseurl);

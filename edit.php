@@ -24,6 +24,8 @@
 require_once('../../config.php');
 require_once('locallib.php');
 
+global $DB, $PAGE;
+
 define('MAX_DESCRIPTION', 255); // ...max number of characters of the description to show in the table.
 $strmoveup = get_string('moveup');
 $strmovedown = get_string('movedown');

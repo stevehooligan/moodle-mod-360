@@ -26,6 +26,8 @@ require_once('../../config.php');
 require_once('locallib.php');
 require_once('carryover_form.php');
 
+global $DB, $PAGE;
+
 define('MAX_DESCRIPTION', 255); // Max number of characters of the description to show in the table.
 
 $a       = required_param('a', PARAM_INT);  // ...threesixty instance ID.
@@ -108,8 +110,10 @@ require_once('tabs.php');
 
 if (isset($mform)) {
     print threesixty_selected_user_heading($user, $course->id, $baseurl);
-
-    set_form_data($mform, $analysis->id);
+	
+	if (isset($analysis)) {
+		set_form_data($mform, $analysis->id);
+	}
     $mform->display();
 } else {
     display_current_user_data($activity, $baseurl);

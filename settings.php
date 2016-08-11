@@ -18,6 +18,8 @@ if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.'); // It must be included from a Moodle page.
 }
 
+
+/** @var navigation_node $settings ??? */
 $settings->add(new admin_setting_configtextarea('threesixty_selftypes',
         get_string('setting:selftypes', 'threesixty'),
         get_string('setting:selftypesdesc', 'threesixty'),

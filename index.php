@@ -24,6 +24,8 @@ require_once('../../config.php');
 require_once('lib.php');
 require_once('locallib.php');
 
+global $DB, $PAGE;
+
 $id = required_param('id', PARAM_INT);   // Course.
 
 if (! $course = $DB->get_record('course', array('id' => $id))) {

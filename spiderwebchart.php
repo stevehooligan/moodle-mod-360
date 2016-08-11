@@ -27,7 +27,10 @@ function findSWF(movieName) {
   }
 }
 
-var data = <?php echo $chart->toPrettyString(); ?>;
+var data = <?php
+	/** @var open_flash_chart $chart */
+	echo $chart->toPrettyString();
+	?>;
 
 </script>
 

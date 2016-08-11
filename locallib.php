@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+global $CFG;
+
 require_once("$CFG->libdir/ddllib.php");
 
 class shim
@@ -31,17 +33,22 @@ class shim
 
 /**
  * List of competencies along with their skills.
+ *
+ * @param $activityid int
+ * @return array
  */
 function threesixty_get_competency_listing($activityid) {
     global $DB;
     $ret = array();
 
-    $sql = "SELECT s.id AS skillid, c.id AS competencyid, c.name, c.description, s.name AS skillname, c.showfeedback
-              ,c.sortorder AS competencyorder, s.sortorder AS skillorder
-              FROM {threesixty_skill} s
-              RIGHT OUTER JOIN {threesixty_competency} c ON s.competencyid = c.id
-             WHERE c.activityid = $activityid
-          ORDER BY c.sortorder, s.sortorder";
+	$table_skill = '{threesixty_skill}';
+	$table_competency = '{threesixty_competency}';
+    $sql =
+	    "SELECT s.id AS skillid, c.id AS competencyid, c.name, c.description, s.name AS skillname, c.showfeedback, c.sortorder AS competencyorder, s.sortorder AS skillorder FROM ".$table_skill." AS s".
+	    " RIGHT OUTER JOIN ".$table_competency." AS c ON s.competencyid = c.id".
+	    " WHERE c.activityid = $activityid".
+	    " ORDER BY c.sortorder, s.sortorder"
+    ;
 
     if ($rs = $DB->get_records_sql($sql)) {
         foreach ($rs as $record) {
@@ -67,7 +74,8 @@ function threesixty_get_competency_listing($activityid) {
  *
  * @param integer $competencyid  The ID of the competency record
  * @param boolean $intransaction True if there is already an active transation
- * @returns boolean              True if the operation has succeeded, false otherwise
+ * @return bool True if the operation has succeeded, false otherwise
+ * @throws Exception
  */
 function threesixty_delete_competency($competencyid, $intransaction=false) {
     global $DB;
@@ -110,7 +118,7 @@ function threesixty_delete_competency($competencyid, $intransaction=false) {
         return false;
     }
 
-    if (!$intransaction) {
+    if (isset($transaction) && !$intransaction) {
         $DB->commit_delegated_transaction($transaction);
     }
     return true;
@@ -121,7 +129,8 @@ function threesixty_delete_competency($competencyid, $intransaction=false) {
  *
  * @param integer $skillid       The ID of the skill record
  * @param boolean $intransaction True if there is already an active transation
- * @returns boolean              True if the operation has succeeded, false otherwise
+ * @return bool True if the operation has succeeded, false otherwise
+ * @throws Exception
  */
 function threesixty_delete_skill($skillid, $intransaction=false) {
     global $DB;
@@ -157,8 +166,8 @@ function threesixty_delete_skill($skillid, $intransaction=false) {
         }
         return false;
     }
-
-    if (!$intransaction) {
+	
+	if (isset($transaction) && !$intransaction) {
         $DB->commit_delegated_transaction($transaction);
     }
     return true;
@@ -169,7 +178,8 @@ function threesixty_delete_skill($skillid, $intransaction=false) {
  *
  * @param integer $analysisid    The ID of the analysis record
  * @param boolean $intransaction True if there is already an active transation
- * @returns boolean              True if the operation has succeeded, false otherwise
+ * @return bool True if the operation has succeeded, false otherwise
+ * @throws Exception
  */
 function threesixty_delete_analysis($analysisid, $intransaction=false) {
     global $DB;
@@ -215,8 +225,8 @@ function threesixty_delete_analysis($analysisid, $intransaction=false) {
         }
         return false;
     }
-
-    if (!$intransaction) {
+	
+	if (isset($transaction) && !$intransaction) {
         $DB->commit_delegated_transaction($transaction);
     }
     return true;
@@ -227,7 +237,8 @@ function threesixty_delete_analysis($analysisid, $intransaction=false) {
  *
  * @param integer $responseid    The ID of the response record
  * @param boolean $intransaction True if there is already an active transation
- * @returns boolean              True if the operation has succeeded, false otherwise
+ * @return bool True if the operation has succeeded, false otherwise
+ * @throws Exception
  */
 function threesixty_delete_response($responseid, $intransaction=false) {
     global $DB;
@@ -259,8 +270,8 @@ function threesixty_delete_response($responseid, $intransaction=false) {
         }
         return false;
     }
-
-    if (!$intransaction) {
+	
+	if (isset($transaction) && !$intransaction) {
         $DB->commit_delegated_transaction($transaction);
     }
     return true;
@@ -271,7 +282,8 @@ function threesixty_delete_response($responseid, $intransaction=false) {
  *
  * @param integer $respondentid  The ID of the respondent record
  * @param boolean $intransaction True if there is already an active transation
- * @returns boolean              True if the operation has succeeded, false otherwise
+ * @return bool True if the operation has succeeded, false otherwise
+ * @throws Exception
  */
 function threesixty_delete_respondent($respondentid, $intransaction=false) {
     global $DB;
@@ -297,8 +309,8 @@ function threesixty_delete_respondent($respondentid, $intransaction=false) {
         }
         return false;
     }
-
-    if (!$intransaction) {
+	
+	if (isset($transaction) && !$intransaction) {
         $DB->commit_delegated_transaction($transaction);
     }
     return true;
@@ -306,6 +318,9 @@ function threesixty_delete_respondent($respondentid, $intransaction=false) {
 
 /**
  * List of skills and their competency.
+ *
+ * @param $activityid int
+ * @return array
  */
 function threesixty_get_skill_names($activityid) {
     global $DB;
@@ -321,6 +336,9 @@ function threesixty_get_skill_names($activityid) {
 
 /**
  * List of competencyid and feedback.
+ *
+ * @param $analysisid int
+ * @return array
  */
 function threesixty_get_feedback($analysisid) {
     global $DB;
@@ -388,6 +406,10 @@ function threesixty_get_self_scores($analysisid, $competencyaverage, $typeid=nul
 
 /**
  * Returns true if the given activity has been completed by the given user.
+ *
+ * @param $activityid int
+ * @param $userid int
+ * @return bool
  */
 function threesixty_is_completed($activityid, $userid) {
     /*
@@ -419,11 +441,14 @@ function threesixty_users($activity) {
     $records = $DB->get_records_sql($sql);
     return $records;
 }
+
 /**
  * Returns a list of all of the users who are eligible to participate in the
  * 360 activity.
+ *
  * @author eleanor.martin
- * @param <type> $context
+ * @param  <type> $context
+ * @param string $sort
  * @return array of user records with id, firstname, lastname.
  */
 function threesixty_get_possible_participants($context, $sort="u.lastname") {
@@ -463,9 +488,11 @@ function threesixty_user_listing($activity, $url) {
 /**
  * Return the heading to print out to show the currently selected user.
  *
- * @param object $user     Record from the user table
- * @param int    $courseid ID of the current course
- * @param string $url      URL of the current page without the userid parameter
+ * @param object $user  Record from the user table
+ * @param int $courseid ID of the current course
+ * @param string $url   URL of the current page without the userid parameter
+ * @param bool $selectanother
+ * @return string
  */
 function threesixty_selected_user_heading($user, $courseid, $url, $selectanother=true) {
     global $CFG, $OUTPUT;
