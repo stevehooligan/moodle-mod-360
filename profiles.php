@@ -24,6 +24,8 @@
 require_once('../../config.php');
 require_once('locallib.php');
 
+global $DB, $PAGE;
+
 $a       = required_param('a', PARAM_INT);  // Threesixty instance ID.
 $userid  = optional_param('userid', 0, PARAM_INT);
 

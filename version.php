@@ -25,6 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+/** @var stdClass $plugin */
 $plugin->version   = 2016080800;
 $plugin->requires  = 2013051400;; // See http://docs.moodle.org/dev/Moodle_Versions.
 $plugin->component = 'mod_threesixty';

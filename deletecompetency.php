@@ -17,6 +17,8 @@
 require_once('../../config.php');
 require_once('locallib.php');
 
+global $DB, $PAGE;
+
 $a = required_param('a', PARAM_INT); // ...activity instance ID.
 $c = required_param('c', PARAM_INT); // ...competency ID.
 $confirm = optional_param('confirm', 0, PARAM_INT);  // ...commit the operation?

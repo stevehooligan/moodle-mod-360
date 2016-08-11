@@ -25,6 +25,8 @@ if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.');    //  It must be included from a Moodle page.
 }
 
+global $CFG;
+
 require_once($CFG->dirroot . '/mod/threesixty/locallib.php');
 require_once($CFG->libdir . '/simpletestlib.php');
 

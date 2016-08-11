@@ -26,6 +26,8 @@
 require_once('../../config.php');
 require_once('locallib.php');
 
+global $DB;
+
 $code = required_param('code', PARAM_ALPHANUM); // Unique hash.
 
 if (!$respondent = $DB->get_record('threesixty_respondent', 'uniquehash', $code)) {

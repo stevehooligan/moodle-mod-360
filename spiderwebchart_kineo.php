@@ -19,14 +19,21 @@
 
 <script type="text/javascript">
     var flashvars = {};
-    flashvars.analysisid = <?php echo $analysisid ?>;
+    flashvars.analysisid = <?php
+        /** @var int $analysisid */
+        echo $analysisid
+    ?>;
     flashvars.activityid = <?php echo $activityid ?>;
 <?php
+/** @var array $filters */
 foreach ($filters as $code => $name) {
     echo "    flashvars.filter_" . $code . "=\"" . $name . "\";\n";
 }
 ?>
-    flashvars.scriptURL = "<?php echo $scriptURL ?>";
+    flashvars.scriptURL = "<?php
+        /** @var string $scriptURL */
+        echo $scriptURL
+        ?>";
     swfobject.embedSWF("spiderweb.swf", "my_chart", "600", "600", "7.0.0", false, flashvars);
 </script>
 
