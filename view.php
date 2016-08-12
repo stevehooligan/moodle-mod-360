@@ -54,7 +54,7 @@ if ($id) {
 	print_error('You must specify a course_module ID or an instance ID');
 }
 
-if(isset($cm) && isset($course) && isset($context) && isset($activity)) {
+if(isset($cm) && isset($course) && isset($activity)) {
 	$context = context_module::instance($cm->id);
 	
 	require_login($course, true, $cm);
