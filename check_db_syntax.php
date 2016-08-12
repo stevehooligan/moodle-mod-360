@@ -346,10 +346,16 @@ foreach ($falsepositives as $file => $fparr) {
 
 // INTERNAL FUNCIONS.
 
-    /**
-     * Given an array of search patterns, create one "megarule", 
-     * with the specified prefixes and suffixes
-     */
+/**
+ * Given an array of search patterns, create one "megarule",
+ * with the specified prefixes and suffixes
+ *
+ * @param $patterns
+ * @param array $prefixes
+ * @param array $suffixes
+ * @param string $modifiers
+ * @return bool|string
+ */
 function calculate_megarule($patterns, $prefixes=array(), $suffixes=array(), $modifiers='') {
 
     $megarule  = '';
@@ -375,9 +381,12 @@ function calculate_megarule($patterns, $prefixes=array(), $suffixes=array(), $mo
     return '/' . (empty($totalrule) ? $megarule : $totalrule) . '/' . $modifiers;
 }
 
- /**
-  *  Given one full path, return one array with all the files to check.
-  */
+/**
+ *  Given one full path, return one array with all the files to check.
+ *
+ * @param $path
+ * @return array
+ */
 function files_to_check($path) {
 
     $results = array();
