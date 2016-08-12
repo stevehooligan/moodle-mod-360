@@ -74,6 +74,7 @@ function threesixty_restore_mods($mod, $restore) {
         // ...$GLOBALS['traverse_array']="";                                            //Debug.
 
         // Now, build the three sixty record structure.
+	    $threesixty = isset($threesixty) ? $threesixty : new stdClass();
         $threesixty->course = $restore->course_id;
         $threesixty->name = backup_todb($info['MOD']['#']['NAME']['0']['#']);
         $threesixty->competenciescarried = backup_todb($info['MOD']['#']['COMPETENCIESCARRIED']['0']['#']);
@@ -200,6 +201,7 @@ function threesixty_skill_restore_mods($old_competency_id, $new_competency_id, $
         $oldid = backup_todb($skill_info['#']['ID']['0']['#']);
 
         // Now, build the threesixty_skill record structure.
+	    $skill = isset($skill) ? $skill : new stdClass();
         $skill->competencyid = $new_competency_id;
         $skill->name = backup_todb($skill_info['#']['NAME']['0']['#']);
         $skill->description = backup_todb($skill_info['#']['DESCRIPTION']['0']['#']);
@@ -320,6 +322,7 @@ function threesixty_carried_comp_restore_mods($old_analysis_id, $new_analysis_id
         $oldid = backup_todb($carried_comp_info['#']['ID']['0']['#']);
 
         // Now, build the threesixty_carried_comp record structure.
+	    $carried_comp = isset($carried_comp) ? $carried_comp : new stdClass();
         $carried_comp->analysisid = $new_analysis_id;
         $carried_comp->competencyid = backup_todb($carried_comp_info['#']['COMPETENCYID']['0']['#']);
 
@@ -383,6 +386,7 @@ function threesixty_respondent_restore_mods($old_analysis_id, $new_analysis_id, 
         $oldid = backup_todb($respondent_info['#']['ID']['0']['#']);
 
         // Now, build the threesixty_respondent record structure.
+	    $respondent = isset($respondent) ? $respondent : new stdClass();
         $respondent->email = backup_todb($respondent_info['#']['EMAIL']['0']['#']);
         $respondent->type = backup_todb($respondent_info['#']['TYPE']['0']['#']);
         $respondent->analysisid = $new_analysis_id;
@@ -445,6 +449,7 @@ function threesixty_response_restore_mods($old_respondent_id, $new_respondent_id
         $oldid = backup_todb($response_info['#']['ID']['0']['#']);
 
         // Now, build the threesixty_response record structure.
+	    $response = isset($response) ? $response : new stdClass();
         $response->analysisid = backup_todb($response_info['#']['ANALYSISID']['0']['#']);
         $response->respondentid = $new_respondent_id;
         $response->timecompleted = backup_todb($response_info['#']['TIMECOMPLETED']['0']['#']);
@@ -509,6 +514,7 @@ function threesixty_response_skill_restore_mods($old_response_id, $new_response_
         $oldid = backup_todb($response_skill_info['#']['ID']['0']['#']);
 
         // Now, build the threesixty_response_skill record structure.
+	    $response_skill = isset($response_skill) ? $response_skill : new stdClass();
         $response_skill->responseid = $new_response_id;
         $response_skill->skillid = backup_todb($response_skill_info['#']['SKILLID']['0']['#']);
         $response_skill->score = backup_todb($response_skill_info['#']['SCORE']['0']['#']);
@@ -569,6 +575,7 @@ function threesixty_response_comp_restore_mods($old_response_id, $new_response_i
         $oldid = backup_todb($response_comp_info['#']['ID']['0']['#']);
 
         // Now, build the threesixty_response_comp record structure.
+	    $response_comp = isset($response_comp) ? $response_comp : new stdClass();
         $response_comp->responseid = $new_response_id;
         $response_comp->competencyid = backup_todb($response_comp_info['#']['COMPETENCYID']['0']['#']);
         $response_comp->feedback = backup_todb($response_comp_info['#']['FEEDBACK']['0']['#']);

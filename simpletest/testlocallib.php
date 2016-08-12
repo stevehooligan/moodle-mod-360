@@ -20,6 +20,7 @@
  * @author Simon Coggins <simonc@catalyst.net.nz>
  * @package mod/threesixty
  */
+// TODO Recommission this class for latest unit testing, for now I've put @noinspection in front of all the obvious errors
 
 if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.');    //  It must be included from a Moodle page.
@@ -30,8 +31,13 @@ global $CFG;
 require_once($CFG->dirroot . '/mod/threesixty/locallib.php');
 require_once($CFG->libdir . '/simpletestlib.php');
 
+/** @noinspection PhpUndefinedClassInspection */
 class locallib_test extends prefix_changing_test_case {
     // ...test data for database.
+	public function __construct()
+	{
+		throw(new Exception('Unit testing for threesixty module currently awaiting modernisation'));
+	}
 
     public $user_data = array(
             array('id', 'firstname', 'lastname', 'username'),
@@ -128,34 +134,56 @@ class locallib_test extends prefix_changing_test_case {
 
     public function setUp() {
         global $DB;
-        parent::setup();
-        load_test_table('{user}', $this->user_data, $DB);
-        load_test_table('{threesixty}', $this->threesixty_data, $DB);
-        load_test_table('{threesixty_competency}', $this->threesixty_competency_data, $DB);
-        load_test_table('{threesixty_skill}', $this->threesixty_skill_data, $DB);
-        load_test_table('{threesixty_analysis}', $this->threesixty_analysis_data, $DB);
-        load_test_table('{threesixty_carried_comp}', $this->threesixty_carried_comp_data, $DB);
-        load_test_table('{threesixty_respondent}', $this->threesixty_respondent_data, $DB);
-        load_test_table('{threesixty_response}', $this->threesixty_response_data, $DB);
-        load_test_table('{threesixty_response_skill}', $this->threesixty_response_skill_data, $DB);
-        load_test_table('{threesixty_response_comp}', $this->threesixty_response_comp_data, $DB);
+	    /** @noinspection PhpUndefinedClassInspection */
+	    parent::setup();
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    load_test_table('{user}', $this->user_data, $DB);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    load_test_table('{threesixty}', $this->threesixty_data, $DB);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    load_test_table('{threesixty_competency}', $this->threesixty_competency_data, $DB);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    load_test_table('{threesixty_skill}', $this->threesixty_skill_data, $DB);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    load_test_table('{threesixty_analysis}', $this->threesixty_analysis_data, $DB);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    load_test_table('{threesixty_carried_comp}', $this->threesixty_carried_comp_data, $DB);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    load_test_table('{threesixty_respondent}', $this->threesixty_respondent_data, $DB);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    load_test_table('{threesixty_response}', $this->threesixty_response_data, $DB);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    load_test_table('{threesixty_response_skill}', $this->threesixty_response_skill_data, $DB);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    load_test_table('{threesixty_response_comp}', $this->threesixty_response_comp_data, $DB);
     }
 
     public function tearDown() {
         global $DB;
-
-        remove_test_table('{unittest_threesixty_response_comp}', $DB);
-        remove_test_table('{unittest_threesixty_response_skill}', $DB);
-        remove_test_table('{unittest_threesixty_response}', $DB);
-        remove_test_table('{unittest_threesixty_respondent}', $DB);
-        remove_test_table('{unittest_threesixty_carried_comp}', $DB);
-        remove_test_table('{unittest_threesixty_analysis}', $DB);
-        remove_test_table('{unittest_threesixty_skill}', $DB);
-        remove_test_table('{unittest_threesixty_competency}', $DB);
-        remove_test_table('{unittest_threesixty}', $DB);
-        remove_test_table('{unittest_user}', $DB);
-
-        parent::tearDown();
+	
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    remove_test_table('{unittest_threesixty_response_comp}', $DB);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    remove_test_table('{unittest_threesixty_response_skill}', $DB);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    remove_test_table('{unittest_threesixty_response}', $DB);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    remove_test_table('{unittest_threesixty_respondent}', $DB);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    remove_test_table('{unittest_threesixty_carried_comp}', $DB);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    remove_test_table('{unittest_threesixty_analysis}', $DB);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    remove_test_table('{unittest_threesixty_skill}', $DB);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    remove_test_table('{unittest_threesixty_competency}', $DB);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    remove_test_table('{unittest_threesixty}', $DB);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    remove_test_table('{unittest_user}', $DB);
+	
+	    /** @noinspection PhpUndefinedClassInspection */
+	    parent::tearDown();
     }
 
     public function test_mod_trdiary_get_competency_listing() {
@@ -168,10 +196,13 @@ class locallib_test extends prefix_changing_test_case {
         $obj->description = 'C1D';
         $obj->showfeedback = true;
         $obj->skills = 'S1, S2';
-
-        $this->assertEqual(count(threesixty_get_competency_listing($activityid)), 3);
-        $this->assertEqual(array_shift(threesixty_get_competency_listing($activityid)), $obj);
-        $this->assertFalse(threesixty_get_competency_listing($activityid_2));
+	
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual(count(threesixty_get_competency_listing($activityid)), 3);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual(array_shift(threesixty_get_competency_listing($activityid)), $obj);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertFalse(threesixty_get_competency_listing($activityid_2));
     }
 
     public function test_mod_threesixty_delete_competency() {
@@ -191,10 +222,14 @@ class locallib_test extends prefix_changing_test_case {
         $skill_after = $DB->count_records('threesixty_skill');
         $carried_after = $DB->count_records('threesixty_carried_comp');
         $resp_after = $DB->count_records('threesixty_response_comp');
-        $this->assertEqual($comp_before-$comp_after, 0);
-        $this->assertEqual($carried_before - $carried_after, 0);
-        $this->assertEqual($skill_before-$skill_after, 0);
-        $this->assertEqual($resp_before-$resp_after, 0);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($comp_before-$comp_after, 0);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($carried_before - $carried_after, 0);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($skill_before-$skill_after, 0);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($resp_before-$resp_after, 0);
 
         $comp_before2 = $DB->count_records('threesixty_competency');
         $skill_before2 = $DB->count_records('threesixty_skill');
@@ -202,7 +237,8 @@ class locallib_test extends prefix_changing_test_case {
         $resp_before2 = $DB->count_records('threesixty_response_comp');
 
         // ...now do a real delete.
-        $this->assertTrue(threesixty_delete_competency($competencyid));
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertTrue(threesixty_delete_competency($competencyid));
 
         $comp_after2 = $DB->count_records('threesixty_competency');
         $skill_after2 = $DB->count_records('threesixty_skill');
@@ -210,10 +246,14 @@ class locallib_test extends prefix_changing_test_case {
         $resp_after2 = $DB->count_records('threesixty_response_comp');
         // ...deleting this competency should delete 1 competency, 1 carried comp,.
         // ...2 response competencies and 2 skills.
-        $this->assertEqual($comp_before2 - $comp_after2, 1);
-        $this->assertEqual($carried_before2 - $carried_after2, 1);
-        $this->assertEqual($skill_before2 - $skill_after2, 2);
-        $this->assertEqual($resp_before2 - $resp_after2, 2);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($comp_before2 - $comp_after2, 1);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($carried_before2 - $carried_after2, 1);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($skill_before2 - $skill_after2, 2);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($resp_before2 - $resp_after2, 2);
 
     }
 
@@ -236,11 +276,15 @@ class locallib_test extends prefix_changing_test_case {
         $carried_after = $DB->count_records('threesixty_carried_comp');
         $resp_after = $DB->count_records('threesixty_response_comp');
         $respondent_after = $DB->count_records('threesixty_respondent');
-
-        $this->assertEqual($analysis_before-$analysis_after, 0);
-        $this->assertEqual($carried_before - $carried_after, 0);
-        $this->assertEqual($resp_before-$resp_after, 0);
-        $this->assertEqual($respondent_before-$respondent_after, 0);
+	
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($analysis_before-$analysis_after, 0);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($carried_before - $carried_after, 0);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($resp_before-$resp_after, 0);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($respondent_before-$respondent_after, 0);
 
         $analysis_before2 = $DB->count_records('threesixty_analysis');
         $carried_before2 = $DB->count_records('threesixty_carried_comp');
@@ -248,17 +292,22 @@ class locallib_test extends prefix_changing_test_case {
         $respondent_before2 = $DB->count_records('threesixty_respondent');
 
         // ...now do a real delete.
-        $this->assertTrue(threesixty_delete_analysis($analysisid));
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertTrue(threesixty_delete_analysis($analysisid));
 
         $analysis_after2 = $DB->count_records('threesixty_analysis');
         $carried_after2 = $DB->count_records('threesixty_carried_comp');
         $resp_after2 = $DB->count_records('threesixty_response_comp');
         $respondent_after2 = $DB->count_records('threesixty_respondent');
-
-        $this->assertEqual($analysis_before2-$analysis_after2, 1);
-        $this->assertEqual($carried_before2 - $carried_after2, 3);
-        $this->assertEqual($resp_before2 - $resp_after2, 4);
-        $this->assertEqual($respondent_before2 - $respondent_after2, 1);
+	
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($analysis_before2-$analysis_after2, 1);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($carried_before2 - $carried_after2, 3);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($resp_before2 - $resp_after2, 4);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($respondent_before2 - $respondent_after2, 1);
 
     }
 
@@ -275,21 +324,26 @@ class locallib_test extends prefix_changing_test_case {
 
         $resp_after = $DB->count_records('threesixty_response_comp');
         $respondent_after = $DB->count_records('threesixty_respondent');
-
-        $this->assertEqual($resp_before - $resp_after, 0);
-        $this->assertEqual($respondent_before - $respondent_after, 0);
+	
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($resp_before - $resp_after, 0);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($respondent_before - $respondent_after, 0);
 
         $resp_before2 = $DB->count_records('threesixty_response_comp');
         $respondent_before2 = $DB->count_records('threesixty_respondent');
 
         // ...now do a real delete.
-        $this->assertTrue(threesixty_delete_respondent($respondentid));
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertTrue(threesixty_delete_respondent($respondentid));
 
         $resp_after2 = $DB->count_records('threesixty_response_comp');
         $respondent_after2 = $DB->count_records('threesixty_respondent');
-
-        $this->assertEqual($resp_before2 - $resp_after2, 2);
-        $this->assertEqual($respondent_before2 - $respondent_after2, 1);
+	
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($resp_before2 - $resp_after2, 2);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($respondent_before2 - $respondent_after2, 1);
 
     }
 
@@ -301,23 +355,31 @@ class locallib_test extends prefix_changing_test_case {
         $obj->competencyname = 'C1';
         $obj->skillname = 'S1';
         $obj->id = 1;
-        $this->assertEqual(array_shift(threesixty_get_skill_names($activityid)), $obj);
-        $this->assertEqual(count(threesixty_get_skill_names($activityid)), 6);
-        $this->assertFalse(threesixty_get_skill_names($activityid_2));
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual(array_shift(threesixty_get_skill_names($activityid)), $obj);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual(count(threesixty_get_skill_names($activityid)), 6);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertFalse(threesixty_get_skill_names($activityid_2));
 
     }
 
     public function test_mod_threesixty_get_self_scores() {
         $analysisid = 1;
         $analysisid_2 = 999;
-        $this->assertEqual(count(threesixty_get_self_scores($analysisid, false)->records), 6);
-        $this->assertEqual(count(threesixty_get_self_scores($analysisid, true)->records), 3);
-        $this->assertEqual(count(threesixty_get_self_scores($analysisid_2, false)->records), 0);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual(count(threesixty_get_self_scores($analysisid, false)->records), 6);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual(count(threesixty_get_self_scores($analysisid, true)->records), 3);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual(count(threesixty_get_self_scores($analysisid_2, false)->records), 0);
 
         $res = threesixty_get_self_scores($analysisid, false)->records;
-        $this->assertEqual($res[1]->score, 3);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($res[1]->score, 3);
         $res = threesixty_get_self_scores($analysisid, true)->records;
-        $this->assertEqual($res[1]->score, 3);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($res[1]->score, 3);
 
     }
 
@@ -325,9 +387,11 @@ class locallib_test extends prefix_changing_test_case {
         $analysisid = 1;
         $analysisid_2 = 999;
         threesixty_get_feedback($analysisid);
-        $this->assertEqual(count(threesixty_get_feedback($analysisid)), 2);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual(count(threesixty_get_feedback($analysisid)), 2);
         threesixty_get_feedback($analysisid_2);
-        $this->assertEqual(count(threesixty_get_feedback($analysisid_2)), 0);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual(count(threesixty_get_feedback($analysisid_2)), 0);
 
     }
 
@@ -336,11 +400,15 @@ class locallib_test extends prefix_changing_test_case {
         $activityid_2 = 999;
         $userid = 1;
         $userid_2 = 999;
-
-        $this->assertTrue(threesixty_is_completed($activityid, $userid));
-        $this->assertFalse(threesixty_is_completed($activityid_2, $userid));
-        $this->assertFalse(threesixty_is_completed($activityid, $userid_2));
-        $this->assertFalse(threesixty_is_completed($activityid_2, $userid_2));
+	
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertTrue(threesixty_is_completed($activityid, $userid));
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertFalse(threesixty_is_completed($activityid_2, $userid));
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertFalse(threesixty_is_completed($activityid, $userid_2));
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertFalse(threesixty_is_completed($activityid_2, $userid_2));
 
     }
 
@@ -350,9 +418,11 @@ class locallib_test extends prefix_changing_test_case {
         $activity_2 = new object;
         $activity_2->id = 999;
         $url = "test.html";
-
-        $this->assertEqual(strlen(threesixty_user_listing($activity, $url)), 356);
-        $this->assertEqual(threesixty_user_listing($activity_2, $url), get_string('nousersfound', 'threesixty'));
+	
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual(strlen(threesixty_user_listing($activity, $url)), 356);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual(threesixty_user_listing($activity_2, $url), get_string('nousersfound', 'threesixty'));
     }
 
     public function test_mod_threesixty_selected_user_heading() {
@@ -360,8 +430,10 @@ class locallib_test extends prefix_changing_test_case {
         $user->id = 1;
         $courseid = 1;
         $url = "test.html";
-        $this->assertEqual(strlen(threesixty_selected_user_heading($user, $courseid, $url)), 163);
-        $this->assertEqual(strlen(threesixty_selected_user_heading($user, $courseid, $url, false)), 124);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual(strlen(threesixty_selected_user_heading($user, $courseid, $url)), 163);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual(strlen(threesixty_selected_user_heading($user, $courseid, $url, false)), 124);
     }
 
     public function test_mod_threesixty_get_first_incomplete_competency() {
@@ -375,15 +447,20 @@ class locallib_test extends prefix_changing_test_case {
         $respondent_2->id = 2;
 
         // ...activity complete show first page.
-        $this->assertEqual(threesixty_get_first_incomplete_competency($activityid, $userid, null), 1);
-        $this->assertEqual(threesixty_get_first_incomplete_competency($activityid, $userid, $respondent), 1);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual(threesixty_get_first_incomplete_competency($activityid, $userid, null), 1);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual(threesixty_get_first_incomplete_competency($activityid, $userid, $respondent), 1);
         // ...all skills have been scored, go to last page.
-        $this->assertEqual(threesixty_get_first_incomplete_competency($activityid, $userid_2, null), 3);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual(threesixty_get_first_incomplete_competency($activityid, $userid_2, null), 3);
         // ...partially complete show which page to display.
-        $this->assertEqual(threesixty_get_first_incomplete_competency($activityid, $userid_2, $respondent_2), 2);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual(threesixty_get_first_incomplete_competency($activityid, $userid_2, $respondent_2), 2);
 
         // ...no responses exist show first page.
-        $this->assertEqual(threesixty_get_first_incomplete_competency($activityid_2, $userid_2, $respondent_2), 1);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual(threesixty_get_first_incomplete_competency($activityid_2, $userid_2, $respondent_2), 1);
 
     }
 
@@ -396,25 +473,34 @@ class locallib_test extends prefix_changing_test_case {
         $obj->score = '0.00000000000000000000';
         $obj->id = 6;
         // ...check format of a single result.
-        $this->assertEqual(array_shift(threesixty_get_average_skill_scores($analysisid, 0, false)->records), $obj);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual(array_shift(threesixty_get_average_skill_scores($analysisid, 0, false)->records), $obj);
 
         // ...check the number of results.
-        $this->assertEqual(count(threesixty_get_average_skill_scores($analysisid, 0, true)->records), 3);
-        $this->assertEqual(count(threesixty_get_average_skill_scores($analysisid, 0, false)->records), 6);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual(count(threesixty_get_average_skill_scores($analysisid, 0, true)->records), 3);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual(count(threesixty_get_average_skill_scores($analysisid, 0, false)->records), 6);
 
         // ...zero records if bad analysisid or respondenttype.
-        $this->assertEqual(count(threesixty_get_average_skill_scores($analysisid_2, 0, false)->records), 0);
-        $this->assertEqual(count(threesixty_get_average_skill_scores($analysisid, $respondenttype_2, false)->records), 0);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual(count(threesixty_get_average_skill_scores($analysisid_2, 0, false)->records), 0);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual(count(threesixty_get_average_skill_scores($analysisid, $respondenttype_2, false)->records), 0);
 
         // ...check some numbers for different situations.
         $res = threesixty_get_average_skill_scores(1, false, false)->records;
-        $this->assertEqual($res[1]->score, 4);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($res[1]->score, 4);
         $res = threesixty_get_average_skill_scores(1, 0, false)->records;
-        $this->assertEqual($res[1]->score, 5);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($res[1]->score, 5);
         $res = threesixty_get_average_skill_scores(1, false, true)->records;
-        $this->assertEqual($res[1]->score, 3.75);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($res[1]->score, 3.75);
         $res = threesixty_get_average_skill_scores(1, 0, true)->records;
-        $this->assertEqual($res[1]->score, 4.5);
+	    /** @noinspection PhpUndefinedMethodInspection */
+	    $this->assertEqual($res[1]->score, 4.5);
 
     }
 

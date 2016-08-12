@@ -36,7 +36,7 @@ if (!$competency = $DB->get_record('threesixty_competency', array('id' => $c))) 
     print_error('Competency ID was incorrect');
 }
 
-$context = get_context_instance(CONTEXT_MODULE, $cm->id);
+$context = context_module::instance($cm->id);
 
 require_login($course->id, false, $cm);
 require_capability('mod/threesixty:manage', $context);
@@ -69,8 +69,8 @@ if ($confirm) {
 
     if (threesixty_delete_competency($competency->id)) {
         threesixty_reorder_competencies($activity->id);
-        add_to_log($course->id, 'threesixty', 'delete competency',
-                "deletecompentency.php?a=$activity->id&amp;c=$competency->id", $activity->id, $cm->id);
+        // TODO add_to_log($course->id, 'threesixty', 'delete competency',
+        // TODO       "deletecompentency.php?a=$activity->id&amp;c=$competency->id", $activity->id, $cm->id);
     } else {
         print_error('error:cannotdeletecompetency', 'threesixty', $returnurl);
     }

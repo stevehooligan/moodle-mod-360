@@ -42,7 +42,7 @@ if ($c > 0) {
     $skills = $DB->get_records('threesixty_skill', array('competencyid' => $competency->id), 'sortorder');
 }
 
-$context = get_context_instance(CONTEXT_MODULE, $cm->id);
+$context = context_module::instance($cm->id);
 
 require_login($course->id, false, $cm);
 require_capability('mod/threesixty:manage', $context);
@@ -87,8 +87,8 @@ if ($fromform = $mform->get_data()) { // Form submitted.
 
         $todb->id = $competencyid;
         if ($DB->update_record('threesixty_competency', $todb)) {
-            add_to_log($course->id, 'threesixty', 'update competency',
-                       $originurl, $activity->id, $cm->id);
+            // TODO add_to_log($course->id, 'threesixty', 'update competency',
+            // ....          $originurl, $activity->id, $cm->id);
         } else {
             $transaction->rollback(new Exception());
             print_error('error:cannotupdatecompetency', 'threesixty', $returnurl);
@@ -98,8 +98,8 @@ if ($fromform = $mform->get_data()) { // Form submitted.
         // Set the sortorder to the end of the line.
         $todb->sortorder = $DB->count_records('threesixty_competency', array('activityid' => $activity->id));
         if ($competencyid = $DB->insert_record('threesixty_competency', $todb, true)) {
-            add_to_log($course->id, 'threesixty', 'add competency',
-                       $originurl, $activity->id, $cm->id);
+            // TODO add_to_log($course->id, 'threesixty', 'add competency',
+            // ....          $originurl, $activity->id, $cm->id);
         } else {
             $transaction->rollback(new Exception());
             print_error('error:cannotaddcompetency', 'threesixty', $returnurl);
@@ -127,8 +127,8 @@ if ($fromform = $mform->get_data()) { // Form submitted.
 
             if (!empty($fromform->skilldelete[$i])) { // Delete.
                 if (threesixty_delete_skill($skillid, true)) {
-                    add_to_log($course->id, 'threesixty', 'delete skill',
-                               $originurl, $activity->id, $cm->id);
+                    // TODO add_to_log($course->id, 'threesixty', 'delete skill',
+                    // ....           $originurl, $activity->id, $cm->id);
                 } else {
                     $transaction->rollback(new Exception());
                     print_error('error:cannotdeleteskill', 'threesixty', $returnurl);
@@ -140,8 +140,8 @@ if ($fromform = $mform->get_data()) { // Form submitted.
                 $todb->description = $skilldescription;
 
                 if ($DB->update_record('threesixty_skill', $todb)) {
-                    add_to_log($course->id, 'threesixty', 'update skill',
-                               $originurl, $activity->id, $cm->id);
+                    // TODO add_to_log($course->id, 'threesixty', 'update skill',
+                    // ....           $originurl, $activity->id, $cm->id);
                 } else {
                     $transaction->rollback(new Exception());
                     print_error('error:cannotupdateskill', 'threesixty', $returnurl);
@@ -155,8 +155,8 @@ if ($fromform = $mform->get_data()) { // Form submitted.
             $todb->sortorder = $i;
 
             if ($todb->id = $DB->insert_record('threesixty_skill', $todb)) {
-                add_to_log($course->id, 'threesixty', 'insert skill',
-                           $originurl, $activity->id, $cm->id);
+                // TODO add_to_log($course->id, 'threesixty', 'insert skill',
+                // ....           $originurl, $activity->id, $cm->id);
             } else {
                 // TODO moodle_rollback_sql();
                 print_error('error:cannotaddskill', 'threesixty', $returnurl);

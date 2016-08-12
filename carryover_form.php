@@ -22,7 +22,7 @@ global $CFG;
 
 require_once($CFG->dirroot.'/lib/formslib.php');
 
-class mod_threesity_carryover_form extends moodleform {
+class mod_threesixty_carryover_form extends moodleform {
 
     public function definition() {
 

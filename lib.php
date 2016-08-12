@@ -132,7 +132,6 @@ function threesixty_supports($feature) {
 }
 
 
-
 /**
  * Return a small object with summary information about what a
  * user has done with a given particular instance of this module
@@ -140,6 +139,10 @@ function threesixty_supports($feature) {
  * $return->time = the time they did it
  * $return->info = a short text description
  *
+ * @param $course
+ * @param $user
+ * @param $mod
+ * @param $threesixty
  * @return null
  * @todo Finish documenting this function
  */
@@ -154,7 +157,11 @@ function threesixty_user_outline($course, $user, $mod, $threesixty) {
  * Print a detailed representation of what a user has done with
  * a given particular instance of this module, for user activity reports.
  *
- * @return boolean
+ * @param $course
+ * @param $user
+ * @param $mod
+ * @param $threesixty
+ * @return bool
  * @todo Finish documenting this function
  */
 function threesixty_user_complete($course, $user, $mod, $threesixty) {
@@ -167,7 +174,10 @@ function threesixty_user_complete($course, $user, $mod, $threesixty) {
  * that has occurred in threesixty activities and print it out.
  * Return true if there was output, or false is there was none.
  *
- * @return boolean
+ * @param $course
+ * @param $isteacher
+ * @param $timestart
+ * @return bool
  * @todo Finish documenting this function
  */
 function threesixty_print_recent_activity($course, $isteacher, $timestart) {
@@ -209,6 +219,7 @@ function threesixty_get_participants($threesixtyid) {
  * as reference.
  *
  * @param int $threesixtyid ID of an instance of this module
+ * @param $scaleid
  * @return mixed
  * @todo Finish documenting this function
  */

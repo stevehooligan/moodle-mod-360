@@ -522,6 +522,11 @@ function threesixty_selected_user_heading($user, $courseid, $url, $selectanother
 
 /**
  * Return the page where the first incomplete competency is or 1 if it's complete.
+ *
+ * @param $activityid
+ * @param $userid
+ * @param $respondent
+ * @return int
  */
 function threesixty_get_first_incomplete_competency($activityid, $userid, $respondent) {
     global $DB;
