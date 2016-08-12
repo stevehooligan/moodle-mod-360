@@ -70,7 +70,7 @@ if (isset($user)) {
     $complist = get_full_competency_list($activity->id);
     $nbcarried = $activity->competenciescarried;
 
-    $mform =& new mod_threesity_carryover_form(null, compact('a', 'userid', 'complist', 'nbcarried'));
+    $mform =& new mod_threesixty_carryover_form(null, compact('a', 'userid', 'complist', 'nbcarried'));
 
     if ($fromform = $mform->get_data()) {
         if ($mform->is_cancelled()) {
@@ -141,6 +141,10 @@ function get_full_competency_list($activityid) {
     return $ret;
 }
 
+/**
+ * @param $mform mod_threesixty_carryover_form
+ * @param $analysisid
+ */
 function set_form_data($mform, $analysisid) {
     global $DB;
 

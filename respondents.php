@@ -24,6 +24,8 @@ require_once('../../config.php');
 require_once('locallib.php');
 require_once('respondents_form.php');
 
+global $CFG, $DB, $PAGE, $USER;
+
 define('RESPONSE_BASEURL', "$CFG->wwwroot/mod/threesixty/score.php?code=");
 
 $a       = required_param('a', PARAM_INT);  // ...threesixty instance ID.
@@ -32,16 +34,16 @@ $delete  = optional_param('delete', 0, PARAM_INT);
 $remind  = optional_param('remind', 0, PARAM_INT);
 
 if (!$activity = $DB->get_record('threesixty', array('id' => $a))) {
-    error('Course module is incorrect');
+    print_error('Course module is incorrect');
 }
 if (!$course = $DB->get_record('course', array('id' => $activity->course))) {
-    error('Course is misconfigured');
+    print_error('Course is misconfigured');
 }
 if (!$cm = get_coursemodule_from_instance('threesixty', $activity->id, $course->id)) {
-    error('Course Module ID was incorrect');
+    print_error('Course Module ID was incorrect');
 }
 
-$context = get_context_instance(CONTEXT_MODULE, $cm->id);
+$context = context_module::instance($cm->id);
 
 require_login($course, true, $cm);
 
@@ -55,7 +57,7 @@ if (!has_capability('mod/threesixty:viewrespondents', $context)) {
 
 $user = null;
 if ($userid > 0 and !$user = $DB->get_record('user', array('id' => $userid), $fields='id, firstname, lastname')) {
-    error('Invalid User ID');
+    print_error('Invalid User ID');
 }
 
 $baseurl = "respondents.php?a=$activity->id";
@@ -155,12 +157,14 @@ if (isset($mform)) {
         // ...var_dump(threesixty_selected_user_heading($user, $course->id, $baseurl)); die();.
     }
 
+    $remaininginvitations = isset($remaininginvitations) ? $remaininginvitations : 0;
     if ($remaininginvitations > 0) {
         $mform->display();
     }
 
     $canremind = has_capability('mod/threesixty:remindrespondents', $context);
     $candelete = has_capability('mod/threesixty:deleterespondents', $context);
+	$analysis = isset($analysis) ? $analysis : array('id'=>-1);
     print_respondent_table($activity->id, $analysis->id, $user->id, $canremind, $candelete);
 } else {
     // ....print threesixty_user_listing($activity, $baseurl);.
