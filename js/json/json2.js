@@ -195,7 +195,7 @@ if (typeof(JSON) === "undefined") {
                     if (typeof c === 'string') {
                         return c;
                     }
-                    c = a.charCodeAt();
+                    c = a.charCodeAt(0);
                     return '\\u00' + Math.floor(c / 16).toString(16) +
                                                (c % 16).toString(16);
                 }) + '"' :
