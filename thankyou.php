@@ -29,13 +29,13 @@ global $DB;
 $a = required_param('a', PARAM_INT);  // ...threesixty instance ID.
 
 if (!$activity = $DB->get_record('threesixty', array('id' => $a))) {
-    error('Course module is incorrect');
+    print_error('Course module is incorrect');
 }
 if (!$course = $DB->get_record('course', array('id' => $activity->course))) {
-    error('Course is misconfigured');
+	print_error('Course is misconfigured');
 }
 if (!$cm = get_coursemodule_from_instance('threesixty', $activity->id, $course->id)) {
-    error('Course Module ID was incorrect');
+	print_error('Course Module ID was incorrect');
 }
 
 /** @var core_renderer $OUTPUT */

@@ -126,7 +126,7 @@ if (isset($user)) {
         redirect($currenturl);
     }
 
-    add_to_log($course->id, 'threesixty', 'respondents', $currenturl, $activity->id);
+    // TODO add_to_log($course->id, 'threesixty', 'respondents', $currenturl, $activity->id);
 }
 
 /** @var core_renderer $OUTPUT */

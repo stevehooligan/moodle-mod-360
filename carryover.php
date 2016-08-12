@@ -34,20 +34,20 @@ $a       = required_param('a', PARAM_INT);  // ...threesixty instance ID.
 $userid  = optional_param('userid', 0, PARAM_INT);
 
 if (!$activity = $DB->get_record('threesixty', array('id' => $a))) {
-    error('Course module is incorrect');
+    print_error('Course module is incorrect');
 }
 if (!$course = $DB->get_record('course', array('id' => $activity->course))) {
-    error('Course is misconfigured');
+	print_error('Course is misconfigured');
 }
 if (!$cm = get_coursemodule_from_instance('threesixty', $activity->id, $course->id)) {
-    error('Course Module ID was incorrect');
+	print_error('Course Module ID was incorrect');
 }
 $user = null;
 if ($userid > 0 and !$user = $DB->get_record('user', array('id' => $userid), 'id, firstname, lastname')) {
-    error('Invalid User ID');
+	print_error('Invalid User ID');
 }
 
-$context = get_context_instance(CONTEXT_MODULE, $cm->id);
+$context = context_module::instance($cm->id);
 
 require_login($course, true, $cm);
 require_capability('mod/threesixty:manage', $context);
@@ -85,7 +85,7 @@ if (isset($user)) {
         }
     }
 
-    add_to_log($course->id, 'threesixty', 'carryover', $currenturl, $activity->id);
+    // TODO add_to_log($course->id, 'threesixty', 'carryover', $currenturl, $activity->id);
 }
 
 /** @var core_renderer $OUTPUT */

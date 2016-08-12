@@ -29,7 +29,7 @@ global $DB, $PAGE;
 $id = required_param('id', PARAM_INT);   // Course.
 
 if (! $course = $DB->get_record('course', array('id' => $id))) {
-    error('Course ID is incorrect');
+    print_error('Course ID is incorrect');
 }
 
 // ...require_course_login($course);.
@@ -39,7 +39,7 @@ $PAGE->set_url('/mod/threesixty/index.php', array('id' => $id));
 $PAGE->set_pagelayout('incourse');
 
 
-add_to_log($course->id, 'threesixty', 'view all', "index.php?id=$course->id", '');
+// TODO add_to_log($course->id, 'threesixty', 'view all', "index.php?id=$course->id", '');
 
 
 /** @var core_renderer $OUTPUT */

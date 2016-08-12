@@ -38,7 +38,7 @@ if (!isset($cm)) {
 	$cm = get_coursemodule_from_instance('threesixty', $threesixty->id);
 }
 
-$context = get_context_instance(CONTEXT_MODULE, $cm->id);
+$context = context_module::instance($cm->id);
 
 $tabs = array();
 $row  = array();

@@ -34,19 +34,19 @@ if (!$respondent = $DB->get_record('threesixty_respondent', 'uniquehash', $code)
     print_error('error:invalidcode', 'threesixty');
 }
 if (!$analysis = $DB->get_record('threesixty_analysis', 'id', $respondent->analysisid)) {
-    error('Analysis ID is incorrect');
+	print_error('Analysis ID is incorrect');
 }
 if (!$activity = $DB->get_record('threesixty', 'id', $analysis->activityid)) {
-    error('Course module is incorrect');
+	print_error('Course module is incorrect');
 }
 if (!$course = $DB->get_record('course', 'id', $activity->course)) {
-    error('Course is misconfigured');
+	print_error('Course is misconfigured');
 }
 if (!$cm = get_coursemodule_from_instance('threesixty', $activity->id, $course->id)) {
-    error('Course Module ID was incorrect');
+	print_error('Course Module ID was incorrect');
 }
 
-add_to_log($course->id, 'threesixty', 'wrongemail', "wrongemail.php?code=$code", $activity->id);
+// TODO add_to_log($course->id, 'threesixty', 'wrongemail', "wrongemail.php?code=$code", $activity->id);
 
 /** @var core_renderer $OUTPUT */
 echo $OUTPUT->header();
@@ -65,7 +65,7 @@ $PAGE->set_title(format_string($activity->name));
 
 // Main content.
 if (threesixty_delete_respondent($respondent->id)) {
-    add_to_log($course->id, $cm->id, 'delete');
+    // TODO add_to_log($course->id, $cm->id, 'delete');
     // ...error_log("threesixty: user claims the response code doesn't match their email address.
     // ...-- deleted $respondent->email from (analysisid=$analysis->id)");.
 }
