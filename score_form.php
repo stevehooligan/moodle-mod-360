@@ -52,9 +52,15 @@ class mod_threesixty_score_form extends moodleform {
 
         if ($competency->skills and count($competency->skills) > 0) {
 
-            $mform->addElement('html', '<br /><br /><div class="clear"><!-- --></div><div class="compheader"><div class="compopt">'.
-                    get_string('notapplicable', 'threesixty').'</div><div class="compopt">1</div><div class="compopt">2</div>
-                    <div class="compopt">3</div><div class="compopt">4</div><div class="clear"><!-- --></div></div>');
+            $mform->addElement('html', '<div class="aol_here">');
+            $headarray = array();
+            $headarray[] = &$mform->createElement('static', null, null, get_string('notapplicable', 'threesixty'));
+            $headarray[] = &$mform->createElement('static', null, null, '1');
+            $headarray[] = &$mform->createElement('static', null, null, '2');
+            $headarray[] = &$mform->createElement('static', null, null, '3');
+            $headarray[] = &$mform->createElement('static', null, null, '4');
+            $mform->addGroup($headarray);
+            $mform->addElement('html', '</div>');
 
             foreach ($competency->skills as $skill) {
                 $mform->addElement('html', '<div class="skillset">');
