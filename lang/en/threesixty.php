@@ -167,9 +167,9 @@ $string['thankyoumessage'] = '<p>Thank you for assessing this user.</p><p>You ma
 $string['xofy'] = 'Page {$a->page} of {$a->nbpages}';
 $string['analyses'] = 'Analyses';
 $string['legend:heading'] = 'Scale details:';
-$string['legend:level1'] = 'Support Staff Level';
-$string['legend:level2'] = 'Junior Management';
-$string['legend:level3'] = 'Middle Management';
-$string['legend:level4'] = 'Senior Management';
+$string['legend:level1'] = 'Limited Evidence';
+$string['legend:level2'] = 'Developing';
+$string['legend:level3'] = 'Effective';
+$string['legend:level4'] = 'Exceptional';
 
 $string['error:invalidrespondent'] = 'Invalid respondent type filter: {$a}';
