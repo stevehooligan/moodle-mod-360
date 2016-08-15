@@ -47,23 +47,24 @@ class mod_threesity_amend_form extends moodleform {
             $curcompetency = 0;
             foreach ($skills as $skill) {
                 if ($curcompetency != $skill->competencyid) {
-                    $mform->addElement('html', '<br /><br /><div class="compheader">
-                    <div class="complabel">'.format_string($skill->competencyname).
-                    '</div><div class="compopt">'.get_string('notapplicable', 'threesixty').
-                    '</div><div class="compopt">1</div><div class="compopt">2</div>
-                     <div class="compopt">3</div><div class="compopt">4</div>
-                     <div class="clear"><!-- --></div></div>');
+                    $mform->addElement(
+                    	'html',
+                    	'<br /><br />'.
+                    	'<div class="compheader">'.
+                    		'<span class="complabel">'.format_string($skill->competencyname).'</span>'.
+                    	'</div>'.
+                    	'<div class="clear">&nbsp;</div>');
                     $curcompetency = $skill->competencyid;
                 }
 
                 $mform->addElement('html', '<div class="skillset">');
                 $elementname = "score_{$skill->id}";
                 $radioarray = array();
-                $radioarray[] = &$mform->createElement('radio', $elementname, '', '', 0);
-                $radioarray[] = &$mform->createElement('radio', $elementname, '', '', 1);
-                $radioarray[] = &$mform->createElement('radio', $elementname, '', '', 2);
-                $radioarray[] = &$mform->createElement('radio', $elementname, '', '', 3);
-                $radioarray[] = &$mform->createElement('radio', $elementname, '', '', 4);
+                $radioarray[] = &$mform->createElement('radio', $elementname, '', get_string('notapplicable', 'threesixty'), 0);
+                $radioarray[] = &$mform->createElement('radio', $elementname, '', '1', 1);
+                $radioarray[] = &$mform->createElement('radio', $elementname, '', '2', 2);
+                $radioarray[] = &$mform->createElement('radio', $elementname, '', '3', 3);
+                $radioarray[] = &$mform->createElement('radio', $elementname, '', '4', 4);
                 $skillname = "<div class='skillname'>".format_string($skill->skillname)."</div>";
                 $mform->addGroup($radioarray, "radioarray_$skill->id", $skillname);
                 $mform->addElement('html', '</div>');

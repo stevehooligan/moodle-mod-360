@@ -51,26 +51,15 @@ class mod_threesixty_score_form extends moodleform {
         $mform->addElement('html', '<li>Level 4: '.get_string('legend:level4', 'threesixty').'</li></ul></div>');
 
         if ($competency->skills and count($competency->skills) > 0) {
-
-            $mform->addElement('html', '<div class="aol_here">');
-            $headarray = array();
-            $headarray[] = &$mform->createElement('static', null, null, get_string('notapplicable', 'threesixty'));
-            $headarray[] = &$mform->createElement('static', null, null, '1');
-            $headarray[] = &$mform->createElement('static', null, null, '2');
-            $headarray[] = &$mform->createElement('static', null, null, '3');
-            $headarray[] = &$mform->createElement('static', null, null, '4');
-            $mform->addGroup($headarray);
-            $mform->addElement('html', '</div>');
-
             foreach ($competency->skills as $skill) {
                 $mform->addElement('html', '<div class="skillset">');
                 $elementname = "score_{$skill->id}";
                 $radioarray = array();
-                $radioarray[] = &$mform->createElement('radio', $elementname, '', '', 0);
-                $radioarray[] = &$mform->createElement('radio', $elementname, '', '', 1);
-                $radioarray[] = &$mform->createElement('radio', $elementname, '', '', 2);
-                $radioarray[] = &$mform->createElement('radio', $elementname, '', '', 3);
-                $radioarray[] = &$mform->createElement('radio', $elementname, '', '', 4);
+                $radioarray[] = &$mform->createElement('radio', $elementname, '', get_string('notapplicable', 'threesixty'), 0);
+                $radioarray[] = &$mform->createElement('radio', $elementname, '', '1', 1);
+                $radioarray[] = &$mform->createElement('radio', $elementname, '', '2', 2);
+                $radioarray[] = &$mform->createElement('radio', $elementname, '', '3', 3);
+                $radioarray[] = &$mform->createElement('radio', $elementname, '', '4', 4);
 
                 $skillname = "<div class='skillname'>".format_string($skill->name);
                 if (strlen($skill->description)>0) {
