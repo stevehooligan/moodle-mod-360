@@ -116,7 +116,7 @@ if (isset($user)) {
 
     $analysisid = $analysis->id;
 
-    $mform =& new mod_threesity_respondents_form(null, compact('a', 'analysisid', 'userid', 'typelist', 'remaininginvitations'));
+    $mform = new mod_threesity_respondents_form(null, compact('a', 'analysisid', 'userid', 'typelist', 'remaininginvitations'));
 
     if ($fromform = $mform->get_data()) {
 

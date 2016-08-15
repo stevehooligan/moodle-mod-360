@@ -126,7 +126,7 @@ $fromform = null;
 
 if ($competency = get_competency_details($page, $activity->id, $user->id, $respondent)) {
     $nbpages = $DB->count_records('threesixty_competency', array('activityid' => $activity->id));
-    $mform =& new mod_threesixty_score_form(null, compact('a', 'code', 'competency', 'page', 'nbpages', 'userid', 'typeid'));
+    $mform = new mod_threesixty_score_form(null, compact('a', 'code', 'competency', 'page', 'nbpages', 'userid', 'typeid'));
 
     if ($mform->is_cancelled()) {
         redirect($cancelurl);

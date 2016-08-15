@@ -86,7 +86,7 @@ if (isset($user)) {
         print_error('error:nodataforuserx', 'threesixty', $returnurl, fullname($user));
     }
 
-    $mform =& new mod_threesity_amend_form(null, compact('a', 'skillnames', 'userid', 'typeid'));
+    $mform = new mod_threesity_amend_form(null, compact('a', 'skillnames', 'userid', 'typeid'));
 
     if ($mform->is_cancelled()) {
         redirect($baseurl);

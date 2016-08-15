@@ -53,7 +53,7 @@ $PAGE->set_pagelayout('incourse');
 
 $returnurl = "edit.php?a=$activity->id&amp;section=competencies";
 
-$mform =& new mod_threesixty_editcompetency_form(null, compact('a', 'c', 'skills'));
+$mform = new mod_threesixty_editcompetency_form(null, compact('a', 'c', 'skills'));
 
 if ($mform->is_cancelled()) {
     redirect($returnurl);
