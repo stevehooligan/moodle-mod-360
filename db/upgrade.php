@@ -24,8 +24,7 @@ function xmldb_threesixty_upgrade($oldversion = 0) {
 
     $result = true;
     if ($result && $oldversion < 2012102301) {
-        // TODO Not sure any of this function will work, there are various problems with it.
-        // These lines are marked with @noinspection comments
+        // TODO Not sure any of this function will work, there are various problems with it.  Problem lines are marked with @noinspection comments
         
         // Add a display order column for the competency table.
         $comptable = new xmldb_table('threesixty_competency');
