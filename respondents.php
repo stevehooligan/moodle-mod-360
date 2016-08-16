@@ -202,20 +202,20 @@ function generate_uniquehash($email) {
 }
 
 function send_email($recipientemail, $messageid, $extrainfo) {
-    // Fake user object necessary for email_to_user().
-    $user = new object();
-    $user->id = 0; // ...required for bounce handling and get_user_preferences().
-    $user->email = $recipientemail;
-
-    $a = new object();
-    $a->url = $extrainfo['url'];
-    $a->userfullname = $extrainfo['userfullname'];
-
-    $from = $extrainfo['userfullname'];
-    $subject = get_string("email:{$messageid}subject", 'threesixty', $a);
-    $messagetext = get_string("email:{$messageid}body", 'threesixty', $a);
-
-    return email_to_user($user, $from, $subject, $messagetext);
+	$a = new object();
+	$a->url = $extrainfo['url'];
+	$a->userfullname = $extrainfo['userfullname'];
+	
+	$from = $extrainfo['userfullname'];
+	$subject = get_string("email:{$messageid}subject", 'threesixty', $a);
+	$messagetext = get_string("email:{$messageid}body", 'threesixty', $a);
+	$mail = get_mailer();
+	$mail->addAddress($recipientemail);
+	$mail->setFrom($from);
+	$mail->Subject = $subject;
+	$mail->Body = $messagetext;
+	$mail->isHTML(true);
+	return $mail->send();
 }
 
 function request_respondent($formfields, $analysisid, $senderfullname) {
