@@ -45,18 +45,17 @@ class restore_threesixty_activity_structure_step extends restore_activity_struct
 
         // Define each element separated.
         $paths[] = new restore_path_element('threesixty', '/activity/threesixty');
-        $paths[] = new restore_path_element('threesixty_competency', '/activity/threesixty/competency');
-        $paths[] = new restore_path_element('threesixty_analysis', '/activity/threesixty/analysis');
-        $paths[] = new restore_path_element('threesixty_skill', '/activity/threesixty/competency/skill');
-        $paths[] = new restore_path_element('threesixty_response_skill',
-                '/activity/threesixty/analysis/respondent/response/response_skill');
+        $paths[] = new restore_path_element('threesixty_competency', '/activity/threesixty/competencies/competency');
+        $paths[] = new restore_path_element('threesixty_analysis', '/activity/threesixty/analysis_table/analysis');
+        $paths[] = new restore_path_element('threesixty_skill', '/activity/threesixty/competencies/competency/skills/skill');
+        $paths[] = new restore_path_element('threesixty_response_skill', '/activity/threesixty/competencies/competency/skills/skill/response_skill_table/response_skill');
         $paths[] = new restore_path_element('threesixty_response_comp',
-                '/activity/threesixty/analysis/respondent/response/response_comp');
-        $paths[] = new restore_path_element('threesixty_carried_comp', '/activity/threesixty/analysis/carried_comp');
+                '/activity/threesixty/analysis_table/analysis/respondents/respondent/responses/response/response_comp_table/response_comp');
+        $paths[] = new restore_path_element('threesixty_carried_comp', '/activity/threesixty/analysis_table/analysis/carried_comp_table/carried_comp');
 
         if ($userinfo) {
-            $paths[] = new restore_path_element('threesixty_respondent', '/activity/threesixty/analysis/respondent');
-            $paths[] = new restore_path_element('threesixty_response', '/activity/threesixty/analysis/respondent/response');
+            $paths[] = new restore_path_element('threesixty_respondent', '/activity/threesixty/analysis_table/analysis/respondents/respondent');
+            $paths[] = new restore_path_element('threesixty_response', '/activity/threesixty/analysis_table/analysis/respondents/respondent/responses/response');
 
         }
         // ...$paths[] = new restore_path_element('threesixty_plugin_config', '/activity/threesixty/plugin_configs/plugin_config');.
