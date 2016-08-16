@@ -51,6 +51,9 @@
     //
     // ...----------------------------------------------------------------------------------.
 
+// TODO This file is possibly never used, but this needs confirming
+// TODO Have hidden errors in this file using @noinspection, these should be removed as part of any recommission
+
 // This function executes all the restore procedure about this mod.
 function threesixty_restore_mods($mod, $restore) {
 
@@ -59,14 +62,16 @@ function threesixty_restore_mods($mod, $restore) {
     $status = true;
 
     // Get record from backup_ids.
-    $data = backup_getid($restore->backup_unique_code, $mod->modtype, $mod->id);
+	/** @noinspection PhpUndefinedFunctionInspection */
+	$data = backup_getid($restore->backup_unique_code, $mod->modtype, $mod->id);
 
     if ($data) {
         // Now get completed xmlized object.
         $info = $data->info;
         // If necessary, write to restorelog and adjust date/time fields.
         if ($restore->course_startdateoffset) {
-            restore_log_date_changes('Three Sixty Diagnostic', $restore, $info['MOD']['#'], array('TIMECREATED', 'TIMEMODIFIED'));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        restore_log_date_changes('Three Sixty Diagnostic', $restore, $info['MOD']['#'], array('TIMECREATED', 'TIMEMODIFIED'));
         }
 
         // ...traverse_xmlize($info);                                                   //Debug.
@@ -76,11 +81,16 @@ function threesixty_restore_mods($mod, $restore) {
         // Now, build the three sixty record structure.
 	    $threesixty = isset($threesixty) ? $threesixty : new stdClass();
         $threesixty->course = $restore->course_id;
-        $threesixty->name = backup_todb($info['MOD']['#']['NAME']['0']['#']);
-        $threesixty->competenciescarried = backup_todb($info['MOD']['#']['COMPETENCIESCARRIED']['0']['#']);
-        $threesixty->requiredrespondents = backup_todb($info['MOD']['#']['REQUIREDRESPONDENTS']['0']['#']);
-        $threesixty->timecreated = backup_todb($info['MOD']['#']['TIMECREATED']['0']['#']);
-        $threesixty->timemodified = backup_todb($info['MOD']['#']['TIMEMODIFIED']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $threesixty->name = backup_todb($info['MOD']['#']['NAME']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $threesixty->competenciescarried = backup_todb($info['MOD']['#']['COMPETENCIESCARRIED']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $threesixty->requiredrespondents = backup_todb($info['MOD']['#']['REQUIREDRESPONDENTS']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $threesixty->timecreated = backup_todb($info['MOD']['#']['TIMECREATED']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $threesixty->timemodified = backup_todb($info['MOD']['#']['TIMEMODIFIED']['0']['#']);
 
         // The structure is equal to the db, so insert the training diary.
         $newid = $DB->insert_record('threesixty', $threesixty);
@@ -90,18 +100,21 @@ function threesixty_restore_mods($mod, $restore) {
             echo "<li>" . get_string("modulename", "threesixty") . " \""
                      . format_string(stripslashes($threesixty->name), true) . "\"</li>";
         }
-        backup_flush(300);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    backup_flush(300);
 
         if ($newid) {
             // We have the newid, update backup_ids.
-            backup_putid($restore->backup_unique_code, $mod->modtype,
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        backup_putid($restore->backup_unique_code, $mod->modtype,
                              $mod->id, $newid);
 
             // Restore threesixty_competency - threesixty_skill restored from here.
             $status = $status && threesixty_competency_restore_mods($mod->id, $newid, $info, $restore);
 
             // If userinfo was selected, restore the values.
-            if (restore_userdata_selected($restore, 'threesixty', $mod->id)) {
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        if (restore_userdata_selected($restore, 'threesixty', $mod->id)) {
                 $status = $status && threesixty_analysis_restore_mods($mod->id, $newid, $info, $restore);
             }
         } else {
@@ -138,14 +151,18 @@ function threesixty_competency_restore_mods($old_threesixty_id, $new_threesixty_
         // $GLOBALS['traverse_array']="";                                            //Debug.
 
         // We'll need this later!!
-        $oldid = backup_todb($competency_info['#']['ID']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $oldid = backup_todb($competency_info['#']['ID']['0']['#']);
 
         // Now, build the competency record structure.
         $competency = new object();
         $competency->activityid = $new_threesixty_id;
-        $competency->name = backup_todb($competency_info['#']['NAME']['0']['#']);
-        $competency->description = backup_todb($competency_info['#']['DESCRIPTION']['0']['#']);
-        $competency->showfeedback = backup_todb($competency_info['#']['SHOWFEEDBACK']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $competency->name = backup_todb($competency_info['#']['NAME']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $competency->description = backup_todb($competency_info['#']['DESCRIPTION']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $competency->showfeedback = backup_todb($competency_info['#']['SHOWFEEDBACK']['0']['#']);
 
         // The structure is equal to the db, so insert the competencies.
         $newid = $DB->insert_record("threesixty_competency", $competency);
@@ -158,11 +175,13 @@ function threesixty_competency_restore_mods($old_threesixty_id, $new_threesixty_
                     echo "<br />";
                 }
             }
-            backup_flush(300);
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        backup_flush(300);
         }
         if ($newid) {
             // We have the newid, update backup_ids.
-            backup_putid($restore->backup_unique_code, "threesixty_competency", $oldid, $newid);
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        backup_putid($restore->backup_unique_code, "threesixty_competency", $oldid, $newid);
 
                 // Restore skills for this competency.
             $status = $status && threesixty_skill_restore_mods($oldid, $newid, $competency_info, $restore);
@@ -198,13 +217,16 @@ function threesixty_skill_restore_mods($old_competency_id, $new_competency_id, $
         // $GLOBALS['traverse_array']="";                                           //Debug.
 
         // We'll need this later!!
-        $oldid = backup_todb($skill_info['#']['ID']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $oldid = backup_todb($skill_info['#']['ID']['0']['#']);
 
         // Now, build the threesixty_skill record structure.
 	    $skill = isset($skill) ? $skill : new stdClass();
         $skill->competencyid = $new_competency_id;
-        $skill->name = backup_todb($skill_info['#']['NAME']['0']['#']);
-        $skill->description = backup_todb($skill_info['#']['DESCRIPTION']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $skill->name = backup_todb($skill_info['#']['NAME']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $skill->description = backup_todb($skill_info['#']['DESCRIPTION']['0']['#']);
 
         // The structure is equal to the db, so insert the skill.
         $newid = $DB->insert_record("threesixty_skill", $skill);
@@ -217,11 +239,13 @@ function threesixty_skill_restore_mods($old_competency_id, $new_competency_id, $
                     echo "<br />";
                 }
             }
-            backup_flush(300);
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        backup_flush(300);
         }
         if ($newid) {
             // We have the newid, update backup_ids.
-            backup_putid($restore->backup_unique_code, "threesixty_skill", $oldid, $newid);
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        backup_putid($restore->backup_unique_code, "threesixty_skill", $oldid, $newid);
         } else {
             $status = false;
         }
@@ -254,15 +278,18 @@ function threesixty_analysis_restore_mods($old_threesixty_id, $new_threesixty_id
         // $GLOBALS['traverse_array']="";                                            //Debug.
 
         // We'll need this later!!
-        $oldid = backup_todb($analysis_info['#']['ID']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $oldid = backup_todb($analysis_info['#']['ID']['0']['#']);
 
         // Now, build the analysis record structure.
         $analysis = new object();
         $analysis->activityid = $new_threesixty_id;
-        $analysis->userid = backup_todb($analysis_info['#']['USERID']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $analysis->userid = backup_todb($analysis_info['#']['USERID']['0']['#']);
 
         // We have to recode the userid field.
-        $user = backup_getid($restore->backup_unique_code, "user", $analysis->userid);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $user = backup_getid($restore->backup_unique_code, "user", $analysis->userid);
         if ($user) {
             $analysis->userid = $user->new_id;
         }
@@ -278,11 +305,13 @@ function threesixty_analysis_restore_mods($old_threesixty_id, $new_threesixty_id
                     echo "<br />";
                 }
             }
-            backup_flush(300);
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        backup_flush(300);
         }
         if ($newid) {
             // We have the newid, update backup_ids.
-            backup_putid($restore->backup_unique_code, "threesixty_analysis", $oldid, $newid);
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        backup_putid($restore->backup_unique_code, "threesixty_analysis", $oldid, $newid);
 
             // Restore carried comp and respondent for this analysis.
             $status = $status && threesixty_carried_comp_restore_mods($oldid, $newid, $analysis_info, $restore);
@@ -319,15 +348,18 @@ function threesixty_carried_comp_restore_mods($old_analysis_id, $new_analysis_id
         // $GLOBALS['traverse_array']="";                                           //Debug.
 
         // We'll need this later!!
-        $oldid = backup_todb($carried_comp_info['#']['ID']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $oldid = backup_todb($carried_comp_info['#']['ID']['0']['#']);
 
         // Now, build the threesixty_carried_comp record structure.
 	    $carried_comp = isset($carried_comp) ? $carried_comp : new stdClass();
         $carried_comp->analysisid = $new_analysis_id;
-        $carried_comp->competencyid = backup_todb($carried_comp_info['#']['COMPETENCYID']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $carried_comp->competencyid = backup_todb($carried_comp_info['#']['COMPETENCYID']['0']['#']);
 
         // We have to recode the competencyid field.
-        $competency = backup_getid($restore->backup_unique_code, "threesixty_competency", $carried_comp->competencyid);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $competency = backup_getid($restore->backup_unique_code, "threesixty_competency", $carried_comp->competencyid);
         if ($competency) {
             $carried_comp->competencyid = $competency->new_id;
         }
@@ -343,11 +375,13 @@ function threesixty_carried_comp_restore_mods($old_analysis_id, $new_analysis_id
                     echo "<br />";
                 }
             }
-            backup_flush(300);
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        backup_flush(300);
         }
         if ($newid) {
             // We have the newid, update backup_ids.
-            backup_putid($restore->backup_unique_code, "threesixty_carried_comp", $oldid, $newid);
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        backup_putid($restore->backup_unique_code, "threesixty_carried_comp", $oldid, $newid);
         } else {
             $status = false;
         }
@@ -383,14 +417,18 @@ function threesixty_respondent_restore_mods($old_analysis_id, $new_analysis_id, 
         // $GLOBALS['traverse_array']="";                                           //Debug.
 
         // We'll need this later!!
-        $oldid = backup_todb($respondent_info['#']['ID']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $oldid = backup_todb($respondent_info['#']['ID']['0']['#']);
 
         // Now, build the threesixty_respondent record structure.
 	    $respondent = isset($respondent) ? $respondent : new stdClass();
-        $respondent->email = backup_todb($respondent_info['#']['EMAIL']['0']['#']);
-        $respondent->type = backup_todb($respondent_info['#']['TYPE']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $respondent->email = backup_todb($respondent_info['#']['EMAIL']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $respondent->type = backup_todb($respondent_info['#']['TYPE']['0']['#']);
         $respondent->analysisid = $new_analysis_id;
-        $respondent->uniquehash = backup_todb($respondent_info['#']['UNIQUEHASH']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $respondent->uniquehash = backup_todb($respondent_info['#']['UNIQUEHASH']['0']['#']);
 
         // The structure is equal to the db, so insert the respondent.
         $newid = $DB->insert_record("threesixty_respondent", $respondent);
@@ -403,11 +441,13 @@ function threesixty_respondent_restore_mods($old_analysis_id, $new_analysis_id, 
                     echo "<br />";
                 }
             }
-            backup_flush(300);
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        backup_flush(300);
         }
         if ($newid) {
             // We have the newid, update backup_ids.
-            backup_putid($restore->backup_unique_code, "threesixty_respondent", $oldid, $newid);
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        backup_putid($restore->backup_unique_code, "threesixty_respondent", $oldid, $newid);
 
             // ...restore responses for this respondent.
             $status = threesixty_response_restore_mods($oldid, $newid, $respondent_info, $restore);
@@ -446,16 +486,20 @@ function threesixty_response_restore_mods($old_respondent_id, $new_respondent_id
         // $GLOBALS['traverse_array']="";                                           //Debug.
 
         // We'll need this later!!
-        $oldid = backup_todb($response_info['#']['ID']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $oldid = backup_todb($response_info['#']['ID']['0']['#']);
 
         // Now, build the threesixty_response record structure.
 	    $response = isset($response) ? $response : new stdClass();
-        $response->analysisid = backup_todb($response_info['#']['ANALYSISID']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $response->analysisid = backup_todb($response_info['#']['ANALYSISID']['0']['#']);
         $response->respondentid = $new_respondent_id;
-        $response->timecompleted = backup_todb($response_info['#']['TIMECOMPLETED']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $response->timecompleted = backup_todb($response_info['#']['TIMECOMPLETED']['0']['#']);
 
         // We have to recode the analysisid field.
-        $analysis = backup_getid($restore->backup_unique_code, "threesixty_analysis", $response->analysisid);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $analysis = backup_getid($restore->backup_unique_code, "threesixty_analysis", $response->analysisid);
         if ($analysis) {
             $response->analysisid = $analysis->new_id;
         }
@@ -471,11 +515,13 @@ function threesixty_response_restore_mods($old_respondent_id, $new_respondent_id
                     echo "<br />";
                 }
             }
-            backup_flush(300);
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        backup_flush(300);
         }
         if ($newid) {
             // We have the newid, update backup_ids.
-            backup_putid($restore->backup_unique_code, "threesixty_response", $oldid, $newid);
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        backup_putid($restore->backup_unique_code, "threesixty_response", $oldid, $newid);
 
             // ...restore resp_comp and resp_skill.
             $status = $status && threesixty_response_skill_restore_mods($oldid, $newid, $response_info, $restore);
@@ -511,16 +557,20 @@ function threesixty_response_skill_restore_mods($old_response_id, $new_response_
         // $GLOBALS['traverse_array']="";                                           //Debug.
 
         // We'll need this later!!
-        $oldid = backup_todb($response_skill_info['#']['ID']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $oldid = backup_todb($response_skill_info['#']['ID']['0']['#']);
 
         // Now, build the threesixty_response_skill record structure.
 	    $response_skill = isset($response_skill) ? $response_skill : new stdClass();
         $response_skill->responseid = $new_response_id;
-        $response_skill->skillid = backup_todb($response_skill_info['#']['SKILLID']['0']['#']);
-        $response_skill->score = backup_todb($response_skill_info['#']['SCORE']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $response_skill->skillid = backup_todb($response_skill_info['#']['SKILLID']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $response_skill->score = backup_todb($response_skill_info['#']['SCORE']['0']['#']);
 
         // We have to recode the skillid field.
-        $skill = backup_getid($restore->backup_unique_code, "threesixty_skill", $response_skill->skillid);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $skill = backup_getid($restore->backup_unique_code, "threesixty_skill", $response_skill->skillid);
         if ($skill) {
             $response_skill->skillid = $skill->new_id;
         }
@@ -536,11 +586,13 @@ function threesixty_response_skill_restore_mods($old_response_id, $new_response_
                     echo "<br />";
                 }
             }
-            backup_flush(300);
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        backup_flush(300);
         }
         if ($newid) {
             // We have the newid, update backup_ids.
-            backup_putid($restore->backup_unique_code, "threesixty_response_skill", $oldid, $newid);
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        backup_putid($restore->backup_unique_code, "threesixty_response_skill", $oldid, $newid);
         } else {
             $status = false;
         }
@@ -572,16 +624,20 @@ function threesixty_response_comp_restore_mods($old_response_id, $new_response_i
         // $GLOBALS['traverse_array']="";                                           //Debug.
 
         // We'll need this later!!
-        $oldid = backup_todb($response_comp_info['#']['ID']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $oldid = backup_todb($response_comp_info['#']['ID']['0']['#']);
 
         // Now, build the threesixty_response_comp record structure.
 	    $response_comp = isset($response_comp) ? $response_comp : new stdClass();
         $response_comp->responseid = $new_response_id;
-        $response_comp->competencyid = backup_todb($response_comp_info['#']['COMPETENCYID']['0']['#']);
-        $response_comp->feedback = backup_todb($response_comp_info['#']['FEEDBACK']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $response_comp->competencyid = backup_todb($response_comp_info['#']['COMPETENCYID']['0']['#']);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $response_comp->feedback = backup_todb($response_comp_info['#']['FEEDBACK']['0']['#']);
 
         // We have to recode the competencyid field.
-        $competency = backup_getid($restore->backup_unique_code, "threesixty_competency", $response_comp->competencyid);
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $competency = backup_getid($restore->backup_unique_code, "threesixty_competency", $response_comp->competencyid);
         if ($competency) {
             $response_comp->competencyid = $competency->new_id;
         }
@@ -597,11 +653,13 @@ function threesixty_response_comp_restore_mods($old_response_id, $new_response_i
                     echo "<br />";
                 }
             }
-            backup_flush(300);
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        backup_flush(300);
         }
         if ($newid) {
             // We have the newid, update backup_ids.
-            backup_putid($restore->backup_unique_code, "threesixty_response_comp", $oldid, $newid);
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        backup_putid($restore->backup_unique_code, "threesixty_response_comp", $oldid, $newid);
         } else {
             $status = false;
         }
@@ -620,7 +678,8 @@ function rewrite_url($restore, $log) {
     foreach ($fields as $field => $table) {
         if (preg_match("/$field=([^&]*)/", $url, $m)) {
             $oldid = $m[1];
-            $backup = backup_getid($restore->backup_unique_code, $table, $oldid);
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        $backup = backup_getid($restore->backup_unique_code, $table, $oldid);
             if (isset($backup->new_id)) {
                 $newid = $backup->new_id;
                 $patterns[] = "/$field=$oldid/";

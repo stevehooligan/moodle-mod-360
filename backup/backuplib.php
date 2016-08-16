@@ -51,6 +51,9 @@
     //
     // ----------------------------------------------------------------------------------.
 
+// TODO This file is possibly never used, but this needs confirming
+// TODO Have hidden errors in this file using @noinspection, these should be removed as part of any recommission
+
 function threesixty_backup_mods($bf, $preferences) {
 
     // global $CFG;
@@ -62,7 +65,8 @@ function threesixty_backup_mods($bf, $preferences) {
     $threesixties = $DB->get_records("threesixty", "course", $preferences->backup_course, "id");
     if ($threesixties) {
         foreach ($threesixties as $threesixty) {
-            if (backup_mod_selected($preferences, 'threesixty', $threesixty->id)) {
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        if (backup_mod_selected($preferences, 'threesixty', $threesixty->id)) {
                 $status = threesixty_backup_one_mod($bf, $preferences, $threesixty);
             }
         }
@@ -82,15 +86,23 @@ function threesixty_backup_one_mod($bf, $preferences, $threesixty) {
     // $status = true;
 
     // Start mod.
-    fwrite($bf, start_tag('MOD', 3, true));
+	/** @noinspection PhpUndefinedFunctionInspection */
+	fwrite($bf, start_tag('MOD', 3, true));
     // Print threesixty data.
-    fwrite($bf, full_tag('ID', 4, false, $threesixty->id));
-    fwrite($bf, full_tag('MODTYPE', 4, false, "threesixty"));
-    fwrite($bf, full_tag('NAME', 4, false, $threesixty->name));
-    fwrite($bf, full_tag('COMPETENCIESCARRIED', 4, false, $threesixty->competenciescarried));
-    fwrite($bf, full_tag('REQUIREDRESPONDENTS', 4, false, $threesixty->requiredrespondents));
-    fwrite($bf, full_tag('TIMECREATED', 4, false, $threesixty->timecreated));
-    fwrite($bf, full_tag('TIMEMODIFIED', 4, false, $threesixty->timemodified));
+	/** @noinspection PhpUndefinedFunctionInspection */
+	fwrite($bf, full_tag('ID', 4, false, $threesixty->id));
+	/** @noinspection PhpUndefinedFunctionInspection */
+	fwrite($bf, full_tag('MODTYPE', 4, false, "threesixty"));
+	/** @noinspection PhpUndefinedFunctionInspection */
+	fwrite($bf, full_tag('NAME', 4, false, $threesixty->name));
+	/** @noinspection PhpUndefinedFunctionInspection */
+	fwrite($bf, full_tag('COMPETENCIESCARRIED', 4, false, $threesixty->competenciescarried));
+	/** @noinspection PhpUndefinedFunctionInspection */
+	fwrite($bf, full_tag('REQUIREDRESPONDENTS', 4, false, $threesixty->requiredrespondents));
+	/** @noinspection PhpUndefinedFunctionInspection */
+	fwrite($bf, full_tag('TIMECREATED', 4, false, $threesixty->timecreated));
+	/** @noinspection PhpUndefinedFunctionInspection */
+	fwrite($bf, full_tag('TIMEMODIFIED', 4, false, $threesixty->timemodified));
 
     // Threesixty_competency should do call threesixty_skill.
     backup_threesixty_competency($bf, $preferences, $threesixty->id);
@@ -102,7 +114,8 @@ function threesixty_backup_one_mod($bf, $preferences, $threesixty) {
     }
 
     // End mod.
-    $status = fwrite($bf, end_tag('MOD', 3, true));
+	/** @noinspection PhpUndefinedFunctionInspection */
+	$status = fwrite($bf, end_tag('MOD', 3, true));
 
     return $status;
 }
@@ -117,25 +130,34 @@ function backup_threesixty_competency($bf, $preferences, $threesixty) {
     $competencies = $DB->get_records('threesixty_competency', 'activityid', $threesixty, 'id');
     // If there are competencies.
     if ($competencies) {
-        fwrite($bf, start_tag('COMPETENCIES', 4, true));
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    fwrite($bf, start_tag('COMPETENCIES', 4, true));
 
         // Iterate over each competency.
         foreach ($competencies as $competency) {
-            fwrite($bf, start_tag('COMPETENCY', 5, true));
-
-            fwrite($bf, full_tag('ID', 6, false, $competency->id));
-            fwrite($bf, full_tag('ACTIVITYID', 6, false, $competency->activityid));
-            fwrite($bf, full_tag('NAME', 6, false, $competency->name));
-            fwrite($bf, full_tag('DESCRIPTION', 6, false, $competency->description));
-            fwrite($bf, full_tag('SHOWFEEDBACK', 6, false, $competency->showfeedback));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, start_tag('COMPETENCY', 5, true));
+	
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('ID', 6, false, $competency->id));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('ACTIVITYID', 6, false, $competency->activityid));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('NAME', 6, false, $competency->name));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('DESCRIPTION', 6, false, $competency->description));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('SHOWFEEDBACK', 6, false, $competency->showfeedback));
 
             backup_threesixty_skill($bf, $preferences, $competency->id);
-
-            fwrite($bf, end_tag('COMPETENCY', 5, true));
+	
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, end_tag('COMPETENCY', 5, true));
         }
 
         // Write end tag.
-        $status = fwrite($bf, end_tag('COMPETENCIES', 4, true));
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $status = fwrite($bf, end_tag('COMPETENCIES', 4, true));
     }
     return $status;
 }
@@ -151,22 +173,30 @@ function backup_threesixty_skill($bf, /** @noinspection PhpUnusedParameterInspec
     $skills = $DB->get_records('threesixty_skill', 'competencyid', $competencyid, 'id');
     // If there are skills.
     if ($skills) {
-        fwrite($bf, start_tag('SKILLS', 6, true));
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    fwrite($bf, start_tag('SKILLS', 6, true));
 
         // Iterate over each skill.
         foreach ($skills as $skill) {
-            fwrite($bf, start_tag('SKILL', 7, true));
-
-            fwrite($bf, full_tag('ID', 8, false, $skill->id));
-            fwrite($bf, full_tag('COMPETENCYID', 8, false, $skill->competencyid));
-            fwrite($bf, full_tag('NAME', 8, false, $skill->name));
-            fwrite($bf, full_tag('DESCRIPTION', 8, false, $skill->description));
-
-            fwrite($bf, end_tag('SKILL', 7, true));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, start_tag('SKILL', 7, true));
+	
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('ID', 8, false, $skill->id));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('COMPETENCYID', 8, false, $skill->competencyid));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('NAME', 8, false, $skill->name));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('DESCRIPTION', 8, false, $skill->description));
+	
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, end_tag('SKILL', 7, true));
         }
 
         // Write end tag.
-        $status = fwrite($bf, end_tag('SKILLS', 6, true));
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $status = fwrite($bf, end_tag('SKILLS', 6, true));
     }
     return $status;
 }
@@ -181,24 +211,31 @@ function backup_threesixty_analysis($bf, $preferences, $threesixty) {
     $analyses = $DB->get_records('threesixty_analysis', 'activityid', $threesixty, 'id');
     // If there are analyses.
     if ($analyses) {
-        fwrite($bf, start_tag('ANALYSES', 4, true));
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    fwrite($bf, start_tag('ANALYSES', 4, true));
 
         // Iterate over each analysis.
         foreach ($analyses as $analysis) {
-            fwrite($bf, start_tag('ANALYSIS', 5, true));
-
-            fwrite($bf, full_tag('ID', 6, false, $analysis->id));
-            fwrite($bf, full_tag('ACTIVITYID', 6, false, $analysis->activityid));
-            fwrite($bf, full_tag('USERID', 6, false, $analysis->userid));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, start_tag('ANALYSIS', 5, true));
+	
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('ID', 6, false, $analysis->id));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('ACTIVITYID', 6, false, $analysis->activityid));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('USERID', 6, false, $analysis->userid));
 
             backup_threesixty_carried_comp($bf, $preferences, $analysis->id);
             backup_threesixty_respondent($bf, $preferences, $analysis->id);
-
-            fwrite($bf, end_tag('ANALYSIS', 5, true));
+	
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, end_tag('ANALYSIS', 5, true));
         }
 
         // Write end tag.
-        $status = fwrite($bf, end_tag('ANALYSES', 4, true));
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $status = fwrite($bf, end_tag('ANALYSES', 4, true));
 
     }
     return $status;
@@ -215,21 +252,28 @@ function backup_threesixty_carried_comp($bf, /** @noinspection PhpUnusedParamete
     $carried_comps = $DB->get_records('threesixty_carried_comp', 'analysisid', $analysisid, 'id');
     // If there are carried_comps.
     if ($carried_comps) {
-        $status = $status && fwrite($bf, start_tag('CARRIED_COMPS', 6, true));
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $status = $status && fwrite($bf, start_tag('CARRIED_COMPS', 6, true));
 
         // Iterate over each carried_comp.
         foreach ($carried_comps as $carried_comp) {
-            $status = $status && fwrite($bf, start_tag('CARRIED_COMP', 7, true));
-
-            fwrite($bf, full_tag('ID', 8, false, $carried_comp->id));
-            fwrite($bf, full_tag('ANALYSISID', 8, false, $carried_comp->analysisid));
-            fwrite($bf, full_tag('COMPETENCYID', 8, false, $carried_comp->competencyid));
-
-            $status = $status && fwrite($bf, end_tag('CARRIED_COMP', 7, true));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        $status = $status && fwrite($bf, start_tag('CARRIED_COMP', 7, true));
+	
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('ID', 8, false, $carried_comp->id));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('ANALYSISID', 8, false, $carried_comp->analysisid));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('COMPETENCYID', 8, false, $carried_comp->competencyid));
+	
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        $status = $status && fwrite($bf, end_tag('CARRIED_COMP', 7, true));
         }
 
         // Write end tag.
-        $status = $status && fwrite($bf, end_tag('CARRIED_COMPS', 6, true));
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $status = $status && fwrite($bf, end_tag('CARRIED_COMPS', 6, true));
 
     }
     return $status;
@@ -250,33 +294,44 @@ function backup_threesixty_respondent($bf, $preferences, $analysisid) {
 
     // If there are respondents or a self response.
     if ($respondents || $selfresponse) {
-        $status = $status && fwrite($bf, start_tag('RESPONDENTS', 6, true));
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $status = $status && fwrite($bf, start_tag('RESPONDENTS', 6, true));
 
         if ($selfresponse) {
             // If their are self responses, create a SELF tag to contain them.
-            $status = $status && fwrite($bf, start_tag('SELF', 7, true));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        $status = $status && fwrite($bf, start_tag('SELF', 7, true));
             $status = $status && backup_threesixty_response($bf, $preferences, null, $analysisid);
-            $status = $status && fwrite($bf, end_tag('SELF', 7, true));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        $status = $status && fwrite($bf, end_tag('SELF', 7, true));
         }
 
         if ($respondents) {
             // Iterate over each respondent.
             foreach ($respondents as $respondent) {
-                $status = $status && fwrite($bf, start_tag('RESPONDENT', 7, true));
-
-                fwrite($bf, full_tag('ID', 8, false, $respondent->id));
-                fwrite($bf, full_tag('EMAIL', 8, false, $respondent->email));
-                fwrite($bf, full_tag('TYPE', 8, false, $respondent->type));
-                fwrite($bf, full_tag('ANALYSISID', 8, false, $respondent->analysisid));
-                fwrite($bf, full_tag('UNIQUEHASH', 8, false, $respondent->uniquehash));
+	            /** @noinspection PhpUndefinedFunctionInspection */
+	            $status = $status && fwrite($bf, start_tag('RESPONDENT', 7, true));
+	
+	            /** @noinspection PhpUndefinedFunctionInspection */
+	            fwrite($bf, full_tag('ID', 8, false, $respondent->id));
+	            /** @noinspection PhpUndefinedFunctionInspection */
+	            fwrite($bf, full_tag('EMAIL', 8, false, $respondent->email));
+	            /** @noinspection PhpUndefinedFunctionInspection */
+	            fwrite($bf, full_tag('TYPE', 8, false, $respondent->type));
+	            /** @noinspection PhpUndefinedFunctionInspection */
+	            fwrite($bf, full_tag('ANALYSISID', 8, false, $respondent->analysisid));
+	            /** @noinspection PhpUndefinedFunctionInspection */
+	            fwrite($bf, full_tag('UNIQUEHASH', 8, false, $respondent->uniquehash));
 
                 $status = $status && backup_threesixty_response($bf, $preferences, $respondent->id);
-
-                $status = $status && fwrite($bf, end_tag('RESPONDENT', 7, true));
+	
+	            /** @noinspection PhpUndefinedFunctionInspection */
+	            $status = $status && fwrite($bf, end_tag('RESPONDENT', 7, true));
             }
         }
         // Write end tag.
-        $status = $status && fwrite($bf, end_tag('RESPONDENTS', 6, true));
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $status = $status && fwrite($bf, end_tag('RESPONDENTS', 6, true));
     }
 
     return $status;
@@ -295,25 +350,33 @@ function backup_threesixty_response($bf, $preferences, $respondentid, $analysisi
     }
     // If there are responses.
     if ($responses) {
-        $status = fwrite($bf, start_tag('RESPONSES', 8, true));
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $status = fwrite($bf, start_tag('RESPONSES', 8, true));
 
         // Iterate over each response.
         foreach ($responses as $response) {
-            $status = $status && fwrite($bf, start_tag('RESPONSE', 9, true));
-
-            fwrite($bf, full_tag('ID', 10, false, $response->id));
-            fwrite($bf, full_tag('ANALYSISID', 10, false, $response->analysisid));
-            fwrite($bf, full_tag('RESPONDENTID', 10, false, $response->respondentid));
-            fwrite($bf, full_tag('TIMECOMPLETED', 10, false, $response->timecompleted));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        $status = $status && fwrite($bf, start_tag('RESPONSE', 9, true));
+	
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('ID', 10, false, $response->id));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('ANALYSISID', 10, false, $response->analysisid));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('RESPONDENTID', 10, false, $response->respondentid));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('TIMECOMPLETED', 10, false, $response->timecompleted));
 
             $status = $status && backup_threesixty_response_comp($bf, $preferences, $response->id);
             $status = $status && backup_threesixty_response_skill($bf, $preferences, $response->id);
-
-            $status = $status && fwrite($bf, end_tag('RESPONSE', 9, true));
+	
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        $status = $status && fwrite($bf, end_tag('RESPONSE', 9, true));
         }
 
         // Write end tag.
-        $status = $status && fwrite($bf, end_tag('RESPONSES', 8, true));
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $status = $status && fwrite($bf, end_tag('RESPONSES', 8, true));
 
     }
     return $status;
@@ -330,21 +393,29 @@ function backup_threesixty_response_comp($bf, /** @noinspection PhpUnusedParamet
     $response_comps = $DB->get_records('threesixty_response_comp', 'responseid', $responseid, 'id');
     // If there are response_comps.
     if ($response_comps) {
-        $status = $status && fwrite($bf, start_tag('RESPONSE_COMPS', 10, true));
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $status = $status && fwrite($bf, start_tag('RESPONSE_COMPS', 10, true));
 
         // Iterate over each response_comp.
         foreach ($response_comps as $response_comp) {
-            $status = $status && fwrite($bf, start_tag('RESPONSE_COMP', 11, true));
-
-            fwrite($bf, full_tag('ID', 12, false, $response_comp->id));
-            fwrite($bf, full_tag('RESPONSEID', 12, false, $response_comp->responseid));
-            fwrite($bf, full_tag('COMPETENCYID', 12, false, $response_comp->competencyid));
-            fwrite($bf, full_tag('FEEDBACK', 12, false, $response_comp->feedback));
-
-            $status = $status && fwrite($bf, end_tag('RESPONSE_COMP', 11, true));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        $status = $status && fwrite($bf, start_tag('RESPONSE_COMP', 11, true));
+	
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('ID', 12, false, $response_comp->id));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('RESPONSEID', 12, false, $response_comp->responseid));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('COMPETENCYID', 12, false, $response_comp->competencyid));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('FEEDBACK', 12, false, $response_comp->feedback));
+	
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        $status = $status && fwrite($bf, end_tag('RESPONSE_COMP', 11, true));
         }
         // Write end tag.
-        $status = $status && fwrite($bf, end_tag('RESPONSE_COMPS', 10, true));
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $status = $status && fwrite($bf, end_tag('RESPONSE_COMPS', 10, true));
 
     }
     return $status;
@@ -361,22 +432,30 @@ function backup_threesixty_response_skill($bf, /** @noinspection PhpUnusedParame
     $response_skills = $DB->get_records('threesixty_response_skill', 'responseid', $responseid, 'id');
     // If there are response_skills.
     if ($response_skills) {
-        $status = $status && fwrite($bf, start_tag('RESPONSE_SKILLS', 10, true));
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $status = $status && fwrite($bf, start_tag('RESPONSE_SKILLS', 10, true));
 
         // Iterate over each response_skill.
         foreach ($response_skills as $response_skill) {
-            $status = $status && fwrite($bf, start_tag('RESPONSE_SKILL', 11, true));
-
-            fwrite($bf, full_tag('ID', 12, false, $response_skill->id));
-            fwrite($bf, full_tag('RESPONSEID', 12, false, $response_skill->responseid));
-            fwrite($bf, full_tag('SKILLID', 12, false, $response_skill->skillid));
-            fwrite($bf, full_tag('SCORE', 12, false, $response_skill->score));
-
-            $status = $status && fwrite($bf, end_tag('RESPONSE_SKILL', 11, true));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        $status = $status && fwrite($bf, start_tag('RESPONSE_SKILL', 11, true));
+	
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('ID', 12, false, $response_skill->id));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('RESPONSEID', 12, false, $response_skill->responseid));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('SKILLID', 12, false, $response_skill->skillid));
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        fwrite($bf, full_tag('SCORE', 12, false, $response_skill->score));
+	
+	        /** @noinspection PhpUndefinedFunctionInspection */
+	        $status = $status && fwrite($bf, end_tag('RESPONSE_SKILL', 11, true));
         }
 
         // Write end tag.
-        $status = $status && fwrite($bf, end_tag('RESPONSE_SKILLS', 10, true));
+	    /** @noinspection PhpUndefinedFunctionInspection */
+	    $status = $status && fwrite($bf, end_tag('RESPONSE_SKILLS', 10, true));
     }
     return $status;
 }
