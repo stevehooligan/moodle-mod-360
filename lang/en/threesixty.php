@@ -15,10 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 $string['threesixty:deleterespondents'] = '\Delete external respondents from a user\'s list';
-$string['threesixty:edit'] = 'Change someone\'s personal 360 Degree assessment';
-$string['threesixty:feedbackview'] = 'View 360 feedback';
+$string['threesixty:edit'] = 'Change someone\'s personal 360 Degree Assessment';
+$string['threesixty:feedbackview'] = 'View 360 Feedback';
 $string['threesixty:manage'] = 'Manage 360 Degree Tool';
-$string['threesixty:participate'] = 'Assess yourself in the 360 Degree Tool';
+$string['threesixty:participate'] = 'Assess yourself using the 360 Degree Tool';
 $string['threesixty:remindrespondents'] = 'Send a reminder email to external respondents';
 $string['threesixty:view'] = 'View 360 Degree Tool information';
 $string['threesixty:viewownreports'] = 'View your own 360 Degree Tool reports';
@@ -33,10 +33,10 @@ $string['edit:competencies'] = 'Add/edit competencies';
 $string['edit:respondents'] = 'View/delete respondents';
 $string['edit:scores'] = 'Amend scores';
 
-$string['email:remindersubject'] = 'Reminder to complete a 360 diagnostic activity';
+$string['email:remindersubject'] = 'Reminder to complete a 360 Diagnostic Activity';
 $string['email:reminderbody'] = 'Hello,
 
-This is just a quick reminder to please complete my 360-degree diagnotics
+This is just a quick reminder to please complete my 360-degree diagnostics
 and gap analysis.
 
 To do so, simply click on this link:
@@ -47,10 +47,10 @@ Thank you,
 
 {$a->userfullname}
 ';
-$string['email:requestsubject'] = 'Invitation to complete a 360 diagnostic activity';
+$string['email:requestsubject'] = 'Invitation to complete a 360 Diagnostic Activity';
 $string['email:requestbody'] = 'Hello,
 
-I would appreciate if you would please complete my 360-degree diagnotics
+I would appreciate if you would please complete my 360-degree diagnostics
 and gap analysis.
 
 To do so, please click on this link:
@@ -80,7 +80,7 @@ $string['error:invalidcode'] = 'Invalid response code. Make sure you copied the 
 $string['error:invalidpagenumber'] = 'Invalid page number: no competency to display';
 $string['error:invalidreporttype'] = 'Invalid report type: {$a}';
 $string['error:nodataforuserx'] = 'No 360 Degree data for {$a}';
-$string['error:noscoresyet'] = 'You need to fill in your own scores and submit the form first.';
+$string['error:noscoresyet'] = 'You need to fill in your own diagnostic and submit the form first.';
 $string['error:unknownbuttonclicked'] = 'No action associated with the button that was clicked';
 $string['error:userxhasnotsubmitted'] = '{$a} has not completed the form yet';
 
@@ -114,6 +114,7 @@ $string['validation:emailnotunique'] = 'This email address has already been used
 $string['threesixty'] = '360 Degree Diagnostics Tool';
 $string['modulename'] = '360 Degree Diagnostics Tool';
 $string['modulenameplural'] = '360 Degree Diagnostics Tools';
+$string['modulename_help'] = 'This module is designed to implement a 360 degree competency analysis. An individual compares his or her level of ability in a predefined list of competencies by rating themselves against a specific scenario. Each scenario highlights a specific skill that makes up the overall competency. This same set of questions is also answered by a set number of colleagues, clients, bosses, etc. in order to get a full (or 360 degree) view of the skill of the individual as perceived by others as well as him or herself.';
 
 $string['addnewcompetency'] = 'Add a new competency';
 $string['addnewskills'] = 'Add {no} new skills';
@@ -127,7 +128,9 @@ $string['closebutton'] = 'Close';
 $string['competency'] = 'competency';
 $string['competenciesheading'] = 'Competencies';
 $string['competenciescarried'] = 'Competencies carried:';
-$string['competenciescarried_help'] = 'Number of skills carried over.';
+$string['competenciescarried_help'] = 'This field indicates the number of competencies that will be carried from the 360 Degree Diagnostics and Gap Analysis Tool to the Training Diary.
+
+The actual competencies to be carried will be selected by a user with access to the administrative tab of the 360 Degree Diagnostics and Gap Analysis Tool.';
 $string['completiondate'] = 'Completion date';
 $string['delete'] = 'Delete';
 $string['deleteskill'] = 'Delete this skill';
@@ -149,7 +152,7 @@ $string['reportforuser'] = 'Report for user: {$a->fullname}';
 $string['requestrespondentheading'] = 'Request respondent';
 $string['requestrespondentexplanation'] = '<p>Please enter the email address of a person you would like to invite to complete your 360 degree diagnostic activity.</p><p>You need to invite {$a} more respondent(s).</p>';
 $string['requiredrespondents'] = 'Required respondents:';
-$string['requiredrespondents_help'] = 'Number of respondents required';
+$string['requiredrespondents_help'] = 'The number of peers (colleagues, clients, bosses) that are required to fill this assessment before this activity is considered completed.';
 $string['respondentsremaining'] = 'Not all respondents have replied yet.';
 $string['respondenttype'] = 'Respondent type';
 $string['respondentwelcome'] = '<p><b>Welcome <p style="font-family:monospace">{$a}</p></b></p>';
@@ -162,7 +165,7 @@ $string['selectuser'] = '<p>Please select a user:</p>';
 $string['sendemail'] = 'Send email';
 $string['skills'] = 'Skills';
 $string['showfeedback'] = 'Feedback';
-$string['showfeedback_help'] = 'Check if you wish to be able to write a feedback.';
+$string['showfeedback_help'] = 'If this option is enabled, a free-text feedback field will be available while users rate each skill in this competency.';
 $string['thankyoumessage'] = '<p>Thank you for assessing this user.</p><p>You may now close this window.</p>';
 $string['xofy'] = 'Page {$a->page} of {$a->nbpages}';
 $string['analyses'] = 'Analyses';
