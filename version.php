@@ -26,9 +26,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 /** @var stdClass $plugin */
-$plugin->version   = 2016081700;
+$plugin->version   = 2016081701;
 $plugin->requires  = 2013051400;; // See http://docs.moodle.org/dev/Moodle_Versions.
 $plugin->component = 'mod_threesixty';
 $plugin->maturity = MATURITY_BETA; // ...one of MATURITY_ALPHA, MATURITY_BETA, MATURITY_RC, MATURITY_STABLE.
 $plugin->cron      = 0;
-$plugin->release   = "1.1.0-beta";
+$plugin->release   = "1.1.0-beta.01";
