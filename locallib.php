@@ -293,7 +293,7 @@ function threesixty_delete_respondent($respondentid, $intransaction=false) {
     }
 
     // Delete the dependent response if necessary.
-    if ($responseid = $DB->get_field('threesixty_response', 'id', 'respondentid', $respondentid)) {
+    if ($responseid = $DB->get_field('threesixty_response', 'id', array('respondentid'=>$respondentid))) {
         if (!threesixty_delete_response($responseid, true)) {
             if (!$intransaction) {
                 throw new Exception('Couldn\'t delete responses');
@@ -305,7 +305,7 @@ function threesixty_delete_respondent($respondentid, $intransaction=false) {
     // Perform the deletion.
     if (!$DB->delete_records('threesixty_respondent', array('id' => $respondentid))) {
         if (!$intransaction) {
-            throw new Exception('Couldn\'t delete responses');
+            throw new Exception('Couldn\'t delete respondents');
         }
         return false;
     }
