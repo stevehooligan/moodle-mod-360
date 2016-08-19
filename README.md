@@ -1,5 +1,5 @@
-moodle-mod-360
-==============
+threesixty
+==========
 
 This Moodle module is designed to implement a 360 degree competency analysis. This method of assessment is also referred to as "multisource feedback." 
 
