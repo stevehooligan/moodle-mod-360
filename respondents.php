@@ -212,6 +212,7 @@ function send_email($recipientemail, $messageid, $extrainfo) {
 	$mail = get_mailer();
 	$mail->addAddress($recipientemail);
 	$mail->setFrom($from);
+	$mail->FromName = $from;
 	$mail->Subject = $subject;
 	$mail->Body = $messagetext;
 	$mail->isHTML(true);
