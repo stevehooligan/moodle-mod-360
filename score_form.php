@@ -53,6 +53,9 @@ class mod_threesixty_score_form extends moodleform {
         if ($competency->skills and count($competency->skills) > 0) {
             foreach ($competency->skills as $skill) {
                 $mform->addElement('html', '<div class="skillset">');
+                if (strlen($skill->description)>0) {
+                    $mform->addElement('html', '<div><span style="font-weight: bolder">'.format_string($skill->name).'</span> - '.format_string($skill->description).'</div>');
+                }
                 $elementname = "score_{$skill->id}";
                 $radioarray = array();
                 $radioarray[] = &$mform->createElement('radio', $elementname, '', get_string('notapplicable', 'threesixty'), 0);
@@ -60,15 +63,13 @@ class mod_threesixty_score_form extends moodleform {
                 $radioarray[] = &$mform->createElement('radio', $elementname, '', '2', 2);
                 $radioarray[] = &$mform->createElement('radio', $elementname, '', '3', 3);
                 $radioarray[] = &$mform->createElement('radio', $elementname, '', '4', 4);
-
-                $skillname = "<div class='skillname'>".format_string($skill->name);
-                if (strlen($skill->description)>0) {
-                    $skillname .= " - ".format_string($skill->description);
+                if(strlen($skill->description)>0) {
+                    $mform->addGroup($radioarray, "radioarray_$skill->id");
                 }
-                $skillname .= "</div>";
-                $mform->addGroup($radioarray, "radioarray_$skill->id", $skillname);
+                else {
+                    $mform->addGroup($radioarray, "radioarray_$skill->id", format_string($skill->name));
+                }
                 $mform->addElement('html', '</div>');
-
                 if ($competency->locked) {
                     $mform->hardFreeze("radioarray_{$skill->id}");
                 }
