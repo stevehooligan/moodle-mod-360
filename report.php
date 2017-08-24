@@ -26,6 +26,7 @@ require_once('locallib.php');
 require_once('report_form.php');
 
 define('AVERAGE_PRECISION', 1); // Number of decimal places when displaying averages.
+define("SPIDERWEB_IMPL_HTML5", true);
 define("SPIDERWEB_IMPL_KINEO", true);
 // Whether to implement the spiderweb using Kineo's method (as opposed to the company that was originally outsourced to).
 
@@ -52,6 +53,7 @@ require_login($course, true, $cm);
 /** @var moodle_page $PAGE */
 $PAGE->set_url('/mod/threesixty/report.php', array('a' => $a));
 $PAGE->set_pagelayout('incourse');
+
 
 if (!has_capability('mod/threesixty:viewreports', $context)) {
     require_capability('mod/threesixty:viewownreports', $context);
@@ -156,13 +158,16 @@ if (isset($mform)) {
         print_score_table($skillnames, $scores, $feedback, $baseurl.'&userid='.$user->id, $basetype);
         echo "</div>";
     } else if ('spiderweb' == $type) {
-        if (SPIDERWEB_IMPL_KINEO) {
+		if (SPIDERWEB_IMPL_HTML5) {
+			print_spiderweb_html5($analysis->id, $activity->id, $filters);
+		} elseif (SPIDERWEB_IMPL_KINEO) {
             print_spiderweb_kineo($analysis->id, $activity->id, $filters);
         } else {
             $scores = get_scores($analysis->id, $filters, true);
             $competencynames = $DB->get_record('threesixty_competency', array('activityid' => $activity->id), $fields='id, name');
             print_spiderweb($competencynames, $scores);
         }
+		
     } else {
         print_error('error:invalidreporttype', 'threesixty', "view.php?a=$activity->id", $type);
     }
@@ -352,4 +357,202 @@ function print_spiderweb_kineo(/** @noinspection PhpUnusedParameterInspection */
     // Was: $scriptURL = $CFG->wwwroot . "/mod/threesixty/flash.php"; .
     // Bring in the HTML page which embeds the SWF.
     include("spiderwebchart_kineo.php");
+	
+}
+
+function print_spiderweb_html5($analysisid, $activityid, $filters){
+	global $PAGE;
+	
+	$segments = "[[";
+	$radarDataTitles = "[[";
+	$radarDataTitleCounter = 0;
+	$radarData = "[";
+	
+	$filterCount = 0;
+	foreach ($filters as $code => $name){
+	
+		$filter = $code;
+
+		require_once("../../config.php");
+		require_once("locallib.php");
+
+		// Work out the scores depending on the requested filter.
+		$score = null;
+		if (strpos($filter, "self") === 0) {
+			$typeid = substr($filter, 4);
+			$score = threesixty_get_self_scores($analysisid, false, $typeid);
+		} else if ($filter === "average") {
+			$score = threesixty_get_average_skill_scores($analysisid, false, false);
+		} else if (strpos($filter, "type") === 0) {
+			$typeid = substr($filter, 4);
+			$score = threesixty_get_average_skill_scores($analysisid, $typeid, false);
+		}
+		
+		// Write out scores for js/radarChart to render.
+		$skills = threesixty_get_skill_names($activityid);
+		
+		if($filterCount != 0){
+			$radarData .= ",
+			";
+		}
+		
+		$radarData .= "[//";
+		$radarData .= preg_replace('/[\r\n]/', '', $score->name) . "
+		";
+		
+		if($radarDataTitleCounter != 0){
+			$radarDataTitles .= ",
+			";
+		}
+		$radarDataTitles .= "{filter:\"".preg_replace('/[\r\n]/', '', $score->name)."\",value:1}";
+		$radarDataTitleCounter++;
+		
+		$counter = 0;
+		foreach ($skills as $skill) {
+			if($counter != 0){
+				$radarData .= ",
+				";
+			}
+			if($filterCount==0){
+				if($counter != 0 ){
+					$segments .= ",
+					";
+				}
+			
+				$segments .= "{segment:\"". $skill->competencyname."\",value:".$skill->competencyid."}";
+			}
+			
+			$radarData .= "{axis:\"".$skill->skillname."\",value:";
+			if (empty($score->records[$skill->id]) || !$score->records[$skill->id]->score) {
+				$radarData .= "0";
+			} else {
+				$radarData .= round($score->records[$skill->id]->score);
+			}
+			$radarData .= "}";
+			$counter++;
+		}
+		$radarData .= "
+		]";
+		$filterCount++;
+	}
+	$segments .= "
+	]]";
+	$radarDataTitles .= "
+	]]";
+	$radarData .= "]";
+	
+	echo '<script type="text/javascript" src="js/d3.min.js"></script>';
+	echo '<script type="text/javascript" src="js/radarChart.js"></script>';
+	//$PAGE->requires->js('/mod/threesixty/js/radarChart.js');
+	
+	echo '<div class="radarChart"></div><div class="radarChartKey"></div><script>
+      
+      /* Radar chart design created by Nadieh Bremer - VisualCinnamon.com */
+      
+			////////////////////////////////////////////////////////////// 
+			//////////////////////// Set-Up ////////////////////////////// 
+			////////////////////////////////////////////////////////////// 
+
+			var margin = {top: 100, right: 100, bottom: 100, left: 100},
+				width = Math.min(700, window.innerWidth - 10) - margin.left - margin.right,
+				height = Math.min(width, window.innerHeight - margin.top - margin.bottom - 20);
+					
+			////////////////////////////////////////////////////////////// 
+			////////////////////////// Data ////////////////////////////// 
+			////////////////////////////////////////////////////////////// 
+
+			var data = '.$radarData.';
+			var radarDataTitles ='.$radarDataTitles.';
+			var segments='.$segments.';
+			';
+
+			echo '////////////////////////////////////////////////////////////// 
+			//////////////////// Draw the Chart ////////////////////////// 
+			////////////////////////////////////////////////////////////// 
+
+			var color = d3.scale.ordinal()
+				.range(["#EDC951","#CC333F","#00A0B0","#336699","#333333","#999900","#999999"]);
+				
+			var radarChartOptions = {
+			  w: width,
+			  h: height,
+			  margin: margin,
+			  maxValue: 0.5,
+			  levels: 4,
+			  roundStrokes: true,
+			  color: color
+			};
+			//Call function to draw the Radar chart
+			RadarChart(".radarChart", data, radarChartOptions, radarDataTitles, segments);
+		</script>';
+	
+}
+
+
+function print_spiderweb_html5_2($competencies, $scores) {
+    require_once('php-ofc-library/open-flash-chart.php');
+    require_once('php-ofc-library/ofc_sugar.php');
+	
+    $chart = new open_flash_chart();
+
+    // All of these colours are on the Web safe colour palette.
+    $linecolours = array('#FFCC00', '#66CC00', '#CC66FF', '#3366FF', '#FF3399', '#336600',
+                         '#66FFFF', '#FF0000', '#990033', '#0000FF', '#999966', '#99FF00');
+
+    foreach ($scores as $scoreline) {
+        $line = new line();
+
+        $points = array();
+        foreach ($competencies as $comp) {
+            if (empty($scoreline->records[$comp->id]) or !$scoreline->records[$comp->id]->score) {
+                $points[] = null;
+            } else {
+                $roundedscore = round($scoreline->records[$comp->id]->score, AVERAGE_PRECISION);
+                $points[] = $roundedscore;
+            }
+        }
+
+        $linecolour = array_shift($linecolours);
+
+        $line->set_values($points);
+        $line->set_default_dot_style(new s_box($linecolour, 4));
+        $line->set_width(1);
+        $line->set_colour($linecolour);
+        $line->set_tooltip("#val#");
+        $line->set_key($scoreline->name, 10);
+        $line->loop();
+
+        $chart->add_element($line);
+    }
+
+    $r = new radar_axis(5);
+
+    $lightgray = '#CCCCCC';
+    $r->set_colour($lightgray);
+    $r->set_grid_colour($lightgray);
+
+    $darkgray = '#666666';
+    $labels = new radar_axis_labels(array('', '1', '2', '3', '4', '5'));
+    $labels->set_colour($darkgray);
+    $r->set_labels($labels);
+
+    $competencynames = array();
+    foreach ($competencies as $comp) {
+        $competencynames[] = $comp->name;
+    }
+
+    $spoke_labels = new radar_spoke_labels($competencynames);
+    $spoke_labels->set_colour($darkgray);
+    $r->set_spoke_labels($spoke_labels);
+
+    $chart->set_radar_axis($r);
+
+    $tooltip = new tooltip();
+    $tooltip->set_proximity();
+    $chart->set_tooltip($tooltip);
+
+    $white = '#FFFFFF';
+    $chart->set_bg_colour($white);
+
+    require_once('spiderwebchart.php');
 }
