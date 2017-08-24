@@ -379,7 +379,7 @@ function threesixty_get_self_scores($analysisid, $competencyaverage, $typeid=nul
     if ($competencyaverage) {
         $idcolumn = 'c.id';
         $scorecolumn = 'AVG(rs.score) AS score';
-        $competencyjoin = "JOIN {threesixty_competency} c ON c.id = s.competencyid";
+        $competencyjoin = " JOIN {threesixty_competency} c ON c.id = s.competencyid";
         $groupbyclause = 'GROUP BY c.id';
         $orderbyclause = '';
     }
